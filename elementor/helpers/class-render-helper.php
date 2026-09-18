@@ -34,10 +34,12 @@ class Render_Helper {
 				'show_nav'  => false,
 				'class'     => '',
 				'accent'    => '',
+				'meta_html' => '',
+				'meta_label'=> '',
 			)
 		);
 
-		if ( ! $args['title'] && ! $args['subtitle'] && ! $args['link_text'] && ! $args['show_nav'] ) {
+		if ( ! $args['title'] && ! $args['subtitle'] && ! $args['link_text'] && ! $args['show_nav'] && ! $args['meta_html'] ) {
 			return;
 		}
 
@@ -47,6 +49,10 @@ class Render_Helper {
 
 		if ( $args['class'] ) {
 			$classes[] = sanitize_html_class( $args['class'] );
+		}
+
+		if ( $args['accent'] ) {
+			$classes[] = 'is-accent';
 		}
 		?>
 		<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>">
@@ -61,6 +67,15 @@ class Render_Helper {
 					<span class="trendino-section-head__subtitle"><?php echo esc_html( $args['subtitle'] ); ?></span>
 				<?php endif; ?>
 			</div>
+
+			<?php if ( $args['meta_html'] ) : ?>
+				<div class="trendino-section-head__meta">
+					<?php if ( $args['meta_label'] ) : ?>
+						<span class="trendino-section-head__meta-label"><?php echo esc_html( $args['meta_label'] ); ?></span>
+					<?php endif; ?>
+					<?php echo $args['meta_html']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				</div>
+			<?php endif; ?>
 
 			<div class="trendino-section-head__actions">
 				<?php if ( $args['link_text'] && ! empty( $args['link']['url'] ) ) : ?>
@@ -498,6 +513,61 @@ class Render_Helper {
 			<p><?php echo esc_html( $message ); ?></p>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Countdown markup.
+	 *
+	 * @param int   $end_time Unix timestamp the countdown runs to.
+	 * @param array $args     daily (bool), labels (bool), light (bool), units (array).
+	 * @return string
+	 */
+	public static function countdown( $end_time, array $args = array() ) {
+		$args = wp_parse_args(
+			$args,
+			array(
+				'daily'  => false,
+				'labels' => true,
+				'light'  => false,
+				'units'  => array(),
+			)
+		);
+
+		$units = $args['units'];
+
+		if ( empty( $units ) ) {
+			$units = array(
+				'hours'   => esc_html__( 'hours', 'trendino' ),
+				'minutes' => esc_html__( 'minutes', 'trendino' ),
+				'seconds' => esc_html__( 'seconds', 'trendino' ),
+			);
+		}
+
+		trendino_enqueue_component( 'countdown' );
+
+		$classes = array( 'trendino-countdown' );
+
+		if ( $args['light'] ) {
+			$classes[] = 'is-light';
+		}
+
+		ob_start();
+		?>
+		<div class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>"
+			data-trendino-countdown="<?php echo esc_attr( (int) $end_time ); ?>"
+			data-daily="<?php echo esc_attr( $args['daily'] ? '1' : '0' ); ?>">
+			<?php foreach ( $units as $unit => $label ) : ?>
+				<span class="trendino-countdown__unit">
+					<span class="trendino-countdown__value" data-unit="<?php echo esc_attr( $unit ); ?>">۰۰</span>
+					<?php if ( $args['labels'] ) : ?>
+						<span class="trendino-countdown__label"><?php echo esc_html( $label ); ?></span>
+					<?php endif; ?>
+				</span>
+			<?php endforeach; ?>
+		</div>
+		<?php
+
+		return ob_get_clean();
 	}
 
 	/**

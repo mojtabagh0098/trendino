@@ -30,9 +30,14 @@
 	place-items: center;
 	overflow: hidden;
 	border-radius: var(--trendino-card-radius);
-	background: var(--trendino-background);
+	background: var(--trendino-surface);
 	aspect-ratio: 1 / 1;
-	padding: 10px;
+	padding: 14px;
+	transition: box-shadow var(--trendino-transition);
+}
+
+.trendino-category-card:hover .trendino-category-card__media {
+	box-shadow: var(--trendino-shadow);
 }
 
 .trendino-category-card__img {
@@ -54,6 +59,7 @@
 	display: flex;
 	flex-direction: column;
 	gap: 4px;
+	align-items: center;
 }
 
 .trendino-category-card__title {
@@ -296,5 +302,128 @@
 	.trendino-showcase__image {
 		max-width: 160px;
 		margin-inline: auto;
+	}
+}
+
+/* =================================================== Quad boxes ("باکس سلیقه")
+ *
+ * A row of panels, each with a heading and a small product grid. Used between
+ * the promo banner and the mobile section on the homepage.
+ */
+
+.trendino-quad-boxes-wrap {
+	position: relative;
+}
+
+.trendino-quad-boxes {
+	display: grid;
+	grid-template-columns: repeat(var(--trendino-columns, 4), minmax(0, 1fr));
+	gap: var(--trendino-gap);
+}
+
+.trendino-quad-box {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding: 14px;
+	border-radius: var(--trendino-card-radius);
+	background: var(--trendino-surface);
+	min-width: 0;
+}
+
+.trendino-quad-box__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.trendino-quad-box__text {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.trendino-quad-box__title {
+	margin: 0;
+	font-size: 0.86rem;
+	font-weight: 700;
+	color: var(--trendino-secondary);
+}
+
+.trendino-quad-box__subtitle {
+	font-size: 0.72rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-quad-box__arrow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	background: var(--trendino-background);
+	color: var(--trendino-muted);
+	transition: background var(--trendino-transition), color var(--trendino-transition);
+}
+
+.trendino-quad-box__arrow:hover {
+	background: var(--trendino-primary);
+	color: #fff;
+}
+
+.trendino-quad-box__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+}
+
+.trendino-quad-box__item {
+	display: grid;
+	place-items: center;
+	gap: 4px;
+	padding: 8px;
+	aspect-ratio: 1 / 1;
+	border-radius: var(--trendino-radius);
+	background: var(--trendino-background);
+	overflow: hidden;
+}
+
+.trendino-quad-box__img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	transition: transform 0.35s ease;
+}
+
+.trendino-quad-box__item:hover .trendino-quad-box__img {
+	transform: scale(1.07);
+}
+
+.trendino-quad-box__img.is-placeholder {
+	opacity: 0.45;
+}
+
+.trendino-quad-box__price {
+	font-size: 0.7rem;
+	font-weight: 700;
+	color: var(--trendino-secondary);
+}
+
+@media (max-width: 767px) {
+	.trendino-quad-box {
+		padding: 10px;
+		gap: 8px;
+	}
+
+	.trendino-quad-box__title {
+		font-size: 0.8rem;
+	}
+
+	.trendino-quad-box__grid {
+		gap: 6px;
 	}
 }

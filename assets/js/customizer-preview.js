@@ -16,6 +16,8 @@
 		'primary-dark',
 		'primary-soft',
 		'secondary',
+		'secondary-dark',
+		'secondary-soft',
 		'accent',
 		'success',
 		'warning',

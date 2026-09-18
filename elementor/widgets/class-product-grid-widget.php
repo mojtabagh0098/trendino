@@ -97,6 +97,8 @@ class Product_Grid extends Base_Widget {
 			)
 		);
 
+		$this->register_header_countdown_controls();
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(

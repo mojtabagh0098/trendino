@@ -39,9 +39,23 @@
 	display: flex;
 	align-items: center;
 	gap: 4px;
-	flex: 1 1 auto;
+	flex: 0 1 auto;
+	margin-inline-start: auto;
 	overflow-x: auto;
 	scrollbar-width: none;
+}
+
+/* Pill rail: the whole nav sits in a light rounded track (reference style). */
+.trendino-tabs.style-pills .trendino-tabs__nav {
+	padding: 4px;
+	border-radius: 999px;
+	background: var(--trendino-background);
+}
+
+.trendino-tabs.style-pills .trendino-tabs__button.is-active {
+	background: var(--trendino-surface);
+	color: var(--trendino-primary);
+	box-shadow: var(--trendino-shadow-sm);
 }
 
 .trendino-tabs__nav::-webkit-scrollbar {

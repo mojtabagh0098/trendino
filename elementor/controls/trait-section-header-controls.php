@@ -120,6 +120,18 @@ trait Section_Header_Controls {
 				'condition' => array( 'show_header' => 'yes' ),
 			)
 		);
+
+		$this->add_control(
+			'header_accent',
+			array(
+				'label'        => esc_html__( 'Accent Title', 'trendino' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'return_value' => 'yes',
+				'default'      => '',
+				'description'  => esc_html__( 'Renders the title and icon in the brand colour.', 'trendino' ),
+				'condition'    => array( 'show_header' => 'yes' ),
+			)
+		);
 	}
 
 	/**
@@ -238,6 +250,9 @@ trait Section_Header_Controls {
 				'link_text' => $settings['link_text'] ?? '',
 				'align'     => $settings['header_align'] ?? 'start',
 				'show_nav'  => $show_nav,
+				'accent'    => $settings['header_accent'] ?? '',
+				'meta_html' => $this->get_header_countdown_html( $settings ),
+				'meta_label'=> $settings['countdown_label'] ?? '',
 			)
 		);
 	}

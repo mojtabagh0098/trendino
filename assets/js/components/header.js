@@ -34,6 +34,42 @@
 		onScroll();
 	});
 
+	/* ------------------------------------------------------ Announcement bar */
+
+	Trendino.register('[data-trendino-announce]', function (bar) {
+		var key = 'trendino_announce_' + bar.getAttribute('data-trendino-announce');
+		var until = 0;
+
+		try {
+			until = parseInt(window.localStorage.getItem(key), 10) || 0;
+		} catch (error) {
+			until = 0;
+		}
+
+		// Still within the dismissal window — leave it hidden.
+		if (until > Date.now()) {
+			return;
+		}
+
+		bar.hidden = false;
+
+		var close = bar.querySelector('[data-trendino-announce-close]');
+
+		if (!close) {
+			return;
+		}
+
+		close.addEventListener('click', function () {
+			bar.hidden = true;
+
+			try {
+				window.localStorage.setItem(key, String(Date.now() + 7 * 24 * 60 * 60 * 1000));
+			} catch (error) {
+				/* private mode — the bar simply returns next visit */
+			}
+		});
+	});
+
 	/* ------------------------------------------------------------ Live search */
 
 	Trendino.register('.trendino-search', function (search) {

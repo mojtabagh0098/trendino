@@ -8,7 +8,20 @@
 }
 
 .trendino-hero-layout.has-side {
-	grid-template-columns: minmax(0, 1fr) 300px;
+	/*
+	 * Reference layout: one wide slider plus a narrower companion banner beside
+	 * it (roughly a 2:1 split), both the same height.
+	 */
+	grid-template-columns: minmax(0, var(--trendino-hero-ratio-split, 2fr)) minmax(0, 1fr);
+	align-items: stretch;
+}
+
+.trendino-hero-layout.has-side.side-start {
+	direction: inherit;
+}
+
+.trendino-hero-layout.has-side.side-start .trendino-hero-side {
+	order: -1;
 }
 
 .trendino-hero {
@@ -129,18 +142,30 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
-	min-height: 42px;
-	padding-inline: 22px;
-	border-radius: var(--trendino-radius);
-	background: var(--trendino-primary);
-	color: #fff;
-	font-size: 0.88rem;
+	min-height: 40px;
+	padding-inline: 24px;
+	border-radius: 999px;
+	background: #fff;
+	color: var(--trendino-secondary);
+	font-size: 0.84rem;
 	font-weight: 700;
+	transition: background var(--trendino-transition), color var(--trendino-transition);
 }
 
 .trendino-hero__button:hover {
-	background: var(--trendino-primary-dark);
+	background: var(--trendino-primary);
 	color: #fff;
+}
+
+/* Filled variant when the artwork is light. */
+.trendino-hero__slide.is-light .trendino-hero__button {
+	background: var(--trendino-primary);
+	color: #fff;
+}
+
+.trendino-hero__slide.is-light .trendino-hero__title,
+.trendino-hero__slide.is-light .trendino-hero__subtitle {
+	color: var(--trendino-secondary);
 }
 
 /* Arrows + dots */
@@ -170,9 +195,16 @@
 .trendino-hero .trendino-carousel__dots {
 	position: absolute;
 	inset-inline: 0;
-	inset-block-end: 12px;
+	inset-block-end: 14px;
 	z-index: 4;
 	margin: 0;
+}
+
+/* Bottom-start dot placement (matches the reference hero). */
+.trendino-hero.dots-start .trendino-carousel__dots {
+	inset-inline-end: auto;
+	inset-inline-start: 24px;
+	justify-content: flex-start;
 }
 
 .trendino-hero .trendino-carousel__dot {
@@ -189,12 +221,15 @@
 	display: grid;
 	grid-auto-rows: 1fr;
 	gap: var(--trendino-gap);
+	min-height: 100%;
 }
 
 .trendino-hero-side__item {
+	position: relative;
 	display: block;
 	overflow: hidden;
 	border-radius: var(--trendino-card-radius);
+	min-height: 0;
 }
 
 .trendino-hero-side__img {
@@ -213,6 +248,10 @@
 @media (max-width: 1024px) {
 	.trendino-hero-layout.has-side {
 		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.trendino-hero-layout.has-side.side-start .trendino-hero-side {
+		order: 0;
 	}
 
 	.trendino-hero-side {

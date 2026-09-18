@@ -50,6 +50,7 @@ class Widgets_Manager {
 	public function get_widget_map() {
 		$widgets = array(
 			// Header.
+			'announcement-bar'     => 'Announcement_Bar',
 			'header-logo'          => 'Header_Logo',
 			'header-search'        => 'Header_Search',
 			'header-actions'       => 'Header_Actions',
@@ -68,6 +69,7 @@ class Widgets_Manager {
 			'product-grid'         => 'Product_Grid',
 			'product-tabs'         => 'Product_Tabs',
 			'category-showcase'    => 'Category_Showcase',
+			'quad-boxes'           => 'Quad_Boxes',
 			'deal-countdown'       => 'Deal_Countdown',
 			'brands'               => 'Brands',
 			'service-features'     => 'Service_Features',

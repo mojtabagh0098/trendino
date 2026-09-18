@@ -8,35 +8,42 @@
  */
 
 :root {
-	--trendino-primary: #ef4056;
-	--trendino-primary-dark: #d32f48;
-	--trendino-primary-soft: #fdecef;
-	--trendino-secondary: #0f1b33;
-	--trendino-accent: #19bfd3;
-	--trendino-success: #00a049;
+	/* Brand */
+	--trendino-primary: #e5152d;
+	--trendino-primary-dark: #c11026;
+	--trendino-primary-soft: #fdebee;
+	--trendino-secondary: #0d1b3e;
+	--trendino-secondary-dark: #091430;
+	--trendino-secondary-soft: #eaf0fb;
+	--trendino-accent: #1f5fd0;
+	--trendino-success: #01a049;
 	--trendino-warning: #f5a623;
-	--trendino-text: #1a1a1a;
-	--trendino-muted: #7f7f7f;
-	--trendino-border: #e8e8ee;
-	--trendino-background: #f5f6fa;
-	--trendino-surface: #ffffff;
-	--trendino-footer-bg: #ffffff;
-	--trendino-footer-text: #4d4d4d;
 
+	/* Neutrals */
+	--trendino-text: #15192b;
+	--trendino-muted: #8a8fa3;
+	--trendino-border: #ebecf2;
+	--trendino-background: #f4f5f9;
+	--trendino-surface: #ffffff;
+	--trendino-footer-bg: #0d1b3e;
+	--trendino-footer-text: #c6cbe0;
+
+	/* Metrics */
 	--trendino-container: 1240px;
-	--trendino-font-size: 15px;
-	--trendino-radius: 12px;
-	--trendino-card-radius: 12px;
+	--trendino-font-size: 14px;
+	--trendino-radius: 10px;
+	--trendino-card-radius: 14px;
 
 	--trendino-font: "Vazirmatn", "IRANSans", "IRANYekan", -apple-system, BlinkMacSystemFont,
 		"Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans Arabic", sans-serif;
 
-	--trendino-shadow-sm: 0 1px 2px rgba(15, 27, 51, 0.06);
-	--trendino-shadow: 0 2px 12px rgba(15, 27, 51, 0.07);
-	--trendino-shadow-lg: 0 10px 40px rgba(15, 27, 51, 0.12);
+	/* The reference uses very soft, wide shadows rather than borders. */
+	--trendino-shadow-sm: 0 1px 2px rgba(13, 27, 62, 0.05);
+	--trendino-shadow: 0 2px 14px rgba(13, 27, 62, 0.06);
+	--trendino-shadow-lg: 0 12px 40px rgba(13, 27, 62, 0.12);
 
 	--trendino-gap: 16px;
-	--trendino-section-gap: 40px;
+	--trendino-section-gap: 34px;
 	--trendino-transition: 0.22s ease;
 }
 

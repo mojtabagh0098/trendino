@@ -6,16 +6,73 @@
 .trendino-footer {
 	background: var(--trendino-footer-bg);
 	color: var(--trendino-footer-text);
-	border-top: 1px solid var(--trendino-border);
-	padding-block: 32px 16px;
+	padding-block: 34px 18px;
 	font-size: 0.85rem;
+	border-radius: var(--trendino-card-radius) var(--trendino-card-radius) 0 0;
+}
+
+/*
+ * The footer is a dark navy panel. Every child that assumes a light surface
+ * (titles, contact chips, badges) is re-tinted here rather than duplicated.
+ */
+.trendino-footer h1,
+.trendino-footer h2,
+.trendino-footer h3,
+.trendino-footer h4 {
+	color: #fff;
+}
+
+.trendino-footer a {
+	color: var(--trendino-footer-text);
+}
+
+.trendino-footer a:hover {
+	color: #fff;
 }
 
 .trendino-footer__top {
 	display: grid;
-	grid-template-columns: 1.4fr repeat(3, 1fr);
+	grid-template-columns: 1.5fr repeat(3, 1fr) 1.1fr;
 	gap: 28px;
 	padding-bottom: 24px;
+}
+
+/* Newsletter sits inside the footer top row in the reference. */
+.trendino-footer .trendino-newsletter {
+	background: rgba(255, 255, 255, 0.05);
+	border-radius: var(--trendino-card-radius);
+	padding: 16px;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 10px;
+}
+
+.trendino-footer .trendino-newsletter__title {
+	color: #fff;
+	font-size: 0.9rem;
+}
+
+.trendino-footer .trendino-newsletter__desc {
+	color: var(--trendino-footer-text);
+	font-size: 0.74rem;
+}
+
+.trendino-footer .trendino-newsletter__icon {
+	background: rgba(255, 255, 255, 0.1);
+	color: #fff;
+}
+
+.trendino-footer .trendino-newsletter__form {
+	background: rgba(255, 255, 255, 0.08);
+	border-color: transparent;
+}
+
+.trendino-footer .trendino-newsletter__input {
+	color: #fff;
+}
+
+.trendino-footer .trendino-newsletter__input::placeholder {
+	color: rgba(255, 255, 255, 0.5);
 }
 
 /* ----------------------------------------------------------- Footer about */
@@ -40,9 +97,14 @@
 
 .trendino-footer-about__desc {
 	margin: 0;
-	font-size: 0.8rem;
-	line-height: 2;
-	color: var(--trendino-muted);
+	font-size: 0.78rem;
+	line-height: 2.1;
+	color: var(--trendino-footer-text);
+	opacity: 0.85;
+}
+
+.trendino-footer .trendino-footer-about__name {
+	color: #fff;
 }
 
 .trendino-footer-contacts {
@@ -70,6 +132,11 @@
 	color: var(--trendino-primary);
 }
 
+.trendino-footer .trendino-footer-contact__icon {
+	background: rgba(255, 255, 255, 0.08);
+	color: #fff;
+}
+
 .trendino-footer-contact__text {
 	display: flex;
 	flex-direction: column;
@@ -81,11 +148,19 @@
 	color: var(--trendino-muted);
 }
 
+.trendino-footer .trendino-footer-contact__label {
+	color: rgba(255, 255, 255, 0.55);
+}
+
 .trendino-footer-contact__value {
 	font-size: 0.85rem;
 	font-weight: 700;
 	color: var(--trendino-secondary);
 	unicode-bidi: plaintext;
+}
+
+.trendino-footer .trendino-footer-contact__value {
+	color: #fff;
 }
 
 /* ----------------------------------------------------------- Link columns */
@@ -96,11 +171,15 @@
 	justify-content: space-between;
 	gap: 8px;
 	width: 100%;
-	margin-bottom: 12px;
-	font-size: 0.9rem;
+	margin-bottom: 14px;
+	font-size: 0.88rem;
 	font-weight: 700;
 	color: var(--trendino-secondary);
 	text-align: start;
+}
+
+.trendino-footer .trendino-footer-links__title {
+	color: #fff;
 }
 
 .trendino-footer-links__caret {
@@ -116,8 +195,18 @@
 
 .trendino-footer-links__list a,
 .trendino-footer-links__list li > a {
-	font-size: 0.8rem;
+	font-size: 0.78rem;
 	color: var(--trendino-muted);
+}
+
+.trendino-footer .trendino-footer-links__list a {
+	color: var(--trendino-footer-text);
+	opacity: 0.85;
+}
+
+.trendino-footer .trendino-footer-links__list a:hover {
+	color: #fff;
+	opacity: 1;
 }
 
 .trendino-footer-links__list a:hover {
@@ -135,6 +224,10 @@
 	color: var(--trendino-secondary);
 }
 
+.trendino-footer .trendino-social__title {
+	color: #fff;
+}
+
 .trendino-social__list {
 	display: flex;
 	flex-wrap: wrap;
@@ -149,6 +242,7 @@
 	height: var(--trendino-social-size, 36px);
 	border: 1px solid var(--trendino-border);
 	color: var(--trendino-muted);
+	background: transparent;
 	transition: background var(--trendino-transition), color var(--trendino-transition),
 		border-color var(--trendino-transition);
 }
@@ -165,6 +259,12 @@
 .trendino-social__link:hover {
 	background: var(--trendino-primary);
 	border-color: var(--trendino-primary);
+	color: #fff;
+}
+
+.trendino-footer .trendino-social__link {
+	background: rgba(255, 255, 255, 0.08);
+	border-color: transparent;
 	color: #fff;
 }
 
@@ -190,6 +290,10 @@
 	color: var(--trendino-secondary);
 }
 
+.trendino-footer .trendino-badges__title {
+	color: #fff;
+}
+
 .trendino-badges {
 	display: flex;
 	flex-wrap: wrap;
@@ -204,6 +308,12 @@
 	border: 1px solid var(--trendino-border);
 	border-radius: var(--trendino-radius);
 	background: var(--trendino-surface);
+}
+
+/* Trust badges keep a white plate so the certificate art stays legible. */
+.trendino-footer .trendino-badge-item {
+	border-color: transparent;
+	background: #fff;
 }
 
 .trendino-badge-item img {
@@ -222,8 +332,23 @@
 	flex-wrap: wrap;
 	padding-top: 16px;
 	border-top: 1px solid var(--trendino-border);
-	font-size: 0.78rem;
+	font-size: 0.76rem;
 	color: var(--trendino-muted);
+}
+
+.trendino-footer .trendino-footer-bottom {
+	border-top-color: rgba(255, 255, 255, 0.1);
+	color: rgba(255, 255, 255, 0.6);
+}
+
+.trendino-footer .trendino-footer-bottom .trendino-scroll-top {
+	border-color: rgba(255, 255, 255, 0.18);
+	color: rgba(255, 255, 255, 0.75);
+}
+
+.trendino-footer .trendino-footer-bottom .trendino-scroll-top:hover {
+	border-color: #fff;
+	color: #fff;
 }
 
 .trendino-footer-bottom__start,
@@ -323,6 +448,11 @@
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: 20px;
 	}
+
+	/* Newsletter spans the full row once the columns collapse. */
+	.trendino-footer .trendino-newsletter {
+		grid-column: 1 / -1;
+	}
 }
 
 @media (max-width: 767px) {
@@ -339,6 +469,10 @@
 	/* Link columns become accordions on phones. */
 	.trendino-footer-links.is-collapsible {
 		border-bottom: 1px solid var(--trendino-border);
+	}
+
+	.trendino-footer .trendino-footer-links.is-collapsible {
+		border-bottom-color: rgba(255, 255, 255, 0.1);
 	}
 
 	.trendino-footer-links.is-collapsible .trendino-footer-links__title {

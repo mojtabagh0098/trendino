@@ -17,61 +17,69 @@ defined( 'ABSPATH' ) || exit;
  */
 function trendino_color_tokens() {
 	$tokens = array(
-		'primary'        => array(
-			'label'   => esc_html__( 'Primary', 'trendino' ),
-			'default' => '#ef4056',
+		'primary'      => array(
+			'label'   => esc_html__( 'Primary (brand red)', 'trendino' ),
+			'default' => '#e5152d',
 		),
-		'primary-dark'   => array(
+		'primary-dark' => array(
 			'label'   => esc_html__( 'Primary Dark', 'trendino' ),
-			'default' => '#d32f48',
+			'default' => '#c11026',
 		),
-		'primary-soft'   => array(
-			'label'   => esc_html__( 'Primary Soft', 'trendino' ),
-			'default' => '#fdecef',
+		'primary-soft' => array(
+			'label'   => esc_html__( 'Primary Soft (tint)', 'trendino' ),
+			'default' => '#fdebee',
 		),
-		'secondary'      => array(
-			'label'   => esc_html__( 'Secondary', 'trendino' ),
-			'default' => '#0f1b33',
+		'secondary'    => array(
+			'label'   => esc_html__( 'Secondary (deep navy)', 'trendino' ),
+			'default' => '#0d1b3e',
 		),
-		'accent'         => array(
-			'label'   => esc_html__( 'Accent', 'trendino' ),
-			'default' => '#19bfd3',
+		'secondary-dark' => array(
+			'label'   => esc_html__( 'Secondary Dark', 'trendino' ),
+			'default' => '#091430',
 		),
-		'success'        => array(
+		'secondary-soft' => array(
+			'label'   => esc_html__( 'Secondary Soft (tint)', 'trendino' ),
+			'default' => '#eaf0fb',
+		),
+		'accent'       => array(
+			'label'   => esc_html__( 'Accent (blue)', 'trendino' ),
+			'default' => '#1f5fd0',
+		),
+		'success'      => array(
 			'label'   => esc_html__( 'Success', 'trendino' ),
-			'default' => '#00a049',
+			'default' => '#01a049',
 		),
-		'warning'        => array(
+		'warning'      => array(
 			'label'   => esc_html__( 'Warning', 'trendino' ),
 			'default' => '#f5a623',
 		),
-		'text'           => array(
+		'text'         => array(
 			'label'   => esc_html__( 'Text', 'trendino' ),
-			'default' => '#1a1a1a',
+			'default' => '#15192b',
 		),
-		'muted'          => array(
+		'muted'        => array(
 			'label'   => esc_html__( 'Muted Text', 'trendino' ),
-			'default' => '#7f7f7f',
+			'default' => '#8a8fa3',
 		),
-		'border'         => array(
+		'border'       => array(
 			'label'   => esc_html__( 'Border', 'trendino' ),
-			'default' => '#e8e8ee',
+			'default' => '#ebecf2',
 		),
-		'background'     => array(
+		'background'   => array(
 			'label'   => esc_html__( 'Page Background', 'trendino' ),
-			'default' => '#f5f6fa',
+			'default' => '#f4f5f9',
 		),
-		'surface'        => array(
+		'surface'      => array(
 			'label'   => esc_html__( 'Surface / Card', 'trendino' ),
 			'default' => '#ffffff',
 		),
-		'footer-bg'      => array(
+		'footer-bg'    => array(
 			'label'   => esc_html__( 'Footer Background', 'trendino' ),
-			'default' => '#ffffff',
+			'default' => '#0d1b3e',
 		),
-		'footer-text'    => array(
+		'footer-text'  => array(
 			'label'   => esc_html__( 'Footer Text', 'trendino' ),
-			'default' => '#4d4d4d',
+			'default' => '#c6cbe0',
 		),
 	);
 
