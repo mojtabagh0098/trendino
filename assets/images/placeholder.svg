@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="Trendino placeholder">
+	<rect width="400" height="400" fill="#f5f6fa"/>
+	<g fill="none" stroke="#d9d9e2" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+		<rect x="110" y="120" width="180" height="140" rx="14"/>
+		<path d="M110 220l46-46 40 40 36-34 58 56"/>
+	</g>
+	<circle cx="168" cy="164" r="14" fill="#d9d9e2"/>
+	<text x="200" y="312" text-anchor="middle" font-family="Vazirmatn, Tahoma, sans-serif" font-size="22" fill="#b9b9c6">Trendino</text>
+</svg>

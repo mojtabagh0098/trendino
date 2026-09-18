@@ -1,0 +1,184 @@
+/**
+ * Trendino — promotional banners (single + grid).
+ */
+
+.trendino-banner {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	border-radius: var(--trendino-card-radius);
+	background: var(--trendino-surface);
+	isolation: isolate;
+}
+
+.trendino-banner__picture,
+.trendino-banner__img {
+	display: block;
+	width: 100%;
+}
+
+.trendino-banner__img {
+	aspect-ratio: var(--trendino-banner-ratio, auto);
+	object-fit: var(--trendino-banner-fit, cover);
+	transition: transform 0.45s ease, filter 0.45s ease;
+}
+
+.trendino-banner__overlay {
+	position: absolute;
+	inset: 0;
+	background: var(--trendino-banner-overlay, transparent);
+	pointer-events: none;
+}
+
+.trendino-banner__content {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: clamp(14px, 3vw, 28px);
+	pointer-events: none;
+}
+
+.trendino-banner__content.is-top-start { justify-content: flex-start; align-items: flex-start; text-align: start; }
+.trendino-banner__content.is-top-center { justify-content: flex-start; align-items: center; text-align: center; }
+.trendino-banner__content.is-top-end { justify-content: flex-start; align-items: flex-end; text-align: end; }
+.trendino-banner__content.is-center-start { justify-content: center; align-items: flex-start; text-align: start; }
+.trendino-banner__content.is-center-center { justify-content: center; align-items: center; text-align: center; }
+.trendino-banner__content.is-center-end { justify-content: center; align-items: flex-end; text-align: end; }
+.trendino-banner__content.is-bottom-start { justify-content: flex-end; align-items: flex-start; text-align: start; }
+.trendino-banner__content.is-bottom-center { justify-content: flex-end; align-items: center; text-align: center; }
+.trendino-banner__content.is-bottom-end { justify-content: flex-end; align-items: flex-end; text-align: end; }
+
+.trendino-banner__title {
+	margin: 0;
+	font-size: clamp(0.95rem, 1.6vw, 1.3rem);
+	font-weight: 700;
+	line-height: 1.6;
+	color: #fff;
+}
+
+.trendino-banner__desc {
+	margin: 0;
+	font-size: 0.82rem;
+	color: rgba(255, 255, 255, 0.85);
+}
+
+.trendino-banner__button {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	min-height: 36px;
+	padding-inline: 16px;
+	border-radius: var(--trendino-radius);
+	background: #fff;
+	color: var(--trendino-secondary);
+	font-size: 0.8rem;
+	font-weight: 700;
+	pointer-events: auto;
+	transition: background var(--trendino-transition), color var(--trendino-transition);
+}
+
+.trendino-banner:hover .trendino-banner__button {
+	background: var(--trendino-primary);
+	color: #fff;
+}
+
+/* Hover effects */
+
+.trendino-banner.hover-zoom:hover .trendino-banner__img { transform: scale(1.05); }
+.trendino-banner.hover-zoom-out .trendino-banner__img { transform: scale(1.05); }
+.trendino-banner.hover-zoom-out:hover .trendino-banner__img { transform: none; }
+.trendino-banner.hover-bright:hover .trendino-banner__img { filter: brightness(1.08); }
+.trendino-banner.hover-shine::after {
+	content: "";
+	position: absolute;
+	inset-block: 0;
+	inset-inline-start: -120%;
+	width: 60%;
+	background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+	transform: skewX(-18deg);
+	transition: inset-inline-start 0.7s ease;
+	pointer-events: none;
+}
+.trendino-banner.hover-shine:hover::after { inset-inline-start: 140%; }
+.trendino-banner.hover-none:hover .trendino-banner__img { transform: none; }
+
+/* ------------------------------------------------------------ Banner grid */
+
+.trendino-banner-grid {
+	display: grid;
+	grid-template-columns: repeat(var(--trendino-banner-columns, 12), minmax(0, 1fr));
+	gap: var(--trendino-gap);
+}
+
+.trendino-banner-grid > .trendino-banner {
+	grid-column: span var(--trendino-banner-span, 3);
+}
+
+.trendino-banner-grid > .span-1 { grid-column: span 1; }
+.trendino-banner-grid > .span-2 { grid-column: span 2; }
+.trendino-banner-grid > .span-3 { grid-column: span 3; }
+.trendino-banner-grid > .span-4 { grid-column: span 4; }
+.trendino-banner-grid > .span-5 { grid-column: span 5; }
+.trendino-banner-grid > .span-6 { grid-column: span 6; }
+.trendino-banner-grid > .span-7 { grid-column: span 7; }
+.trendino-banner-grid > .span-8 { grid-column: span 8; }
+.trendino-banner-grid > .span-9 { grid-column: span 9; }
+.trendino-banner-grid > .span-10 { grid-column: span 10; }
+.trendino-banner-grid > .span-11 { grid-column: span 11; }
+.trendino-banner-grid > .span-12 { grid-column: span 12; }
+
+@media (max-width: 1024px) {
+	.trendino-banner-grid {
+		grid-template-columns: repeat(var(--trendino-banner-columns-tablet, 6), minmax(0, 1fr));
+	}
+
+	.trendino-banner-grid > .trendino-banner {
+		grid-column: span 3;
+	}
+}
+
+@media (max-width: 767px) {
+	.trendino-banner-grid {
+		grid-template-columns: repeat(var(--trendino-banner-columns-mobile, 2), minmax(0, 1fr));
+	}
+
+	.trendino-banner-grid > .trendino-banner {
+		grid-column: span 1;
+	}
+
+	/* Optional: turn the grid into a swipeable row on phones. */
+	.trendino-banner-grid.is-mobile-scroll {
+		display: flex;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+		margin-inline: -12px;
+		padding-inline: 12px;
+	}
+
+	.trendino-banner-grid.is-mobile-scroll::-webkit-scrollbar {
+		display: none;
+	}
+
+	.trendino-banner-grid.is-mobile-scroll > .trendino-banner {
+		flex: 0 0 78%;
+		scroll-snap-align: start;
+	}
+
+	.trendino-banner__content {
+		padding: 12px;
+		gap: 6px;
+	}
+
+	.trendino-banner__desc {
+		display: none;
+	}
+
+	.trendino-banner__button {
+		min-height: 30px;
+		padding-inline: 12px;
+		font-size: 0.72rem;
+	}
+}

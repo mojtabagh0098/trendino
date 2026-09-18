@@ -1,0 +1,380 @@
+/**
+ * Trendino — footer widgets: about, link columns, social, badges, bottom bar,
+ * plus the collapsible SEO text block that usually sits above the footer.
+ */
+
+.trendino-footer {
+	background: var(--trendino-footer-bg);
+	color: var(--trendino-footer-text);
+	border-top: 1px solid var(--trendino-border);
+	padding-block: 32px 16px;
+	font-size: 0.85rem;
+}
+
+.trendino-footer__top {
+	display: grid;
+	grid-template-columns: 1.4fr repeat(3, 1fr);
+	gap: 28px;
+	padding-bottom: 24px;
+}
+
+/* ----------------------------------------------------------- Footer about */
+
+.trendino-footer-about {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.trendino-footer-about__logo img {
+	max-height: 46px;
+	width: auto;
+	object-fit: contain;
+}
+
+.trendino-footer-about__name {
+	font-size: 1.2rem;
+	font-weight: 800;
+	color: var(--trendino-primary);
+}
+
+.trendino-footer-about__desc {
+	margin: 0;
+	font-size: 0.8rem;
+	line-height: 2;
+	color: var(--trendino-muted);
+}
+
+.trendino-footer-contacts {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-top: 4px;
+}
+
+.trendino-footer-contact {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.trendino-footer-contact__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 34px;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	background: var(--trendino-background);
+	color: var(--trendino-primary);
+}
+
+.trendino-footer-contact__text {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.trendino-footer-contact__label {
+	font-size: 0.7rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-footer-contact__value {
+	font-size: 0.85rem;
+	font-weight: 700;
+	color: var(--trendino-secondary);
+	unicode-bidi: plaintext;
+}
+
+/* ----------------------------------------------------------- Link columns */
+
+.trendino-footer-links__title {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+	width: 100%;
+	margin-bottom: 12px;
+	font-size: 0.9rem;
+	font-weight: 700;
+	color: var(--trendino-secondary);
+	text-align: start;
+}
+
+.trendino-footer-links__caret {
+	display: none;
+	transition: transform var(--trendino-transition);
+}
+
+.trendino-footer-links__list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.trendino-footer-links__list a,
+.trendino-footer-links__list li > a {
+	font-size: 0.8rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-footer-links__list a:hover {
+	color: var(--trendino-primary);
+	padding-inline-start: 3px;
+}
+
+/* ----------------------------------------------------------------- Social */
+
+.trendino-social__title {
+	display: block;
+	margin-bottom: 10px;
+	font-size: 0.85rem;
+	font-weight: 700;
+	color: var(--trendino-secondary);
+}
+
+.trendino-social__list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.trendino-social__link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--trendino-social-size, 36px);
+	height: var(--trendino-social-size, 36px);
+	border: 1px solid var(--trendino-border);
+	color: var(--trendino-muted);
+	transition: background var(--trendino-transition), color var(--trendino-transition),
+		border-color var(--trendino-transition);
+}
+
+.trendino-social.shape-circle .trendino-social__link { border-radius: 50%; }
+.trendino-social.shape-rounded .trendino-social__link { border-radius: var(--trendino-radius); }
+.trendino-social.shape-square .trendino-social__link { border-radius: 4px; }
+.trendino-social.shape-bare .trendino-social__link {
+	border: 0;
+	width: auto;
+	height: auto;
+}
+
+.trendino-social__link:hover {
+	background: var(--trendino-primary);
+	border-color: var(--trendino-primary);
+	color: #fff;
+}
+
+.trendino-social__link.is-instagram:hover { background: #e1306c; border-color: #e1306c; }
+.trendino-social__link.is-telegram:hover { background: #229ed9; border-color: #229ed9; }
+.trendino-social__link.is-whatsapp:hover { background: #25d366; border-color: #25d366; }
+.trendino-social__link.is-twitter:hover { background: #111; border-color: #111; }
+.trendino-social__link.is-youtube:hover { background: #ff0000; border-color: #ff0000; }
+.trendino-social__link.is-linkedin:hover { background: #0a66c2; border-color: #0a66c2; }
+.trendino-social__link.is-aparat:hover { background: #ed145b; border-color: #ed145b; }
+
+/* ----------------------------------------------------------- Trust badges */
+
+.trendino-badges-wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.trendino-badges__title {
+	font-size: 0.85rem;
+	font-weight: 700;
+	color: var(--trendino-secondary);
+}
+
+.trendino-badges {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	align-items: center;
+}
+
+.trendino-badge-item {
+	display: inline-grid;
+	place-items: center;
+	padding: 6px;
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-radius);
+	background: var(--trendino-surface);
+}
+
+.trendino-badge-item img {
+	max-height: var(--trendino-badge-height, 64px);
+	width: auto;
+	object-fit: contain;
+}
+
+/* --------------------------------------------------------- Footer bottom */
+
+.trendino-footer-bottom {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	flex-wrap: wrap;
+	padding-top: 16px;
+	border-top: 1px solid var(--trendino-border);
+	font-size: 0.78rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-footer-bottom__start,
+.trendino-footer-bottom__end {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	flex-wrap: wrap;
+}
+
+.trendino-footer-bottom__links {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+}
+
+.trendino-footer-bottom__payments {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.trendino-footer-bottom__payments img {
+	max-height: 26px;
+	width: auto;
+	object-fit: contain;
+	opacity: 0.8;
+}
+
+.trendino-footer-bottom .trendino-scroll-top {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 6px 12px;
+	border-radius: 999px;
+	border: 1px solid var(--trendino-border);
+	color: var(--trendino-muted);
+	font-size: 0.75rem;
+}
+
+.trendino-footer-bottom .trendino-scroll-top:hover {
+	color: var(--trendino-primary);
+	border-color: var(--trendino-primary);
+}
+
+/* --------------------------------------------------------- SEO text block */
+
+.trendino-seo-text {
+	padding: 20px;
+	border-radius: var(--trendino-card-radius);
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+}
+
+.trendino-seo-text__title {
+	margin: 0 0 10px;
+	font-size: 1rem;
+	font-weight: 700;
+	color: var(--trendino-secondary);
+}
+
+.trendino-seo-text__body {
+	font-size: 0.8rem;
+	line-height: 2.1;
+	color: var(--trendino-muted);
+	overflow: hidden;
+	transition: max-height 0.3s ease;
+}
+
+.trendino-seo-text__body > *:first-child {
+	margin-top: 0;
+}
+
+.trendino-seo-text__body h2,
+.trendino-seo-text__body h3 {
+	font-size: 0.9rem;
+	color: var(--trendino-secondary);
+}
+
+.trendino-seo-text.is-collapsible.is-collapsed .trendino-seo-text__body {
+	max-height: var(--trendino-collapsed, 120px);
+	-webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+	mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+
+.trendino-seo-text__toggle {
+	margin-top: 10px;
+	font-size: 0.78rem;
+	font-weight: 700;
+	color: var(--trendino-primary);
+}
+
+/* -------------------------------------------------------------- Responsive */
+
+@media (max-width: 1024px) {
+	.trendino-footer__top {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 20px;
+	}
+}
+
+@media (max-width: 767px) {
+	.trendino-footer {
+		padding-block: 20px 12px;
+	}
+
+	.trendino-footer__top {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 4px;
+		padding-bottom: 16px;
+	}
+
+	/* Link columns become accordions on phones. */
+	.trendino-footer-links.is-collapsible {
+		border-bottom: 1px solid var(--trendino-border);
+	}
+
+	.trendino-footer-links.is-collapsible .trendino-footer-links__title {
+		margin-bottom: 0;
+		padding-block: 12px;
+	}
+
+	.trendino-footer-links.is-collapsible .trendino-footer-links__caret {
+		display: inline-flex;
+	}
+
+	.trendino-footer-links.is-collapsible.is-open .trendino-footer-links__caret {
+		transform: rotate(180deg);
+	}
+
+	.trendino-footer-links.is-collapsible .trendino-footer-links__body {
+		display: none;
+		padding-bottom: 12px;
+	}
+
+	.trendino-footer-links.is-collapsible.is-open .trendino-footer-links__body {
+		display: block;
+	}
+
+	.trendino-footer-bottom {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
+		text-align: start;
+	}
+
+	.trendino-badge-item img {
+		max-height: 52px;
+	}
+
+	.trendino-seo-text {
+		padding: 14px;
+	}
+}

@@ -1,0 +1,32 @@
+/**
+ * Trendino — Elementor editor panel styling.
+ *
+ * Only affects the editor UI (panel icons, empty-state notices inside previews).
+ */
+
+.trendino-editor-notice {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 90px;
+	padding: 20px;
+	border: 1px dashed #c8c8d4;
+	border-radius: 10px;
+	background: #fafafc;
+	color: #7f7f7f;
+	font-size: 13px;
+	text-align: center;
+	line-height: 1.9;
+}
+
+/* Trendino panel categories get the brand colour on their icons. */
+#elementor-panel-category-trendino-header .icon,
+#elementor-panel-category-trendino-home .icon,
+#elementor-panel-category-trendino-product .icon,
+#elementor-panel-category-trendino-footer .icon {
+	color: #ef4056;
+}
+
+.elementor-element .icon .trendino-widget-icon {
+	color: #ef4056;
+}

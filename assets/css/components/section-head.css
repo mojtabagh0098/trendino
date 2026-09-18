@@ -1,0 +1,113 @@
+/**
+ * Trendino — section headings (shared by every homepage section).
+ */
+
+.trendino-section-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 16px;
+}
+
+.trendino-section-head__text {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+}
+
+.trendino-section-head__icon {
+	display: inline-flex;
+	color: var(--trendino-primary);
+	flex: 0 0 auto;
+}
+
+.trendino-section-head__title {
+	margin: 0;
+	font-size: 1.15rem;
+	font-weight: 700;
+	line-height: 1.6;
+	color: var(--trendino-secondary);
+}
+
+.trendino-section-head__subtitle {
+	font-size: 0.82rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-section-head__divider {
+	flex: 1 1 auto;
+	height: 1px;
+	background: var(--trendino-border);
+}
+
+.trendino-section-head__actions {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	flex: 0 0 auto;
+}
+
+.trendino-section-head__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 0.82rem;
+	font-weight: 700;
+	color: var(--trendino-primary);
+	white-space: nowrap;
+}
+
+.trendino-section-head__link svg {
+	transition: transform var(--trendino-transition);
+}
+
+.trendino-section-head__link:hover svg {
+	transform: translateX(-3px);
+}
+
+[dir="ltr"] .trendino-section-head__link:hover svg {
+	transform: translateX(3px);
+}
+
+/* ----------------------------------------------------------- Alignments */
+
+.trendino-section-head.is-align-center {
+	flex-direction: column;
+	text-align: center;
+}
+
+.trendino-section-head.is-align-center .trendino-section-head__text {
+	flex-direction: column;
+	gap: 4px;
+}
+
+.trendino-section-head.is-align-end {
+	flex-direction: row-reverse;
+}
+
+/* -------------------------------------------- Standalone heading widget */
+
+.trendino-section-heading .trendino-section-head {
+	margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+	.trendino-section-head {
+		margin-bottom: 12px;
+		gap: 10px;
+	}
+
+	.trendino-section-head__title {
+		font-size: 1rem;
+	}
+
+	.trendino-section-head__subtitle {
+		display: none;
+	}
+
+	.trendino-section-head__link {
+		font-size: 0.75rem;
+	}
+}

@@ -1,0 +1,14 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Dependencies & build output
+node_modules/
+vendor/
+*.log
+
+# Compiled translations are committed, caches are not
+*.mo~

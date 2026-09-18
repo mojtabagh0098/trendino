@@ -1,0 +1,113 @@
+/**
+ * Trendino — service / trust feature row (free shipping, support, returns…).
+ */
+
+.trendino-services {
+	display: grid;
+	grid-template-columns: repeat(var(--trendino-columns, 4), minmax(0, 1fr));
+	gap: var(--trendino-gap);
+	align-items: stretch;
+}
+
+.trendino-services.is-dividers .trendino-service + .trendino-service {
+	border-inline-start: 1px solid var(--trendino-border);
+}
+
+.trendino-service {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 14px;
+	text-align: start;
+}
+
+.trendino-services.is-stacked .trendino-service {
+	flex-direction: column;
+	text-align: center;
+}
+
+.trendino-service__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--trendino-service-icon-size, 46px);
+	height: var(--trendino-service-icon-size, 46px);
+	flex: 0 0 auto;
+	border-radius: 50%;
+	background: var(--trendino-primary-soft);
+	color: var(--trendino-primary);
+}
+
+.trendino-services.is-plain-icon .trendino-service__icon {
+	background: transparent;
+	width: auto;
+	height: auto;
+}
+
+.trendino-service__icon img {
+	width: 60%;
+	height: 60%;
+	object-fit: contain;
+}
+
+.trendino-service__text {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.trendino-service__title {
+	margin: 0;
+	font-size: 0.86rem;
+	font-weight: 700;
+	color: var(--trendino-secondary);
+}
+
+.trendino-service__desc {
+	margin: 0;
+	font-size: 0.74rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-service:hover .trendino-service__icon {
+	background: var(--trendino-primary);
+	color: #fff;
+}
+
+@media (max-width: 1024px) {
+	.trendino-services {
+		grid-template-columns: repeat(var(--trendino-columns-tablet, var(--trendino-columns, 2)), minmax(0, 1fr));
+	}
+
+	.trendino-services.is-dividers .trendino-service {
+		border-inline-start: 0 !important;
+	}
+}
+
+@media (max-width: 767px) {
+	.trendino-services {
+		grid-template-columns: repeat(var(--trendino-columns-mobile, var(--trendino-columns, 2)), minmax(0, 1fr));
+		gap: 6px;
+	}
+
+	.trendino-service {
+		flex-direction: column;
+		text-align: center;
+		gap: 6px;
+		padding: 10px 6px;
+	}
+
+	.trendino-service__icon {
+		width: 38px;
+		height: 38px;
+	}
+
+	.trendino-service__title {
+		font-size: 0.74rem;
+	}
+
+	.trendino-service__desc {
+		display: none;
+	}
+}

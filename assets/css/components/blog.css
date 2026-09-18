@@ -1,0 +1,157 @@
+/**
+ * Trendino — blog / article cards.
+ */
+
+.trendino-posts-wrap {
+	position: relative;
+}
+
+.trendino-post-card {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	overflow: hidden;
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+	transition: box-shadow var(--trendino-transition), border-color var(--trendino-transition);
+}
+
+.trendino-post-card:hover {
+	border-color: transparent;
+	box-shadow: var(--trendino-shadow);
+}
+
+.trendino-post-card__media {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	aspect-ratio: var(--trendino-post-ratio, 16 / 10);
+	background: var(--trendino-background);
+}
+
+.trendino-post-card__img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.45s ease;
+}
+
+.trendino-post-card:hover .trendino-post-card__img {
+	transform: scale(1.05);
+}
+
+.trendino-post-card__img.is-placeholder {
+	opacity: 0.45;
+}
+
+.trendino-post-card__category {
+	position: absolute;
+	inset-block-start: 10px;
+	inset-inline-start: 10px;
+	padding: 3px 10px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.94);
+	color: var(--trendino-primary);
+	font-size: 0.68rem;
+	font-weight: 700;
+}
+
+.trendino-post-card__body {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 14px;
+	flex: 1 1 auto;
+}
+
+.trendino-post-card__title {
+	margin: 0;
+	font-size: 0.92rem;
+	font-weight: 700;
+	line-height: 1.7;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.trendino-post-card__title a:hover {
+	color: var(--trendino-primary);
+}
+
+.trendino-post-card__excerpt {
+	margin: 0;
+	font-size: 0.8rem;
+	line-height: 1.9;
+	color: var(--trendino-muted);
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.trendino-post-card__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 12px;
+	margin-top: auto;
+	padding-top: 10px;
+	border-top: 1px solid var(--trendino-border);
+	font-size: 0.72rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-post-card__date,
+.trendino-post-card__author,
+.trendino-post-card__comments {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.trendino-post-card__more {
+	margin-inline-start: auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-weight: 700;
+	color: var(--trendino-primary);
+}
+
+/* Horizontal variant used inside narrow columns. */
+
+.trendino-post-card--horizontal {
+	flex-direction: row;
+	align-items: stretch;
+}
+
+.trendino-post-card--horizontal .trendino-post-card__media {
+	flex: 0 0 40%;
+	aspect-ratio: auto;
+}
+
+.trendino-post-card--horizontal .trendino-post-card__excerpt {
+	display: none;
+}
+
+@media (max-width: 767px) {
+	.trendino-post-card__body {
+		padding: 10px;
+		gap: 6px;
+	}
+
+	.trendino-post-card__title {
+		font-size: 0.82rem;
+	}
+
+	.trendino-post-card__excerpt {
+		display: none;
+	}
+
+	.trendino-post-card__meta {
+		gap: 8px;
+		font-size: 0.66rem;
+	}
+}

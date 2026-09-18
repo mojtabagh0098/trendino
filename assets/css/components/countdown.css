@@ -1,0 +1,163 @@
+/**
+ * Trendino — deals / countdown panel.
+ */
+
+.trendino-deals {
+	display: grid;
+	grid-template-columns: var(--trendino-panel-width, 220px) minmax(0, 1fr);
+	gap: var(--trendino-gap);
+	padding: 16px;
+	border-radius: var(--trendino-card-radius);
+	background: var(--trendino-deals-bg, var(--trendino-primary));
+	align-items: center;
+}
+
+.trendino-deals__panel {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	text-align: center;
+	color: #fff;
+}
+
+.trendino-deals__title {
+	margin: 0;
+	font-size: 1.15rem;
+	font-weight: 800;
+	color: inherit;
+}
+
+.trendino-deals__subtitle {
+	margin: 0;
+	font-size: 0.8rem;
+	opacity: 0.85;
+}
+
+.trendino-deals__image {
+	max-width: 160px;
+	width: 100%;
+	object-fit: contain;
+}
+
+.trendino-deals__button {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	min-height: 36px;
+	padding-inline: 18px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.18);
+	color: #fff;
+	font-size: 0.8rem;
+	font-weight: 700;
+	transition: background var(--trendino-transition), color var(--trendino-transition);
+}
+
+.trendino-deals__button:hover {
+	background: #fff;
+	color: var(--trendino-primary);
+}
+
+.trendino-deals__products {
+	position: relative;
+	min-width: 0;
+	padding: 10px;
+	border-radius: var(--trendino-card-radius);
+	background: var(--trendino-surface);
+}
+
+/* -------------------------------------------------------------- Countdown */
+
+.trendino-countdown {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	direction: ltr;
+}
+
+.trendino-countdown__unit {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+	min-width: 42px;
+}
+
+.trendino-countdown__value {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 38px;
+	height: 38px;
+	padding-inline: 6px;
+	border-radius: var(--trendino-radius);
+	background: var(--trendino-surface);
+	color: var(--trendino-secondary);
+	font-size: 1rem;
+	font-weight: 800;
+	font-variant-numeric: tabular-nums;
+}
+
+.trendino-countdown__label {
+	font-size: 0.62rem;
+	opacity: 0.85;
+}
+
+.trendino-countdown.is-expired .trendino-countdown__value {
+	opacity: 0.5;
+}
+
+/* Countdown used on a light background (outside the red panel). */
+.trendino-countdown.is-light .trendino-countdown__value {
+	background: var(--trendino-primary-soft);
+	color: var(--trendino-primary);
+}
+
+@media (max-width: 1024px) {
+	.trendino-deals {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.trendino-deals__panel {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		text-align: start;
+		gap: 12px;
+	}
+
+	.trendino-deals__image {
+		max-width: 90px;
+		order: -1;
+	}
+}
+
+@media (max-width: 767px) {
+	.trendino-deals {
+		padding: 12px;
+	}
+
+	.trendino-deals__title {
+		font-size: 1rem;
+	}
+
+	.trendino-deals__subtitle {
+		display: none;
+	}
+
+	.trendino-countdown__unit {
+		min-width: 36px;
+	}
+
+	.trendino-countdown__value {
+		min-width: 32px;
+		height: 32px;
+		font-size: 0.85rem;
+	}
+
+	.trendino-deals__button {
+		min-height: 32px;
+		font-size: 0.74rem;
+	}
+}
