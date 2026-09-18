@@ -12,3 +12,4 @@ vendor/
 
 # Compiled translations are committed, caches are not
 *.mo~
+dev/.build/

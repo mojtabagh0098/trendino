@@ -64,6 +64,7 @@ class Widgets_Manager {
 			'hero-slider'          => 'Hero_Slider',
 			'banner'               => 'Banner',
 			'banner-grid'          => 'Banner_Grid',
+			'promo-boxes'          => 'Promo_Boxes',
 			'category-cards'       => 'Category_Cards',
 			'product-carousel'     => 'Product_Carousel',
 			'product-grid'         => 'Product_Grid',

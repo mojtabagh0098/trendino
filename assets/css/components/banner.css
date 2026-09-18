@@ -182,3 +182,192 @@
 		font-size: 0.72rem;
 	}
 }
+
+/* ==================================================== Promotional boxes
+ *
+ * Tinted panel with text on one side and a product cut-out on the other.
+ * Used for the pastel trio and the full-width dark banner in the design.
+ */
+
+.trendino-promo-boxes {
+	display: grid;
+	grid-template-columns: repeat(12, minmax(0, 1fr));
+	gap: var(--trendino-gap);
+}
+
+.trendino-promo {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	grid-column: span 4;
+	padding: 18px 20px;
+	border-radius: var(--trendino-card-radius);
+	background: var(--trendino-primary-soft);
+	overflow: hidden;
+	min-height: 140px;
+	transition: box-shadow var(--trendino-transition);
+}
+
+.trendino-promo:hover {
+	box-shadow: var(--trendino-shadow);
+}
+
+.trendino-promo.span-1 { grid-column: span 1; }
+.trendino-promo.span-2 { grid-column: span 2; }
+.trendino-promo.span-3 { grid-column: span 3; }
+.trendino-promo.span-4 { grid-column: span 4; }
+.trendino-promo.span-5 { grid-column: span 5; }
+.trendino-promo.span-6 { grid-column: span 6; }
+.trendino-promo.span-7 { grid-column: span 7; }
+.trendino-promo.span-8 { grid-column: span 8; }
+.trendino-promo.span-9 { grid-column: span 9; }
+.trendino-promo.span-10 { grid-column: span 10; }
+.trendino-promo.span-11 { grid-column: span 11; }
+.trendino-promo.span-12 { grid-column: span 12; }
+
+.trendino-promo.image-start {
+	flex-direction: row-reverse;
+}
+
+.trendino-promo__text {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	flex: 1 1 auto;
+	min-width: 0;
+	z-index: 1;
+}
+
+.trendino-promo__title {
+	margin: 0;
+	font-size: 0.95rem;
+	font-weight: 800;
+	line-height: 1.7;
+	color: var(--trendino-secondary);
+}
+
+.trendino-promo__desc {
+	margin: 0;
+	font-size: 0.76rem;
+	line-height: 1.9;
+	color: var(--trendino-muted);
+}
+
+.trendino-promo__button {
+	display: inline-flex;
+	align-items: center;
+	align-self: flex-start;
+	gap: 5px;
+	margin-top: 4px;
+	min-height: 32px;
+	padding-inline: 16px;
+	border-radius: 999px;
+	background: var(--trendino-surface);
+	color: var(--trendino-secondary);
+	font-size: 0.74rem;
+	font-weight: 700;
+	transition: background var(--trendino-transition), color var(--trendino-transition);
+}
+
+.trendino-promo:hover .trendino-promo__button {
+	background: var(--trendino-primary);
+	color: #fff;
+}
+
+.trendino-promo__media {
+	flex: 0 0 40%;
+	display: grid;
+	place-items: center;
+	align-self: stretch;
+	min-width: 0;
+}
+
+.trendino-promo__img {
+	width: 100%;
+	height: 100%;
+	max-height: 130px;
+	object-fit: contain;
+	transition: transform 0.4s ease;
+}
+
+.trendino-promo:hover .trendino-promo__img {
+	transform: scale(1.05);
+}
+
+/* Wide variant (span 12): more generous padding and a larger title. */
+.trendino-promo.span-12 {
+	padding: 26px 34px;
+	min-height: 180px;
+}
+
+.trendino-promo.span-12 .trendino-promo__title {
+	font-size: 1.3rem;
+}
+
+.trendino-promo.span-12 .trendino-promo__desc {
+	font-size: 0.85rem;
+	max-width: 46ch;
+}
+
+.trendino-promo.span-12 .trendino-promo__img {
+	max-height: 200px;
+}
+
+@media (max-width: 1024px) {
+	.trendino-promo {
+		grid-column: span 6;
+	}
+
+	.trendino-promo.span-12 {
+		grid-column: span 12;
+	}
+}
+
+@media (max-width: 767px) {
+	.trendino-promo {
+		grid-column: span 12;
+		min-height: 110px;
+		padding: 14px;
+	}
+
+	.trendino-promo.span-12 {
+		padding: 16px;
+		min-height: 0;
+	}
+
+	.trendino-promo.span-12 .trendino-promo__title {
+		font-size: 1rem;
+	}
+
+	.trendino-promo__title {
+		font-size: 0.85rem;
+	}
+
+	.trendino-promo__desc {
+		font-size: 0.7rem;
+	}
+
+	/* Swipeable row so three boxes do not become three tall stacked blocks. */
+	.trendino-promo-boxes.is-mobile-scroll {
+		display: flex;
+		overflow-x: auto;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+		margin-inline: -12px;
+		padding-inline: 12px;
+	}
+
+	.trendino-promo-boxes.is-mobile-scroll::-webkit-scrollbar {
+		display: none;
+	}
+
+	.trendino-promo-boxes.is-mobile-scroll > .trendino-promo {
+		flex: 0 0 82%;
+		scroll-snap-align: start;
+	}
+
+	.trendino-promo-boxes.is-mobile-scroll > .trendino-promo.span-12 {
+		flex-basis: 92%;
+	}
+}

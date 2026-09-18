@@ -9,7 +9,7 @@
 .trendino-stories {
 	display: flex;
 	align-items: flex-start;
-	gap: 8px;
+	gap: 6px;
 	margin: 0;
 }
 
@@ -36,7 +36,7 @@
 .trendino-story {
 	flex: 0 0 auto;
 	scroll-snap-align: start;
-	width: var(--trendino-story-size, 96px);
+	width: var(--trendino-story-size, 88px);
 }
 
 .trendino-stories.is-grid .trendino-story {
@@ -57,7 +57,7 @@
 	place-items: center;
 	width: 100%;
 	aspect-ratio: 1 / 1;
-	padding: 3px;
+	padding: 2px;
 	border-radius: 50%;
 	background: linear-gradient(135deg, var(--trendino-primary), var(--trendino-accent));
 	transition: transform var(--trendino-transition), box-shadow var(--trendino-transition);
@@ -151,7 +151,7 @@
 .trendino-carousel__nav.is-floating {
 	position: absolute;
 	inset-inline: 0;
-	top: calc(var(--trendino-story-size, 96px) / 2);
+	top: calc(var(--trendino-story-size, 88px) / 2);
 	transform: translateY(-50%);
 	display: flex;
 	justify-content: space-between;
@@ -166,7 +166,7 @@
 
 @media (max-width: 767px) {
 	.trendino-story {
-		width: var(--trendino-story-size-mobile, 74px);
+		width: var(--trendino-story-size-mobile, 70px);
 	}
 
 	.trendino-stories {

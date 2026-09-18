@@ -258,6 +258,9 @@ function trendino_kses( $content ) {
  * @return string
  */
 function trendino_build_attributes( array $attributes ) {
+	// Attributes holding a URL must be escaped with esc_url(), not esc_attr().
+	$url_attributes = array( 'href', 'src', 'action', 'formaction', 'poster', 'cite', 'data-url' );
+
 	$output = array();
 
 	foreach ( $attributes as $key => $value ) {
@@ -270,7 +273,17 @@ function trendino_build_attributes( array $attributes ) {
 			continue;
 		}
 
-		$output[] = sprintf( '%s="%s"', esc_attr( $key ), esc_attr( $value ) );
+		if ( is_array( $value ) ) {
+			$value = implode( ' ', array_filter( $value ) );
+		}
+
+		$escaped = in_array( $key, $url_attributes, true ) ? esc_url( $value ) : esc_attr( $value );
+
+		if ( '' === $escaped ) {
+			continue;
+		}
+
+		$output[] = sprintf( '%s="%s"', esc_attr( $key ), $escaped );
 	}
 
 	return implode( ' ', $output );

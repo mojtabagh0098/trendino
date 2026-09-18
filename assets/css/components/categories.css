@@ -7,7 +7,7 @@
 .trendino-section-box {
 	background: var(--trendino-surface);
 	border-radius: var(--trendino-card-radius);
-	padding: 20px;
+	padding: 18px 20px 20px;
 }
 
 /* --------------------------------------------------------- Category cards */
