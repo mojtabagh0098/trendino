@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Trendino — Component Preview</title>
+<link rel="stylesheet" href="bundle.css" />
+<style>
+	.preview-label {
+		max-width: 1240px; margin: 30px auto 8px; padding-inline: 16px;
+		font-size: .68rem; font-weight: 700; letter-spacing: .07em;
+		color: #a3a7b8; text-transform: uppercase;
+	}
+	.ph { background: linear-gradient(135deg,#e9ecf5,#dee2ee); display:block; width:100%; height:100%; }
+	.ph.dark { background: linear-gradient(135deg,#1a2a52,#0d1b3e); }
+	.ph.red  { background: linear-gradient(135deg,#e5152d,#9e0d1f); }
+</style>
+</head>
+<body class="trendino-theme">
+<div class="trendino-site">
+
+<div class="trendino-announce">
+	<div class="trendino-container trendino-announce__inner">
+		<span class="trendino-announce__highlight">ترندینو</span>
+		<span class="trendino-announce__text">فروش ویژه تابستان — تا ۷۰٪ تخفیف روی منتخب محصولات</span>
+		<a class="trendino-announce__link" href="#">مشاهده</a>
+		<button class="trendino-announce__close" aria-label="بستن"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+	</div>
+</div>
+
+<header class="trendino-header is-sticky" data-trendino-header>
+	<div class="trendino-header__topbar"><div class="trendino-container"><div class="trendino-topbar">
+		<ul class="trendino-topbar__links">
+			<li><a href="#">پیگیری سفارش</a></li><li><a href="#">تماس با ما</a></li><li><a href="#">سوالات متداول</a></li>
+		</ul>
+		<div class="trendino-topbar__end">
+			<span class="trendino-topbar__message"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg><span>ارسال رایگان بالای ۵۰۰ هزار تومان</span></span>
+			<span class="trendino-topbar__phone">۰۲۱-۹۱۰۰۲۰۳۰</span>
+		</div>
+	</div></div></div>
+
+	<div class="trendino-header__main"><div class="trendino-container trendino-header__row">
+		<div class="trendino-header__start">
+			<button class="trendino-header__burger" data-trendino-drawer-open aria-label="منو"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+			<div class="trendino-logo"><a class="trendino-logo__link" href="#"><span class="trendino-logo__text">ترندینو</span></a></div>
+		</div>
+		<div class="trendino-header__search">
+			<div class="trendino-search" data-live-search="no">
+				<form class="trendino-search__form">
+					<span class="trendino-search__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></span>
+					<input class="trendino-search__input" type="search" placeholder="جستجوی محصولات، برندها و دسته‌بندی‌ها…" />
+					<button type="button" class="trendino-search__submit is-icon" aria-label="جستجو"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg></button>
+				</form>
+			</div>
+		</div>
+		<div class="trendino-header__end"><div class="trendino-header-actions has-dividers">
+			<div class="trendino-header-action-wrap">
+				<a class="trendino-header-action is-outline" href="#">
+					<span class="trendino-header-action__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></span>
+					<span class="trendino-header-action__label">ورود | ثبت‌نام</span></a>
+			</div>
+			<div class="trendino-header-action-wrap">
+				<a class="trendino-header-action is-icon" href="#" aria-label="علاقه‌مندی">
+					<span class="trendino-header-action__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-9a4 4 0 017-2.6A4 4 0 0119 11c0 4.5-7 9-7 9z"/></svg><span class="trendino-header-action__count" data-trendino-count="wishlist">۳</span></span></a>
+			</div>
+			<div class="trendino-header-action-wrap">
+				<a class="trendino-header-action trendino-header-action--cart is-filled" href="#">
+					<span class="trendino-header-action__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11h10L20 7H6"/><circle cx="9" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg></span>
+					<span class="trendino-header-action__label">سبد خرید</span>
+					<span class="trendino-header-action__count" data-trendino-count="cart">۲</span></a>
+			</div>
+		</div></div>
+	</div></div>
+
+	<div class="trendino-header__nav"><div class="trendino-container trendino-header__nav-row">
+		<div class="trendino-catmenu style-button" data-open-on="hover">
+			<button class="trendino-catmenu__trigger" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>دسته‌بندی کالاها</span><svg class="trendino-catmenu__caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+			<div class="trendino-catmenu__panel"><ul class="trendino-catmenu__list"><li class="trendino-catmenu__item has-children"><a class="trendino-catmenu__link" href="#"><span class="ph" style="width:26px;height:26px;border-radius:6px;flex:0 0 auto"></span><span>موبایل و تبلت</span><svg class="trendino-catmenu__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></a>
+	<div class="trendino-catmenu__flyout"><span class="trendino-catmenu__flyout-head">موبایل و تبلت</span><ul class="trendino-catmenu__children"><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">گوشی موبایل</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">تبلت</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">قاب و کاور</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">پاوربانک</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">شارژر و کابل</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">هندزفری</a></li></ul></div></li><li class="trendino-catmenu__item has-children"><a class="trendino-catmenu__link" href="#"><span class="ph" style="width:26px;height:26px;border-radius:6px;flex:0 0 auto"></span><span>کالای دیجیتال</span><svg class="trendino-catmenu__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></a>
+	<div class="trendino-catmenu__flyout"><span class="trendino-catmenu__flyout-head">کالای دیجیتال</span><ul class="trendino-catmenu__children"><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">گوشی موبایل</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">تبلت</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">قاب و کاور</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">پاوربانک</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">شارژر و کابل</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">هندزفری</a></li></ul></div></li><li class="trendino-catmenu__item has-children"><a class="trendino-catmenu__link" href="#"><span class="ph" style="width:26px;height:26px;border-radius:6px;flex:0 0 auto"></span><span>مد و پوشاک</span><svg class="trendino-catmenu__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></a>
+	<div class="trendino-catmenu__flyout"><span class="trendino-catmenu__flyout-head">مد و پوشاک</span><ul class="trendino-catmenu__children"><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">گوشی موبایل</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">تبلت</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">قاب و کاور</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">پاوربانک</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">شارژر و کابل</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">هندزفری</a></li></ul></div></li><li class="trendino-catmenu__item has-children"><a class="trendino-catmenu__link" href="#"><span class="ph" style="width:26px;height:26px;border-radius:6px;flex:0 0 auto"></span><span>خانه و آشپزخانه</span><svg class="trendino-catmenu__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></a>
+	<div class="trendino-catmenu__flyout"><span class="trendino-catmenu__flyout-head">خانه و آشپزخانه</span><ul class="trendino-catmenu__children"><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">گوشی موبایل</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">تبلت</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">قاب و کاور</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">پاوربانک</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">شارژر و کابل</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">هندزفری</a></li></ul></div></li><li class="trendino-catmenu__item has-children"><a class="trendino-catmenu__link" href="#"><span class="ph" style="width:26px;height:26px;border-radius:6px;flex:0 0 auto"></span><span>زیبایی و سلامت</span><svg class="trendino-catmenu__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></a>
+	<div class="trendino-catmenu__flyout"><span class="trendino-catmenu__flyout-head">زیبایی و سلامت</span><ul class="trendino-catmenu__children"><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">گوشی موبایل</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">تبلت</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">قاب و کاور</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">پاوربانک</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">شارژر و کابل</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">هندزفری</a></li></ul></div></li><li class="trendino-catmenu__item has-children"><a class="trendino-catmenu__link" href="#"><span class="ph" style="width:26px;height:26px;border-radius:6px;flex:0 0 auto"></span><span>ورزش و سفر</span><svg class="trendino-catmenu__arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></a>
+	<div class="trendino-catmenu__flyout"><span class="trendino-catmenu__flyout-head">ورزش و سفر</span><ul class="trendino-catmenu__children"><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">گوشی موبایل</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">تبلت</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">قاب و کاور</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">پاوربانک</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">شارژر و کابل</a></li><li class="trendino-catmenu__child"><a class="trendino-catmenu__child-link" href="#">هندزفری</a></li></ul></div></li></ul></div>
+		</div>
+		<nav class="trendino-menu has-indicator"><ul class="trendino-menu__list">
+			<li class="trendino-menu__item current-menu-item"><a class="trendino-menu__link" href="#"><span class="trendino-menu__text">صفحه اصلی</span></a></li>
+			<li class="trendino-menu__item is-highlight"><a class="trendino-menu__link" href="#"><span class="trendino-menu__text">شگفت‌انگیزها</span></a></li>
+			<li class="trendino-menu__item"><a class="trendino-menu__link" href="#"><span class="trendino-menu__text">فروشگاه</span><span class="trendino-menu__indicator"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></a>
+				<ul class="trendino-menu__submenu">
+					<li class="trendino-menu__item"><a class="trendino-menu__link" href="#">پرفروش‌ترین‌ها</a></li>
+					<li class="trendino-menu__item"><a class="trendino-menu__link" href="#">جدیدترین‌ها</a></li>
+					<li class="trendino-menu__item"><a class="trendino-menu__link" href="#">تخفیف‌دارها</a></li>
+				</ul></li>
+			<li class="trendino-menu__item"><a class="trendino-menu__link" href="#"><span class="trendino-menu__text">برندها</span></a></li>
+			<li class="trendino-menu__item"><a class="trendino-menu__link" href="#"><span class="trendino-menu__text">وبلاگ</span></a></li>
+			<li class="trendino-menu__item"><a class="trendino-menu__link" href="#"><span class="trendino-menu__text">تماس با ما</span></a></li>
+		</ul></nav>
+	</div></div>
+</header>
+<div class="trendino-content"><div class="trendino-container">
+<p class="preview-label">Stories widget · دسته‌بندی دایره‌ای</p><div class="trendino-section trendino-stories-wrap"><ul class="trendino-stories is-carousel shape-circle hover-lift" data-trendino-scroller><li class="trendino-story"><a class="trendino-story__link" href="#"><span class="trendino-story__ring"><span class="trendino-story__media"><span class="ph" style=""></span></span><span class="trendino-story__badge">٪۳۰</span></span><span class="trendino-story__title">موبایل</span></a></li><li class="trendino-story"><a class="trendino-story__link" href="#"><span class="trendino-story__ring"><span class="trendino-story__media"><span class="ph" style=""></span></span></span><span class="trendino-story__title">لپ‌تاپ</span></a></li><li class="trendino-story"><a class="trendino-story__link" href="#"><span class="trendino-story__ring"><span class="trendino-story__media"><span class="ph" style=""></span></span></span><span class="trendino-story__title">ساعت هوشمند</span></a></li><li class="trendino-story"><a class="trendino-story__link" href="#"><span class="trendino-story__ring"><span class="trendino-story__media"><span class="ph" style=""></span></span></span><span class="trendino-story__title">هدفون</span></a></li><li class="trendino-story"><a class="trendino-story__link" href="#"><span class="trendino-story__ring"><span class="trendino-story__media"><span class="ph" style=""></span></span></span><span class="trendino-story__title">لوازم خانگی</span></a></li><li class="trendino-story"><a class="trendino-story__link" href="#"><span class="trendino-story__ring"><span class="trendino-story__media"><span class="ph" style=""></span></span></span><span class="trendino-story__title">آرایشی</span></a></li><li class="trendino-story"><a class="trendino-story__link" href="#"><span class="trendino-story__ring"><span class="trendino-story__media"><span class="ph" style=""></span></span></span><span class="trendino-story__title">ورزش و سفر</span></a></li><li class="trendino-story"><a class="trendino-story__link" href="#"><span class="trendino-story__ring"><span class="trendino-story__media"><span class="ph" style=""></span></span></span><span class="trendino-story__title">کتاب</span></a></li><li class="trendino-story"><a class="trendino-story__link" href="#"><span class="trendino-story__ring"><span class="trendino-story__media"><span class="ph" style=""></span></span></span><span class="trendino-story__title">اسباب‌بازی</span></a></li><li class="trendino-story"><a class="trendino-story__link" href="#"><span class="trendino-story__ring"><span class="trendino-story__media"><span class="ph" style=""></span></span></span><span class="trendino-story__title">خودرو</span></a></li><li class="trendino-story"><a class="trendino-story__link" href="#"><span class="trendino-story__ring"><span class="trendino-story__media"><span class="ph" style=""></span></span></span><span class="trendino-story__title">گیمینگ</span></a></li><li class="trendino-story"><a class="trendino-story__link" href="#"><span class="trendino-story__ring"><span class="trendino-story__media"><span class="ph" style=""></span></span></span><span class="trendino-story__title">دوربین</span></a></li></ul></div><p class="preview-label">Hero Slider widget (2:1 split + companion banner)</p><div class="trendino-section trendino-hero-layout has-side side-start">
+	<div class="trendino-hero trendino-carousel is-slide dots-start" data-trendino-slider='{"autoplay":true,"autoplayDelay":5000,"loop":true,"pauseOnHover":true,"effect":"slide","rtl":true}'>
+		<div class="trendino-hero__viewport"><div class="trendino-hero__track"><div class="trendino-hero__slide is-active"><a class="trendino-hero__link" href="#"><picture class="trendino-hero__picture"><span class="ph red trendino-hero__img" style="aspect-ratio:820/330"></span></picture></a>
+	<span class="trendino-hero__overlay"></span>
+	<div class="trendino-hero__content is-center-start"><h2 class="trendino-hero__title">نسل جدید گوشی‌های پرچمدار</h2><p class="trendino-hero__subtitle">جایی که نوآوری، قدرت و زیبایی به هم می‌رسند</p><span class="trendino-hero__button">مشاهده</span></div></div><div class="trendino-hero__slide"><a class="trendino-hero__link" href="#"><picture class="trendino-hero__picture"><span class="ph dark trendino-hero__img" style="aspect-ratio:820/330"></span></picture></a>
+	<span class="trendino-hero__overlay"></span>
+	<div class="trendino-hero__content is-center-start"><h2 class="trendino-hero__title">جشنواره پاییزه ترندینو</h2><p class="trendino-hero__subtitle">تا ۶۰٪ تخفیف روی کالای دیجیتال</p><span class="trendino-hero__button">مشاهده</span></div></div><div class="trendino-hero__slide"><a class="trendino-hero__link" href="#"><picture class="trendino-hero__picture"><span class="ph red trendino-hero__img" style="aspect-ratio:820/330"></span></picture></a>
+	<span class="trendino-hero__overlay"></span>
+	<div class="trendino-hero__content is-center-start"><h2 class="trendino-hero__title">ارسال رایگان سراسر کشور</h2><p class="trendino-hero__subtitle">برای سفارش‌های بالای ۵۰۰ هزار تومان</p><span class="trendino-hero__button">مشاهده</span></div></div></div></div>
+		<button class="trendino-carousel__arrow is-prev" data-carousel-prev aria-label="قبلی"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+		<button class="trendino-carousel__arrow is-next" data-carousel-next aria-label="بعدی"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+		<div class="trendino-carousel__dots" data-carousel-dots>
+			<button class="trendino-carousel__dot is-active" data-carousel-dot="0"></button>
+			<button class="trendino-carousel__dot" data-carousel-dot="1"></button>
+			<button class="trendino-carousel__dot" data-carousel-dot="2"></button>
+		</div>
+	</div>
+	<div class="trendino-hero-side"><a class="trendino-hero-side__item" href="#"><span class="ph dark trendino-hero-side__img" style="min-height:250px"></span></a></div>
+</div><p class="preview-label">Category Cards widget</p><div class="trendino-section"><div class="trendino-grid" style="--trendino-columns:6"><div class="trendino-grid__item"><a class="trendino-category-card" href="#"><span class="trendino-category-card__media"><span class="ph" style=""></span></span><span class="trendino-category-card__body"><h3 class="trendino-category-card__title">هدفون</h3></span></a></div><div class="trendino-grid__item"><a class="trendino-category-card" href="#"><span class="trendino-category-card__media"><span class="ph" style=""></span></span><span class="trendino-category-card__body"><h3 class="trendino-category-card__title">تبلت</h3></span></a></div><div class="trendino-grid__item"><a class="trendino-category-card" href="#"><span class="trendino-category-card__media"><span class="ph" style=""></span></span><span class="trendino-category-card__body"><h3 class="trendino-category-card__title">گوشی موبایل</h3></span></a></div><div class="trendino-grid__item"><a class="trendino-category-card" href="#"><span class="trendino-category-card__media"><span class="ph" style=""></span></span><span class="trendino-category-card__body"><h3 class="trendino-category-card__title">لپ‌تاپ</h3></span></a></div><div class="trendino-grid__item"><a class="trendino-category-card" href="#"><span class="trendino-category-card__media"><span class="ph" style=""></span></span><span class="trendino-category-card__body"><h3 class="trendino-category-card__title">ساعت هوشمند</h3></span></a></div><div class="trendino-grid__item"><a class="trendino-category-card" href="#"><span class="trendino-category-card__media"><span class="ph" style=""></span></span><span class="trendino-category-card__body"><h3 class="trendino-category-card__title">کنسول بازی</h3></span></a></div></div></div><p class="preview-label">Product Carousel + inline header countdown (پیشنهاد شگفت‌انگیز)</p><div class="trendino-section trendino-section-box"><div class="trendino-section-head is-align-start is-accent"><div class="trendino-section-head__text"><span class="trendino-section-head__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c3 4 6 5 6 9a6 6 0 11-12 0c0-2 1-3 2-4 .5 1.5 1.5 2 2 2 0-3 1-5 2-7z"/></svg></span><h2 class="trendino-section-head__title">پیشنهاد شگفت‌انگیز</h2></div><div class="trendino-section-head__meta"><span class="trendino-section-head__meta-label">فرصت باقی مانده</span><div class="trendino-countdown is-light" data-trendino-countdown="9999999999" data-daily="1"><span class="trendino-countdown__unit"><span class="trendino-countdown__value" data-unit="hours">۰۰</span></span><span class="trendino-countdown__unit"><span class="trendino-countdown__value" data-unit="minutes">۰۰</span></span><span class="trendino-countdown__unit"><span class="trendino-countdown__value" data-unit="seconds">۰۰</span></span></div></div><div class="trendino-section-head__actions"><a class="trendino-section-head__link" href="#"><span>مشاهده همه</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></a></div></div><div class="trendino-carousel" data-trendino-carousel='{"slidesDesktop":5,"slidesTablet":3,"slidesMobile":2,"gap":12,"arrows":true,"rtl":true}' style="--trendino-columns:5">
+	<div class="trendino-track" data-trendino-scroller data-fill="10" data-kind="deal"></div><button class="trendino-carousel__arrow is-floating is-prev" data-carousel-prev><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><button class="trendino-carousel__arrow is-floating is-next" data-carousel-next><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button></div></div><p class="preview-label">Promotional Boxes widget (پروموشن)</p><div class="trendino-section trendino-promo-boxes is-mobile-scroll"><a class="trendino-promo span-4" href="#" style="background:#fdebee">
+	<div class="trendino-promo__text"><h3 class="trendino-promo__title">غرق در دنیای صدا</h3><p class="trendino-promo__desc">هدفون بی‌سیم با نویزکنسلینگ فعال</p><span class="trendino-promo__button">مشاهده<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span></div>
+	<div class="trendino-promo__media"><span class="ph" style="max-height:120px;border-radius:8px"></span></div></a><a class="trendino-promo span-4" href="#" style="background:#eaf0fb">
+	<div class="trendino-promo__text"><h3 class="trendino-promo__title">هر لحظه هوشمندتر</h3><p class="trendino-promo__desc">ساعت هوشمند با نمایشگر AMOLED</p><span class="trendino-promo__button">مشاهده<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span></div>
+	<div class="trendino-promo__media"><span class="ph" style="max-height:120px;border-radius:8px"></span></div></a><a class="trendino-promo span-4" href="#" style="background:#fdebee">
+	<div class="trendino-promo__text"><h3 class="trendino-promo__title">شارژی بدون توقف</h3><p class="trendino-promo__desc">پاوربانک پرقدرت با شارژ سریع</p><span class="trendino-promo__button">مشاهده<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span></div>
+	<div class="trendino-promo__media"><span class="ph" style="max-height:120px;border-radius:8px"></span></div></a></div><p class="preview-label">Product Carousel widget (جدیدترین محصولات)</p><div class="trendino-section trendino-section-box"><div class="trendino-section-head is-align-start"><div class="trendino-section-head__text"><h2 class="trendino-section-head__title">جدیدترین محصولات</h2></div><div class="trendino-section-head__actions"><a class="trendino-section-head__link" href="#"><span>مشاهده همه</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></a></div></div><div class="trendino-carousel" data-trendino-carousel='{"slidesDesktop":5,"slidesTablet":3,"slidesMobile":2,"gap":12,"arrows":true,"rtl":true}' style="--trendino-columns:5">
+	<div class="trendino-track" data-trendino-scroller data-fill="10"></div><button class="trendino-carousel__arrow is-floating is-prev" data-carousel-prev><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button><button class="trendino-carousel__arrow is-floating is-next" data-carousel-next><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button></div></div><p class="preview-label">Brands widget</p><div class="trendino-section trendino-section-box trendino-brands-wrap"><div class="trendino-carousel trendino-brands is-grayscale" data-trendino-carousel='{"slidesDesktop":8,"slidesTablet":5,"slidesMobile":3,"gap":12,"arrows":true,"rtl":true}' style="--trendino-columns:8">
+	<div class="trendino-track" data-trendino-scroller data-fill="8" data-kind="brand"></div></div></div><p class="preview-label">Category Showcase widget (لپ‌تاپ)</p><div class="trendino-section trendino-showcase panel-start" style="--trendino-panel-width:240px"><div class="trendino-showcase__panel" style="background:var(--trendino-secondary)">
+	<h2 class="trendino-showcase__title" style="color:#fff">انتخاب حرفه‌ای‌ها</h2>
+	<p class="trendino-showcase__subtitle" style="color:rgba(255,255,255,.7)">لپ‌تاپ‌های مخصوص کار و بازی</p>
+	<span class="ph" style="aspect-ratio:1;border-radius:10px"></span>
+	<a class="trendino-showcase__button" href="#">مشاهده همه</a></div>
+	<div class="trendino-showcase__products">
+	<div class="trendino-carousel" data-trendino-carousel='{"slidesDesktop":4,"slidesTablet":3,"slidesMobile":2,"gap":12,"arrows":true,"rtl":true}' style="--trendino-columns:4">
+		<div class="trendino-track" data-trendino-scroller data-fill="8"></div>
+		<button class="trendino-carousel__arrow is-floating is-prev" data-carousel-prev><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+		<button class="trendino-carousel__arrow is-floating is-next" data-carousel-next><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+	</div></div></div><p class="preview-label">Product Tabs widget · horizontal cards (پرفروش‌ترین‌ها)</p><div class="trendino-section trendino-section-box"><div class="trendino-tabs style-pills" data-trendino-tabs>
+	<div class="trendino-tabs__head">
+		<div class="trendino-tabs__title-wrap"><h2 class="trendino-tabs__title">پرفروش‌ترین‌ها</h2></div>
+		<div class="trendino-tabs__nav" role="tablist">
+			<button class="trendino-tabs__button is-active" role="tab" aria-selected="true">همه</button>
+			<button class="trendino-tabs__button" role="tab" aria-selected="false">گوشی</button>
+			<button class="trendino-tabs__button" role="tab" aria-selected="false">لپ‌تاپ</button>
+			<button class="trendino-tabs__button" role="tab" aria-selected="false">ساعت</button>
+			<button class="trendino-tabs__button" role="tab" aria-selected="false">هدفون</button>
+		</div>
+	</div>
+	<div class="trendino-tabs__panels"><div class="trendino-tabs__panel is-active" role="tabpanel"><div class="trendino-grid" style="--trendino-columns:3" data-fill="6" data-kind="h"></div></div><div class="trendino-tabs__panel" role="tabpanel" hidden><div class="trendino-grid" style="--trendino-columns:3" data-fill="6" data-kind="h"></div></div><div class="trendino-tabs__panel" role="tabpanel" hidden><div class="trendino-grid" style="--trendino-columns:3" data-fill="6" data-kind="h"></div></div><div class="trendino-tabs__panel" role="tabpanel" hidden><div class="trendino-grid" style="--trendino-columns:3" data-fill="6" data-kind="h"></div></div><div class="trendino-tabs__panel" role="tabpanel" hidden><div class="trendino-grid" style="--trendino-columns:3" data-fill="6" data-kind="h"></div></div></div></div></div><p class="preview-label">Promotional Boxes widget · full width (span 12)</p><div class="trendino-section trendino-promo-boxes">
+	<div class="trendino-promo span-12" style="background:var(--trendino-secondary)">
+		<div class="trendino-promo__text">
+			<h3 class="trendino-promo__title" style="color:#fff">تجربه‌ای متفاوت با مک‌بوک</h3>
+			<p class="trendino-promo__desc" style="color:rgba(255,255,255,.72)">قدرت پردازش بی‌نظیر، نمایشگر Liquid Retina و باتری تمام‌روز در بدنه‌ای یکپارچه.</p>
+			<span class="trendino-promo__button">مشاهده<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span>
+		</div>
+		<div class="trendino-promo__media"><span class="ph" style="max-height:190px;border-radius:10px"></span></div>
+	</div></div><p class="preview-label">Quad Boxes widget (باکس سلیقه)</p><div class="trendino-section trendino-quad-boxes-wrap"><div class="trendino-section-head is-align-start"><div class="trendino-section-head__text"><h2 class="trendino-section-head__title">باکس سلیقه</h2></div><div class="trendino-section-head__actions"></div></div><div class="trendino-quad-boxes"><div class="trendino-quad-box"><div class="trendino-quad-box__head">
+	<span class="trendino-quad-box__text"><h3 class="trendino-quad-box__title">ساعت هوشمند</h3><span class="trendino-quad-box__subtitle">مشاهده همه</span></span>
+	<a class="trendino-quad-box__arrow" href="#" aria-label="مشاهده"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a></div>
+	<div class="trendino-quad-box__grid"><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a></div></div><div class="trendino-quad-box"><div class="trendino-quad-box__head">
+	<span class="trendino-quad-box__text"><h3 class="trendino-quad-box__title">هدفون</h3><span class="trendino-quad-box__subtitle">مشاهده همه</span></span>
+	<a class="trendino-quad-box__arrow" href="#" aria-label="مشاهده"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a></div>
+	<div class="trendino-quad-box__grid"><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a></div></div><div class="trendino-quad-box"><div class="trendino-quad-box__head">
+	<span class="trendino-quad-box__text"><h3 class="trendino-quad-box__title">گوشی موبایل</h3><span class="trendino-quad-box__subtitle">مشاهده همه</span></span>
+	<a class="trendino-quad-box__arrow" href="#" aria-label="مشاهده"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a></div>
+	<div class="trendino-quad-box__grid"><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a></div></div><div class="trendino-quad-box"><div class="trendino-quad-box__head">
+	<span class="trendino-quad-box__text"><h3 class="trendino-quad-box__title">لپ‌تاپ</h3><span class="trendino-quad-box__subtitle">مشاهده همه</span></span>
+	<a class="trendino-quad-box__arrow" href="#" aria-label="مشاهده"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a></div>
+	<div class="trendino-quad-box__grid"><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a><a class="trendino-quad-box__item" href="#"><span class="ph" style=""></span></a></div></div></div></div><p class="preview-label">Category Showcase widget · panel end (موبایل)</p><div class="trendino-section trendino-showcase panel-end" style="--trendino-panel-width:240px">
+	<div class="trendino-showcase__panel" style="background:var(--trendino-primary)">
+		<h2 class="trendino-showcase__title" style="color:#fff">انتخاب گوشی ایده‌آل</h2>
+		<p class="trendino-showcase__subtitle" style="color:rgba(255,255,255,.8)">بهترین گوشی‌ها با بهترین قیمت</p>
+		<span class="ph" style="aspect-ratio:3/4;border-radius:10px"></span>
+		<a class="trendino-showcase__button" href="#" style="background:#fff;color:var(--trendino-primary)">مشاهده همه</a></div>
+	<div class="trendino-showcase__products">
+	<div class="trendino-carousel" data-trendino-carousel='{"slidesDesktop":4,"slidesTablet":3,"slidesMobile":2,"gap":12,"arrows":true,"rtl":true}' style="--trendino-columns:4">
+		<div class="trendino-track" data-trendino-scroller data-fill="8"></div>
+		<button class="trendino-carousel__arrow is-floating is-prev" data-carousel-prev><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+		<button class="trendino-carousel__arrow is-floating is-next" data-carousel-next><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+	</div></div></div><p class="preview-label">Service Features widget</p><div class="trendino-section trendino-section-box"><div class="trendino-services is-dividers"><div class="trendino-service"><span class="trendino-service__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg></span><span class="trendino-service__text"><h3 class="trendino-service__title">ارسال سریع</h3><p class="trendino-service__desc">تحویل ۲۴ ساعته در تهران</p></span></div><div class="trendino-service"><span class="trendino-service__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg></span><span class="trendino-service__text"><h3 class="trendino-service__title">ضمانت اصالت</h3><p class="trendino-service__desc">تضمین اصل بودن کالا</p></span></div><div class="trendino-service"><span class="trendino-service__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 10-3 6.2M20 6v5h-5"/></svg></span><span class="trendino-service__text"><h3 class="trendino-service__title">۷ روز مهلت بازگشت</h3><p class="trendino-service__desc">بدون قید و شرط</p></span></div><div class="trendino-service"><span class="trendino-service__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0116 0v4a3 3 0 01-3 3h-2"/><rect x="2" y="13" width="4" height="6" rx="1.4"/><rect x="18" y="13" width="4" height="6" rx="1.4"/></svg></span><span class="trendino-service__text"><h3 class="trendino-service__title">پشتیبانی ۲۴/۷</h3><p class="trendino-service__desc">همیشه در کنار شما</p></span></div></div></div><p class="preview-label">Blog Posts widget (مقالات آموزشی)</p><div class="trendino-section trendino-posts-wrap"><div class="trendino-section-head is-align-start"><div class="trendino-section-head__text"><h2 class="trendino-section-head__title">مقالات آموزشی</h2></div><div class="trendino-section-head__actions"><a class="trendino-section-head__link" href="#"><span>مشاهده همه</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></a></div></div><div class="trendino-grid" style="--trendino-columns:4" data-fill="4" data-kind="post"></div></div><p class="preview-label">SEO Text widget</p><section class="trendino-section trendino-seo-text is-collapsible is-collapsed" data-trendino-seo-text style="--trendino-collapsed:110px">
+	<h2 class="trendino-seo-text__title">فروشگاه اینترنتی ترندینو</h2>
+	<div class="trendino-seo-text__body">
+		<p>ترندینو یکی از بزرگ‌ترین فروشگاه‌های اینترنتی کشور است که با هدف ارائه کالای اصل و باکیفیت فعالیت می‌کند. در ترندینو می‌توانید از میان هزاران کالای متنوع در دسته‌بندی‌های کالای دیجیتال، مد و پوشاک، لوازم خانگی و زیبایی و سلامت انتخاب کنید.</p>
+		<h3>چرا ترندینو؟</h3>
+		<p>تضمین اصالت کالا، امکان بازگشت هفت روزه، ارسال سریع به سراسر کشور و پشتیبانی ۲۴ ساعته تنها بخشی از مزایای خرید از ترندینو است.</p>
+		<p>با عضویت در خبرنامه ترندینو زودتر از دیگران از جشنواره‌ها و تخفیف‌های ویژه باخبر شوید.</p>
+	</div>
+	<button class="trendino-seo-text__toggle" data-more="بیشتر بخوانید" data-less="بستن" aria-expanded="false">بیشتر بخوانید</button>
+</section></div></div><footer class="trendino-footer"><div class="trendino-container">
+	<div class="trendino-footer__top">
+		<div class="trendino-footer-about">
+			<div class="trendino-footer-about__logo"><a href="#"><span class="trendino-footer-about__name">ترندینو</span></a></div>
+			<p class="trendino-footer-about__desc">فروشگاه اینترنتی ترندینو، مرجع خرید آنلاین کالای اصل با ضمانت بازگشت وجه و ارسال سریع به سراسر ایران.</p>
+			<div class="trendino-footer-contacts">
+				<div class="trendino-footer-contact"><span class="trendino-footer-contact__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a12 12 0 005 5L15 13l5 2v4a1 1 0 01-1.1 1A17 17 0 014 5.1 1 1 0 015 4z"/></svg></span><span class="trendino-footer-contact__text"><span class="trendino-footer-contact__label">تلفن پشتیبانی</span><span class="trendino-footer-contact__value">۰۲۱-۹۱۰۰۲۰۳۰</span></span></div>
+				<div class="trendino-footer-contact"><span class="trendino-footer-contact__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg></span><span class="trendino-footer-contact__text"><span class="trendino-footer-contact__label">ایمیل</span><span class="trendino-footer-contact__value">info@trendino.ir</span></span></div>
+			</div>
+		</div><div class="trendino-footer-links is-collapsible">
+		<button class="trendino-footer-links__title" data-trendino-footer-toggle aria-expanded="false"><span>خدمات مشتریان</span><svg class="trendino-footer-links__caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+		<div class="trendino-footer-links__body"><ul class="trendino-footer-links__list"><li><a href="#">پرسش‌های متداول</a></li><li><a href="#">رویه بازگرداندن کالا</a></li><li><a href="#">شرایط استفاده</a></li><li><a href="#">حریم خصوصی</a></li></ul></div></div><div class="trendino-footer-links is-collapsible">
+		<button class="trendino-footer-links__title" data-trendino-footer-toggle aria-expanded="false"><span>راهنمای خرید</span><svg class="trendino-footer-links__caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+		<div class="trendino-footer-links__body"><ul class="trendino-footer-links__list"><li><a href="#">نحوه ثبت سفارش</a></li><li><a href="#">شیوه‌های پرداخت</a></li><li><a href="#">رویه ارسال سفارش</a></li><li><a href="#">پیگیری سفارش</a></li></ul></div></div><div class="trendino-footer-links is-collapsible">
+		<button class="trendino-footer-links__title" data-trendino-footer-toggle aria-expanded="false"><span>با ترندینو</span><svg class="trendino-footer-links__caret" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+		<div class="trendino-footer-links__body"><ul class="trendino-footer-links__list"><li><a href="#">درباره ما</a></li><li><a href="#">تماس با ما</a></li><li><a href="#">فرصت‌های شغلی</a></li><li><a href="#">همکاری در فروش</a></li></ul></div></div>		<div class="trendino-newsletter layout-stacked">
+			<div class="trendino-newsletter__text">
+				<span class="trendino-newsletter__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg></span>
+				<span><h3 class="trendino-newsletter__title">عضویت در خبرنامه</h3><p class="trendino-newsletter__desc">از جشنواره‌ها زودتر باخبر شوید.</p></span>
+			</div>
+			<div class="trendino-newsletter__form-wrap">
+				<form class="trendino-newsletter__form" data-trendino-newsletter>
+					<input class="trendino-newsletter__input" type="email" placeholder="ایمیل شما" />
+					<button class="trendino-newsletter__submit" type="submit">ثبت</button>
+				</form>
+				<p class="trendino-newsletter__message" role="status"></p>
+			</div>
+			<div class="trendino-social shape-circle" style="margin-top:6px">
+				<div class="trendino-social__list">
+					<a class="trendino-social__link is-instagram" href="#" aria-label="اینستاگرام"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1"/></svg></a>
+					<a class="trendino-social__link is-telegram" href="#" aria-label="تلگرام"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 4L3 11l5 2 2 6 3-4 5 4z"/></svg></a>
+					<a class="trendino-social__link is-whatsapp" href="#" aria-label="واتساپ"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.4-4A8 8 0 1112 20a8 8 0 01-4-1z"/></svg></a>
+					<a class="trendino-social__link is-youtube" href="#" aria-label="یوتیوب"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="4"/><path d="M11 10l4 2-4 2z"/></svg></a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="trendino-badges-wrap" style="margin-bottom:18px">
+		<div class="trendino-badges">
+			<a class="trendino-badge-item" href="#"><span class="ph" style="width:62px;height:62px;border-radius:6px"></span></a>
+			<a class="trendino-badge-item" href="#"><span class="ph" style="width:62px;height:62px;border-radius:6px"></span></a>
+			<div class="trendino-badge-item"><span class="ph" style="width:62px;height:62px;border-radius:6px"></span></div>
+		</div>
+	</div>
+
+	<div class="trendino-footer-bottom">
+		<div class="trendino-footer-bottom__start">
+			<span class="trendino-footer-bottom__copyright">© ۱۴۰۵ تمامی حقوق برای ترندینو محفوظ است.</span>
+		</div>
+		<div class="trendino-footer-bottom__end">
+			<div class="trendino-footer-bottom__payments"><span class="ph" style="width:42px;height:24px;border-radius:4px"></span><span class="ph" style="width:42px;height:24px;border-radius:4px"></span></div>
+			<button class="trendino-scroll-top" data-trendino-scroll-top><span>بازگشت به بالا</span></button>
+		</div>
+	</div>
+</div></footer><div class="trendino-mobile-header">
+	<form class="trendino-mobile-header__search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input type="search" placeholder="جستجوی محصولات…" /></form>
+	<div class="trendino-drawer" data-trendino-drawer hidden>
+		<div class="trendino-drawer__backdrop" data-trendino-drawer-close></div>
+		<aside class="trendino-drawer__panel" role="dialog" aria-modal="true">
+			<div class="trendino-drawer__head"><span class="trendino-drawer__title">منو</span><button class="trendino-drawer__close" data-trendino-drawer-close aria-label="بستن"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+			<div class="trendino-drawer__account"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg><a href="#">ورود | ثبت‌نام</a></div>
+			<nav class="trendino-drawer__menu"><ul class="trendino-drawer__list">
+				<li><a href="#">صفحه اصلی</a></li>
+				<li class="menu-item-has-children"><a href="#">فروشگاه</a><ul class="sub-menu"><li><a href="#">پرفروش‌ترین‌ها</a></li><li><a href="#">جدیدترین‌ها</a></li></ul></li>
+				<li><a href="#">شگفت‌انگیزها</a></li><li><a href="#">برندها</a></li><li><a href="#">وبلاگ</a></li>
+			</ul></nav>
+		</aside>
+	</div>
+</div>
+
+<nav class="trendino-bottom-nav">
+	<a class="trendino-bottom-nav__item is-active" href="#"><span class="trendino-bottom-nav__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg></span><span class="trendino-bottom-nav__label">خانه</span></a>
+	<a class="trendino-bottom-nav__item" href="#"><span class="trendino-bottom-nav__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.5 12h-13z"/><path d="M9 7a3 3 0 016 0"/></svg></span><span class="trendino-bottom-nav__label">دسته‌بندی</span></a>
+	<a class="trendino-bottom-nav__item" href="#"><span class="trendino-bottom-nav__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11h10L20 7H6"/><circle cx="9" cy="19" r="1.6"/><circle cx="17" cy="19" r="1.6"/></svg><span class="trendino-bottom-nav__count" data-trendino-count="cart">۲</span></span><span class="trendino-bottom-nav__label">سبد خرید</span></a>
+	<a class="trendino-bottom-nav__item" href="#"><span class="trendino-bottom-nav__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.5-7-9a4 4 0 017-2.6A4 4 0 0119 11c0 4.5-7 9-7 9z"/></svg></span><span class="trendino-bottom-nav__label">علاقه‌مندی</span></a>
+	<a class="trendino-bottom-nav__item" href="#"><span class="trendino-bottom-nav__icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg></span><span class="trendino-bottom-nav__label">حساب</span></a>
+</nav>
+</div>
+<button class="trendino-scroll-top is-floating" data-trendino-scroll-top hidden aria-label="بالا"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></button>
+
+<script>
+window.trendinoConfig = { ajaxUrl:'#', nonce:'', isRtl:true, hasWoo:true, i18n:{ loading:'در حال بارگذاری…', error:'خطایی رخ داد.' } };
+var NAMES=['گوشی موبایل سامسونگ Galaxy S24 Ultra ظرفیت ۵۱۲ گیگابایت','هدفون بی‌سیم اپل AirPods Pro نسل دوم','لپ‌تاپ ۱۵ اینچی ایسوس مدل VivoBook','ساعت هوشمند شیائومی Watch S3 نسخه گلوبال','کنسول بازی سونی PlayStation 5 Slim','دوربین عکاسی کانن EOS R50 کیت','تبلت سامسونگ Galaxy Tab S9 FE','اسپیکر بلوتوثی JBL Charge 5'];
+var BRANDS=['Samsung','Apple','Xiaomi','Sony','LG','Asus','Huawei','Lenovo'];
+var POSTS=['راهنمای خرید گوشی موبایل در سال ۱۴۰۵','۱۰ نکته برای افزایش عمر باتری لپ‌تاپ','بهترین هدفون‌های زیر ۵ میلیون تومان','مقایسه کامل PS5 و Xbox Series X'];
+function fa(v){return String(v).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[d];});}
+function money(n){return fa(n.toLocaleString('en-US'));}
+function svg(p,s){return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>';}
+var P_HEART='<path d="M12 20s-7-4.5-7-9a4 4 0 017-2.6A4 4 0 0119 11c0 4.5-7 9-7 9z"/>', P_EYE='<path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.6"/>', P_BASKET='<path d="M4 7h16l-1.5 12h-13z"/><path d="M9 7a3 3 0 016 0"/>';
+
+function card(i,deal){
+	var off=[12,25,40,18,33][i%5], price=(2+(i%7))*1490000, sale=Math.round(price*(1-off/100));
+	var badges='<span class="trendino-badge '+(deal?'is-deal':'is-sale')+'">'+(deal?'فروش ویژه':fa(off)+'٪ تخفیف')+'</span>';
+	if(i%4===0&&!deal) badges+='<span class="trendino-badge is-new">جدید</span>';
+	return '<article class="trendino-product-card trendino-product-card--vertical trendino-ratio-1-1" data-product-id="'+(i+1)+'">'
+	+'<div class="trendino-product-card__media"><a class="trendino-product-card__image" href="#"><span class="ph"></span></a>'
+	+'<div class="trendino-product-card__badges">'+badges+'</div>'
+	+'<div class="trendino-product-card__tools">'
+	+'<button class="trendino-product-card__tool" data-trendino-wishlist="'+(i+1)+'" aria-label="علاقه‌مندی">'+svg(P_HEART,18)+'</button>'
+	+'<button class="trendino-product-card__tool" aria-label="مشاهده سریع">'+svg(P_EYE,18)+'</button></div>'
+	+'<div class="trendino-product-card__swatches"><span class="trendino-swatch" style="--swatch:#111"></span><span class="trendino-swatch" style="--swatch:#1e88e5"></span><span class="trendino-swatch" style="--swatch:#e53935"></span></div>'
+	+'</div><div class="trendino-product-card__body">'
+	+'<h3 class="trendino-product-card__title"><a href="#">'+NAMES[i%NAMES.length]+'</a></h3>'
+	+'<div class="trendino-product-card__rating">'+'<svg width="14" height="14" class="is-filled" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>'
+	+'<span class="trendino-product-card__rating-value">۴٫'+((i%9)+1)+'</span><span class="trendino-product-card__rating-count">(۱۲۴)</span></div>'
+	+'<div class="trendino-product-card__price-row"><div class="trendino-product-card__prices">'
+	+'<del class="trendino-product-card__old-price"><bdi>'+money(price)+'</bdi></del>'
+	+'<span class="trendino-product-card__price"><bdi>'+money(sale)+' <span class="woocommerce-Price-currencySymbol">تومان</span></bdi></span></div>'
+	+'<span class="trendino-product-card__discount">'+fa(off)+'٪</span></div>'
+	+'<div class="trendino-product-card__cart"><a href="#" class="trendino-btn trendino-btn--cart">'+svg(P_BASKET,18)+'<span>افزودن به سبد</span></a></div>'
+	+'</div></article>';
+}
+function hcard(i){
+	var price=(2+(i%7))*1490000;
+	return '<article class="trendino-product-card trendino-product-card--horizontal">'
+	+'<div class="trendino-product-card__media"><a class="trendino-product-card__image" href="#"><span class="ph"></span></a></div>'
+	+'<div class="trendino-product-card__body"><h3 class="trendino-product-card__title"><a href="#">'+NAMES[i%NAMES.length]+'</a></h3>'
+	+'<div class="trendino-product-card__price-row"><div class="trendino-product-card__prices">'
+	+'<del class="trendino-product-card__old-price"><bdi>'+money(price)+'</bdi></del>'
+	+'<span class="trendino-product-card__price"><bdi>'+money(Math.round(price*0.82))+' <span class="woocommerce-Price-currencySymbol">تومان</span></bdi></span></div>'
+	+'<span class="trendino-product-card__discount">۱۸٪</span></div></div></article>';
+}
+function brand(i){return '<a class="trendino-brand" href="#"><span class="trendino-brand__fallback">'+BRANDS[i%BRANDS.length]+'</span></a>';}
+function post(i){
+	return '<article class="trendino-post-card"><a class="trendino-post-card__media" href="#"><span class="ph"></span><span class="trendino-post-card__category">فناوری</span></a>'
+	+'<div class="trendino-post-card__body"><h3 class="trendino-post-card__title"><a href="#">'+POSTS[i%POSTS.length]+'</a></h3>'
+	+'<p class="trendino-post-card__excerpt">در این مقاله به بررسی نکات کلیدی و مهمی می‌پردازیم که پیش از خرید باید بدانید…</p>'
+	+'<div class="trendino-post-card__meta"><span class="trendino-post-card__date">۱۴۰۵/۰۶/۲۷</span><a class="trendino-post-card__more" href="#">ادامه</a></div></div></article>';
+}
+document.querySelectorAll('[data-fill]').forEach(function(host){
+	var n=parseInt(host.getAttribute('data-fill'),10), kind=host.getAttribute('data-kind')||'';
+	var isTrack=host.classList.contains('trendino-track');
+	var wrap=isTrack?'trendino-track__item':'trendino-grid__item', out='';
+	for(var i=0;i<n;i++){
+		var inner = kind==='brand'?brand(i) : kind==='post'?post(i) : kind==='h'?hcard(i) : card(i,kind==='deal');
+		out+='<div class="'+wrap+'">'+inner+'</div>';
+	}
+	host.innerHTML=out;
+});
+</script>
+<script src="bundle.js"></script>
+</body>
+</html>

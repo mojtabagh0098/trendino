@@ -1,0 +1,176 @@
+/**
+ * Trendino — carousel shell.
+ *
+ * Scroll-snap based, fully RTL aware (logical properties everywhere).
+ */
+
+.trendino-carousel {
+	position: relative;
+}
+
+.trendino-track {
+	display: flex;
+	gap: var(--trendino-gap);
+	overflow-x: auto;
+	overflow-y: hidden;
+	scroll-snap-type: x mandatory;
+	scroll-behavior: smooth;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+	padding-block: 2px;
+	margin-block: -2px;
+}
+
+.trendino-track::-webkit-scrollbar {
+	display: none;
+}
+
+.trendino-track:focus-visible {
+	outline-offset: 4px;
+}
+
+.trendino-track__item {
+	/*
+	 * --trendino-columns is written by the Elementor responsive "Columns" control,
+	 * which redefines it inside Elementor's own breakpoints. The *-tablet/-mobile
+	 * fallbacks below only kick in when nothing overrode it.
+	 */
+	--trendino-slides: var(--trendino-columns, 5);
+	flex: 0 0 calc(
+		(100% - (var(--trendino-slides) - 1) * var(--trendino-gap)) / var(--trendino-slides)
+	);
+	min-width: 0;
+	scroll-snap-align: start;
+}
+
+/* ----------------------------------------------------------------- Arrows */
+
+.trendino-carousel__nav {
+	display: inline-flex;
+	gap: 6px;
+}
+
+.trendino-carousel__arrow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 34px;
+	border-radius: 50%;
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	color: var(--trendino-secondary);
+	transition: background var(--trendino-transition), color var(--trendino-transition),
+		border-color var(--trendino-transition), opacity var(--trendino-transition);
+}
+
+.trendino-carousel__arrow:hover:not(.is-disabled) {
+	background: var(--trendino-primary);
+	border-color: var(--trendino-primary);
+	color: #fff;
+}
+
+.trendino-carousel__arrow.is-disabled,
+.trendino-carousel__arrow[disabled] {
+	opacity: 0.35;
+	cursor: default;
+}
+
+/* Floating arrows that sit on top of the track. */
+.trendino-carousel__arrow.is-floating {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 3;
+	width: 38px;
+	height: 38px;
+	box-shadow: var(--trendino-shadow);
+	opacity: 0;
+	pointer-events: none;
+}
+
+.trendino-carousel:hover .trendino-carousel__arrow.is-floating:not(.is-disabled) {
+	opacity: 1;
+	pointer-events: auto;
+}
+
+.trendino-carousel__arrow.is-floating.is-prev {
+	inset-inline-start: -14px;
+}
+
+.trendino-carousel__arrow.is-floating.is-next {
+	inset-inline-end: -14px;
+}
+
+/* ------------------------------------------------------------------- Dots */
+
+.trendino-carousel__dots {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	margin-top: 14px;
+}
+
+.trendino-carousel__dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 999px;
+	background: var(--trendino-border);
+	transition: width var(--trendino-transition), background var(--trendino-transition);
+}
+
+.trendino-carousel__dot.is-active {
+	width: 22px;
+	background: var(--trendino-primary);
+}
+
+/* ---------------------------------------------------------- Empty / states */
+
+.trendino-empty-state {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+	padding: 40px 16px;
+	color: var(--trendino-muted);
+	text-align: center;
+}
+
+.trendino-empty-state p {
+	margin: 0;
+	font-size: 0.88rem;
+}
+
+/* -------------------------------------------------------------- Responsive */
+
+@media (max-width: 1024px) {
+	.trendino-track__item {
+		--trendino-slides: var(--trendino-columns-tablet, var(--trendino-columns, 3));
+	}
+
+	.trendino-carousel__arrow.is-floating {
+		display: none;
+	}
+}
+
+@media (max-width: 767px) {
+	.trendino-track {
+		/* Bleed to the screen edges so the next card peeks in. */
+		margin-inline: -12px;
+		padding-inline: 12px;
+		scroll-padding-inline-start: 12px;
+	}
+
+	.trendino-track__item {
+		--trendino-slides: var(--trendino-columns-mobile, var(--trendino-columns, 2));
+	}
+
+	.trendino-carousel__nav {
+		display: none;
+	}
+
+	.trendino-carousel__dots {
+		margin-top: 10px;
+	}
+}

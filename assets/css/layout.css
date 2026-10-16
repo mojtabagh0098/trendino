@@ -1,0 +1,422 @@
+/**
+ * Trendino — layout layer.
+ *
+ * Page skeleton, grids, sections, archives, entries, pagination, sidebar.
+ */
+
+.trendino-site {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.trendino-content {
+	flex: 1 1 auto;
+}
+
+/* ------------------------------------------------------------------- Grids */
+
+.trendino-grid {
+	display: grid;
+	grid-template-columns: repeat(var(--trendino-columns, 4), minmax(0, 1fr));
+	gap: var(--trendino-gap);
+}
+
+.trendino-grid__item {
+	min-width: 0;
+}
+
+@media (max-width: 1024px) {
+	.trendino-grid {
+		grid-template-columns: repeat(
+			var(--trendino-columns-tablet, var(--trendino-columns, 3)),
+			minmax(0, 1fr)
+		);
+	}
+}
+
+@media (max-width: 767px) {
+	.trendino-grid {
+		grid-template-columns: repeat(
+			var(--trendino-columns-mobile, var(--trendino-columns, 2)),
+			minmax(0, 1fr)
+		);
+	}
+}
+
+/* ------------------------------------------------ Horizontal scroll (mobile) */
+
+.trendino-scroller {
+	display: flex;
+	gap: var(--trendino-gap);
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+	padding-bottom: 4px;
+}
+
+.trendino-scroller::-webkit-scrollbar {
+	display: none;
+}
+
+.trendino-scroller > * {
+	scroll-snap-align: start;
+	flex: 0 0 auto;
+}
+
+/* --------------------------------------------------------------- Sections */
+
+.trendino-section {
+	margin-block: var(--trendino-section-gap);
+}
+
+.trendino-section--boxed {
+	background: var(--trendino-surface);
+	border-radius: var(--trendino-card-radius);
+	padding: 20px;
+}
+
+/* ------------------------------------------------------ Archive / singular */
+
+.trendino-archive,
+.trendino-singular,
+.trendino-shop {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 24px;
+	padding-block: 24px;
+	align-items: start;
+}
+
+.trendino-archive.layout-sidebar-right,
+.trendino-singular.layout-sidebar-right,
+.trendino-shop.layout-sidebar-right {
+	grid-template-columns: 280px minmax(0, 1fr);
+}
+
+.trendino-archive.layout-sidebar-left,
+.trendino-singular.layout-sidebar-left,
+.trendino-shop.layout-sidebar-left {
+	grid-template-columns: minmax(0, 1fr) 280px;
+}
+
+.trendino-archive.layout-sidebar-left .trendino-sidebar,
+.trendino-shop.layout-sidebar-left .trendino-shop__sidebar,
+.trendino-singular.layout-sidebar-left .trendino-sidebar {
+	order: 2;
+}
+
+.trendino-page-header {
+	margin-bottom: 20px;
+}
+
+.trendino-page-header__title {
+	margin: 0 0 6px;
+}
+
+.trendino-page-header__description {
+	color: var(--trendino-muted);
+	margin: 0;
+}
+
+/* ------------------------------------------------------------ Breadcrumbs */
+
+.trendino-breadcrumbs {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px;
+	font-size: 0.8rem;
+	color: var(--trendino-muted);
+	margin-bottom: 12px;
+}
+
+.trendino-breadcrumbs__separator {
+	opacity: 0.5;
+}
+
+.trendino-breadcrumbs__item.is-current {
+	color: var(--trendino-text);
+}
+
+/* ----------------------------------------------------------------- Entries */
+
+.trendino-entry {
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+	padding: 24px;
+}
+
+.trendino-entry__title {
+	margin: 0 0 12px;
+}
+
+.trendino-entry__meta {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	font-size: 0.82rem;
+	color: var(--trendino-muted);
+	padding-bottom: 16px;
+	border-bottom: 1px solid var(--trendino-border);
+}
+
+.trendino-entry__meta-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.trendino-entry__thumb {
+	margin: 20px 0;
+	border-radius: var(--trendino-card-radius);
+	overflow: hidden;
+}
+
+.trendino-entry__thumb img {
+	width: 100%;
+	object-fit: cover;
+}
+
+.trendino-entry__content > * + * {
+	margin-top: 1em;
+}
+
+.trendino-entry__content img {
+	border-radius: var(--trendino-radius);
+}
+
+.trendino-entry__content blockquote {
+	margin: 0;
+	padding: 16px 20px;
+	border-inline-start: 4px solid var(--trendino-primary);
+	background: var(--trendino-background);
+	border-radius: var(--trendino-radius);
+}
+
+.trendino-entry__tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-top: 20px;
+	padding-top: 16px;
+	border-top: 1px solid var(--trendino-border);
+}
+
+.trendino-entry__tags a {
+	padding: 4px 12px;
+	border-radius: 999px;
+	background: var(--trendino-background);
+	font-size: 0.78rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-entry__tags a:hover {
+	background: var(--trendino-primary-soft);
+	color: var(--trendino-primary);
+}
+
+/* ------------------------------------------------------------- Post navigation */
+
+.trendino-post-nav .nav-links {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--trendino-gap);
+	margin-top: 20px;
+}
+
+.trendino-post-nav a {
+	display: block;
+	padding: 16px;
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+}
+
+.trendino-post-nav__label {
+	display: block;
+	font-size: 0.75rem;
+	color: var(--trendino-muted);
+	margin-bottom: 4px;
+}
+
+.trendino-post-nav__title {
+	font-weight: 700;
+}
+
+/* ------------------------------------------------------------- Pagination */
+
+.trendino-pagination {
+	display: flex;
+	justify-content: center;
+	margin-top: 28px;
+}
+
+.trendino-pagination .page-numbers {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 40px;
+	height: 40px;
+	padding: 0 10px;
+	margin-inline: 3px;
+	border-radius: var(--trendino-radius);
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	font-size: 0.85rem;
+	font-weight: 700;
+}
+
+.trendino-pagination .page-numbers.current,
+.trendino-pagination .page-numbers:hover {
+	background: var(--trendino-primary);
+	border-color: var(--trendino-primary);
+	color: #fff;
+}
+
+.trendino-pagination .page-numbers.dots {
+	background: transparent;
+	border-color: transparent;
+}
+
+/* ---------------------------------------------------------------- Sidebar */
+
+.trendino-sidebar .widget,
+.trendino-shop__sidebar .widget {
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+	padding: 18px;
+	margin-bottom: var(--trendino-gap);
+}
+
+.trendino-sidebar .widget-title,
+.trendino-shop__sidebar .widget-title {
+	font-size: 1rem;
+	margin: 0 0 14px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid var(--trendino-border);
+}
+
+.trendino-sidebar ul li,
+.trendino-shop__sidebar ul li {
+	padding: 6px 0;
+	font-size: 0.88rem;
+}
+
+/* --------------------------------------------------------------------- 404 */
+
+.trendino-404__inner {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 14px;
+	text-align: center;
+	padding: 64px 16px;
+}
+
+.trendino-404__code {
+	font-size: clamp(64px, 14vw, 140px);
+	font-weight: 800;
+	line-height: 1;
+	color: var(--trendino-primary);
+}
+
+.trendino-404__text {
+	color: var(--trendino-muted);
+	max-width: 480px;
+}
+
+.trendino-404__search {
+	width: min(100%, 420px);
+}
+
+/* ------------------------------------------------------------ Search form */
+
+.trendino-searchform {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+.trendino-searchform__input {
+	padding-inline-end: 46px;
+}
+
+.trendino-searchform__submit {
+	position: absolute;
+	inset-inline-end: 6px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 34px;
+	border-radius: calc(var(--trendino-radius) - 4px);
+	color: var(--trendino-muted);
+}
+
+.trendino-searchform__submit:hover {
+	color: var(--trendino-primary);
+}
+
+/* ------------------------------------------------------- Scroll-to-top FAB */
+
+.trendino-scroll-top.is-floating {
+	position: fixed;
+	inset-block-end: 88px;
+	inset-inline-end: 16px;
+	z-index: 80;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 42px;
+	height: 42px;
+	border-radius: 50%;
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	box-shadow: var(--trendino-shadow);
+	color: var(--trendino-secondary);
+}
+
+.trendino-scroll-top.is-floating svg {
+	transform: rotate(180deg);
+}
+
+.trendino-scroll-top.is-floating:hover {
+	background: var(--trendino-primary);
+	border-color: var(--trendino-primary);
+	color: #fff;
+}
+
+/* ------------------------------------------------------------- Responsive */
+
+@media (max-width: 1024px) {
+	.trendino-archive,
+	.trendino-singular,
+	.trendino-shop {
+		grid-template-columns: minmax(0, 1fr) !important;
+	}
+
+	.trendino-sidebar,
+	.trendino-shop__sidebar {
+		order: 3 !important;
+	}
+}
+
+@media (max-width: 767px) {
+	.trendino-entry {
+		padding: 16px;
+		border-radius: 0;
+		border-inline: 0;
+	}
+
+	.trendino-post-nav .nav-links {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.trendino-scroll-top.is-floating {
+		inset-block-end: 76px;
+	}
+}

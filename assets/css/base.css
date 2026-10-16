@@ -1,0 +1,428 @@
+/**
+ * Trendino — base layer.
+ *
+ * Reset, design tokens fallback, typography, buttons, forms, utilities.
+ * All colour/size values come from the CSS variables printed by
+ * trendino_root_css_variables(); the values below are only the compile-time
+ * fallbacks so the stylesheet is still usable standalone.
+ */
+
+:root {
+	/* Brand */
+	--trendino-primary: #e5152d;
+	--trendino-primary-dark: #c11026;
+	--trendino-primary-soft: #fdebee;
+	--trendino-secondary: #0d1b3e;
+	--trendino-secondary-dark: #091430;
+	--trendino-secondary-soft: #eaf0fb;
+	--trendino-accent: #1f5fd0;
+	--trendino-success: #01a049;
+	--trendino-warning: #f5a623;
+
+	/* Neutrals */
+	--trendino-text: #15192b;
+	--trendino-muted: #8a8fa3;
+	--trendino-border: #ebecf2;
+	--trendino-background: #f4f5f9;
+	--trendino-surface: #ffffff;
+	--trendino-footer-bg: #0d1b3e;
+	--trendino-footer-text: #c6cbe0;
+
+	/* Metrics */
+	--trendino-container: 1240px;
+	--trendino-font-size: 14px;
+	--trendino-radius: 10px;
+	--trendino-card-radius: 14px;
+
+	--trendino-font: "Vazirmatn", "IRANSans", "IRANYekan", -apple-system, BlinkMacSystemFont,
+		"Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans Arabic", sans-serif;
+
+	/* The reference uses very soft, wide shadows rather than borders. */
+	--trendino-shadow-sm: 0 1px 2px rgba(13, 27, 62, 0.05);
+	--trendino-shadow: 0 2px 14px rgba(13, 27, 62, 0.06);
+	--trendino-shadow-lg: 0 12px 40px rgba(13, 27, 62, 0.12);
+
+	--trendino-gap: 16px;
+	--trendino-section-gap: 32px;
+	--trendino-transition: 0.22s ease;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	font-family: var(--trendino-font);
+	font-size: var(--trendino-font-size);
+	line-height: 1.8;
+	color: var(--trendino-text);
+	background: var(--trendino-background);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+img,
+svg,
+video,
+canvas,
+iframe {
+	max-width: 100%;
+	display: block;
+}
+
+img {
+	height: auto;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+	transition: color var(--trendino-transition);
+}
+
+a:hover {
+	color: var(--trendino-primary);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0 0 0.6em;
+	line-height: 1.5;
+	font-weight: 700;
+	color: var(--trendino-secondary);
+}
+
+h1 { font-size: 1.85rem; }
+h2 { font-size: 1.45rem; }
+h3 { font-size: 1.2rem; }
+h4 { font-size: 1.05rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.9rem; }
+
+p {
+	margin: 0 0 1em;
+}
+
+ul,
+ol {
+	margin: 0;
+	padding: 0;
+}
+
+ul {
+	list-style: none;
+}
+
+figure {
+	margin: 0;
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+	color: inherit;
+}
+
+button {
+	cursor: pointer;
+	background: none;
+	border: 0;
+	padding: 0;
+}
+
+:focus-visible {
+	outline: 2px solid var(--trendino-primary);
+	outline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ Buttons */
+
+.trendino-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 42px;
+	padding: 0 20px;
+	border-radius: var(--trendino-radius);
+	font-size: 0.9rem;
+	font-weight: 700;
+	line-height: 1;
+	border: 1px solid transparent;
+	transition: background var(--trendino-transition), color var(--trendino-transition),
+		border-color var(--trendino-transition), box-shadow var(--trendino-transition);
+	white-space: nowrap;
+}
+
+.trendino-button--primary {
+	background: var(--trendino-primary);
+	color: #fff;
+}
+
+.trendino-button--primary:hover {
+	background: var(--trendino-primary-dark);
+	color: #fff;
+}
+
+.trendino-button--outline {
+	border-color: var(--trendino-primary);
+	color: var(--trendino-primary);
+	background: transparent;
+}
+
+.trendino-button--outline:hover {
+	background: var(--trendino-primary);
+	color: #fff;
+}
+
+.trendino-button--soft {
+	background: var(--trendino-primary-soft);
+	color: var(--trendino-primary);
+}
+
+.trendino-button--ghost {
+	background: transparent;
+	color: var(--trendino-muted);
+	border-color: var(--trendino-border);
+}
+
+.trendino-button--ghost:hover {
+	color: var(--trendino-primary);
+	border-color: var(--trendino-primary);
+}
+
+.trendino-button--block {
+	width: 100%;
+}
+
+.trendino-button--sm {
+	min-height: 34px;
+	padding: 0 14px;
+	font-size: 0.8rem;
+}
+
+.trendino-button--lg {
+	min-height: 52px;
+	padding: 0 28px;
+	font-size: 1rem;
+}
+
+.trendino-button[disabled],
+.trendino-button.is-loading {
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+/* ------------------------------------------------------------------- Forms */
+
+.trendino-input,
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+input[type="number"],
+input[type="password"],
+textarea,
+select {
+	width: 100%;
+	min-height: 44px;
+	padding: 8px 14px;
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-radius);
+	background: var(--trendino-surface);
+	color: var(--trendino-text);
+	transition: border-color var(--trendino-transition), box-shadow var(--trendino-transition);
+}
+
+textarea {
+	min-height: 120px;
+	line-height: 1.8;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+	outline: none;
+	border-color: var(--trendino-primary);
+	box-shadow: 0 0 0 3px var(--trendino-primary-soft);
+}
+
+input::placeholder,
+textarea::placeholder {
+	color: var(--trendino-muted);
+	opacity: 1;
+}
+
+/* --------------------------------------------------------------- Utilities */
+
+.trendino-container {
+	width: 100%;
+	max-width: var(--trendino-container);
+	margin-inline: auto;
+	padding-inline: 16px;
+}
+
+.screen-reader-text {
+	border: 0;
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	width: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute !important;
+	word-wrap: normal !important;
+}
+
+.skip-link {
+	position: absolute;
+	inset-inline-start: -9999px;
+	top: 0;
+	z-index: 1000;
+	background: var(--trendino-surface);
+	padding: 12px 20px;
+	border-radius: 0 0 var(--trendino-radius) var(--trendino-radius);
+}
+
+.skip-link:focus {
+	inset-inline-start: 16px;
+	clip: auto;
+	clip-path: none;
+	width: auto;
+	height: auto;
+}
+
+.trendino-truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.trendino-clamp-2,
+.trendino-clamp-3 {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.trendino-clamp-2 { -webkit-line-clamp: 2; }
+.trendino-clamp-3 { -webkit-line-clamp: 3; }
+
+.trendino-card {
+	background: var(--trendino-surface);
+	border-radius: var(--trendino-card-radius);
+	border: 1px solid var(--trendino-border);
+}
+
+/* Numeric strings stay LTR even inside RTL paragraphs. */
+.trendino-ltr,
+.woocommerce-Price-amount bdi {
+	unicode-bidi: isolate;
+}
+
+/* --------------------------------------------------------- Loading / empty */
+
+.trendino-empty {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	padding: 48px 20px;
+	text-align: center;
+	color: var(--trendino-muted);
+	background: var(--trendino-surface);
+	border: 1px dashed var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+}
+
+.trendino-empty__icon {
+	color: var(--trendino-border);
+}
+
+.trendino-empty__text {
+	margin: 0;
+}
+
+.trendino-skeleton {
+	position: relative;
+	overflow: hidden;
+	background: var(--trendino-background);
+	border-radius: var(--trendino-radius);
+}
+
+.trendino-skeleton::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	transform: translateX(-100%);
+	background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+	animation: trendino-shimmer 1.4s infinite;
+}
+
+@keyframes trendino-shimmer {
+	100% { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+/* --------------------------------------------------- Responsive base sizes */
+
+@media (max-width: 1024px) {
+	:root {
+		--trendino-section-gap: 32px;
+	}
+
+	h1 { font-size: 1.6rem; }
+	h2 { font-size: 1.3rem; }
+}
+
+@media (max-width: 767px) {
+	:root {
+		--trendino-gap: 12px;
+		--trendino-section-gap: 24px;
+		--trendino-font-size: 14px;
+	}
+
+	body {
+		line-height: 1.75;
+	}
+
+	h1 { font-size: 1.35rem; }
+	h2 { font-size: 1.1rem; }
+	h3 { font-size: 1rem; }
+
+	.trendino-container {
+		padding-inline: 12px;
+	}
+
+	.trendino-button {
+		min-height: 40px;
+		padding: 0 16px;
+	}
+}

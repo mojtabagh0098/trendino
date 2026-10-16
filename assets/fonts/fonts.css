@@ -1,0 +1,41 @@
+/**
+ * Trendino webfonts.
+ *
+ * Drop the Vazirmatn woff2 files in this folder to self-host them (recommended for
+ * performance and GDPR). If the files are absent the @font-face rules simply fail and
+ * the stack in base.css falls back to the next system/Persian font.
+ *
+ * Download: https://github.com/rastikerdar/vazirmatn/releases
+ */
+
+@font-face {
+	font-family: "Vazirmatn";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url("./Vazirmatn-Regular.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Vazirmatn";
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url("./Vazirmatn-Medium.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Vazirmatn";
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src: url("./Vazirmatn-Bold.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "Vazirmatn";
+	font-style: normal;
+	font-weight: 800;
+	font-display: swap;
+	src: url("./Vazirmatn-ExtraBold.woff2") format("woff2");
+}

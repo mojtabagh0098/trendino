@@ -1,0 +1,429 @@
+/**
+ * Trendino — category cards + category showcase panel.
+ */
+
+/* ------------------------------------------------------------ Section box */
+
+.trendino-section-box {
+	background: var(--trendino-surface);
+	border-radius: var(--trendino-card-radius);
+	padding: 18px 20px 20px;
+}
+
+/* --------------------------------------------------------- Category cards */
+
+.trendino-category-cards-wrap {
+	position: relative;
+}
+
+.trendino-category-card {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	height: 100%;
+	text-align: center;
+}
+
+.trendino-category-card__media {
+	position: relative;
+	display: grid;
+	place-items: center;
+	overflow: hidden;
+	border-radius: var(--trendino-card-radius);
+	background: var(--trendino-surface);
+	aspect-ratio: 1 / 1;
+	padding: 14px;
+	transition: box-shadow var(--trendino-transition);
+}
+
+.trendino-category-card:hover .trendino-category-card__media {
+	box-shadow: var(--trendino-shadow);
+}
+
+.trendino-category-card__img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	transition: transform 0.4s ease;
+}
+
+.trendino-category-card:hover .trendino-category-card__img {
+	transform: scale(1.06);
+}
+
+.trendino-category-card__img.is-placeholder {
+	opacity: 0.45;
+}
+
+.trendino-category-card__body {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	align-items: center;
+}
+
+.trendino-category-card__title {
+	margin: 0;
+	font-size: 0.88rem;
+	font-weight: 700;
+	color: var(--trendino-secondary);
+}
+
+.trendino-category-card:hover .trendino-category-card__title {
+	color: var(--trendino-primary);
+}
+
+.trendino-category-card__subtitle {
+	font-size: 0.74rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-category-card__children {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	margin-top: 4px;
+}
+
+.trendino-category-card__child {
+	font-size: 0.76rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-category-card__child:hover {
+	color: var(--trendino-primary);
+}
+
+/* Card style variants */
+
+.trendino-category-card--boxed {
+	padding: 14px;
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+	transition: box-shadow var(--trendino-transition), border-color var(--trendino-transition);
+}
+
+.trendino-category-card--boxed:hover {
+	border-color: transparent;
+	box-shadow: var(--trendino-shadow);
+}
+
+.trendino-category-card--circle .trendino-category-card__media {
+	border-radius: 50%;
+	width: 78%;
+	margin-inline: auto;
+}
+
+.trendino-category-card--overlay {
+	position: relative;
+}
+
+.trendino-category-card--overlay .trendino-category-card__media {
+	aspect-ratio: 3 / 4;
+	padding: 0;
+}
+
+.trendino-category-card--overlay .trendino-category-card__img {
+	object-fit: cover;
+}
+
+.trendino-category-card--overlay .trendino-category-card__body {
+	position: absolute;
+	inset-inline: 10px;
+	inset-block-end: 10px;
+	padding: 10px;
+	border-radius: var(--trendino-radius);
+	background: rgba(255, 255, 255, 0.92);
+	backdrop-filter: blur(4px);
+}
+
+.trendino-category-card--list {
+	flex-direction: row;
+	align-items: center;
+	gap: 12px;
+	text-align: start;
+	padding: 10px;
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+}
+
+.trendino-category-card--list .trendino-category-card__media {
+	flex: 0 0 64px;
+	aspect-ratio: 1 / 1;
+}
+
+/* ------------------------------------------------------- Category showcase */
+
+.trendino-showcase {
+	display: grid;
+	grid-template-columns: var(--trendino-panel-width, 250px) minmax(0, 1fr);
+	gap: var(--trendino-gap);
+	background: var(--trendino-surface);
+	border-radius: var(--trendino-card-radius);
+	padding: 16px;
+	align-items: stretch;
+}
+
+.trendino-showcase.panel-end {
+	grid-template-columns: minmax(0, 1fr) var(--trendino-panel-width, 250px);
+}
+
+.trendino-showcase.panel-end .trendino-showcase__panel {
+	order: 2;
+}
+
+.trendino-showcase__panel {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 18px;
+	border-radius: var(--trendino-card-radius);
+	background: var(--trendino-primary-soft);
+	text-align: center;
+}
+
+.trendino-showcase__title {
+	margin: 0;
+	font-size: 1.05rem;
+	font-weight: 800;
+	color: var(--trendino-secondary);
+}
+
+.trendino-showcase__subtitle {
+	margin: 0;
+	font-size: 0.8rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-showcase__image {
+	width: 100%;
+	border-radius: var(--trendino-radius);
+	object-fit: contain;
+}
+
+.trendino-showcase__links {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 6px;
+	margin-top: auto;
+}
+
+.trendino-showcase__link {
+	padding: 5px 12px;
+	border-radius: 999px;
+	background: var(--trendino-surface);
+	font-size: 0.76rem;
+	color: var(--trendino-text);
+}
+
+.trendino-showcase__link:hover {
+	background: var(--trendino-primary);
+	color: #fff;
+}
+
+.trendino-showcase__button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 5px;
+	min-height: 38px;
+	padding-inline: 16px;
+	border-radius: var(--trendino-radius);
+	background: var(--trendino-primary);
+	color: #fff;
+	font-size: 0.82rem;
+	font-weight: 700;
+}
+
+.trendino-showcase__button:hover {
+	background: var(--trendino-primary-dark);
+	color: #fff;
+}
+
+.trendino-showcase__products {
+	position: relative;
+	min-width: 0;
+}
+
+/* -------------------------------------------------------------- Responsive */
+
+@media (max-width: 1024px) {
+	.trendino-showcase,
+	.trendino-showcase.panel-end {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.trendino-showcase__panel {
+		order: 0 !important;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		text-align: start;
+		gap: 14px;
+	}
+
+	.trendino-showcase__image {
+		max-width: 120px;
+	}
+
+	.trendino-showcase__links {
+		margin-top: 0;
+	}
+}
+
+@media (max-width: 767px) {
+	.trendino-section-box {
+		padding: 14px 12px;
+		border-radius: var(--trendino-radius);
+	}
+
+	.trendino-category-card__title {
+		font-size: 0.78rem;
+	}
+
+	.trendino-category-card__subtitle,
+	.trendino-category-card__children {
+		display: none;
+	}
+
+	.trendino-showcase {
+		padding: 12px;
+	}
+
+	.trendino-showcase__panel {
+		flex-direction: column;
+		text-align: center;
+		padding: 14px;
+	}
+
+	.trendino-showcase__image {
+		max-width: 160px;
+		margin-inline: auto;
+	}
+}
+
+/* =================================================== Quad boxes ("باکس سلیقه")
+ *
+ * A row of panels, each with a heading and a small product grid. Used between
+ * the promo banner and the mobile section on the homepage.
+ */
+
+.trendino-quad-boxes-wrap {
+	position: relative;
+}
+
+.trendino-quad-boxes {
+	display: grid;
+	grid-template-columns: repeat(var(--trendino-columns, 4), minmax(0, 1fr));
+	gap: var(--trendino-gap);
+}
+
+.trendino-quad-box {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding: 14px;
+	border-radius: var(--trendino-card-radius);
+	background: var(--trendino-surface);
+	min-width: 0;
+}
+
+.trendino-quad-box__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.trendino-quad-box__text {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.trendino-quad-box__title {
+	margin: 0;
+	font-size: 0.86rem;
+	font-weight: 700;
+	color: var(--trendino-secondary);
+}
+
+.trendino-quad-box__subtitle {
+	font-size: 0.72rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-quad-box__arrow {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	flex: 0 0 auto;
+	border-radius: 50%;
+	background: var(--trendino-background);
+	color: var(--trendino-muted);
+	transition: background var(--trendino-transition), color var(--trendino-transition);
+}
+
+.trendino-quad-box__arrow:hover {
+	background: var(--trendino-primary);
+	color: #fff;
+}
+
+.trendino-quad-box__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+}
+
+.trendino-quad-box__item {
+	display: grid;
+	place-items: center;
+	gap: 4px;
+	padding: 8px;
+	aspect-ratio: 1 / 1;
+	border-radius: var(--trendino-radius);
+	background: var(--trendino-background);
+	overflow: hidden;
+}
+
+.trendino-quad-box__img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	transition: transform 0.35s ease;
+}
+
+.trendino-quad-box__item:hover .trendino-quad-box__img {
+	transform: scale(1.07);
+}
+
+.trendino-quad-box__img.is-placeholder {
+	opacity: 0.45;
+}
+
+.trendino-quad-box__price {
+	font-size: 0.7rem;
+	font-weight: 700;
+	color: var(--trendino-secondary);
+}
+
+@media (max-width: 767px) {
+	.trendino-quad-box {
+		padding: 10px;
+		gap: 8px;
+	}
+
+	.trendino-quad-box__title {
+		font-size: 0.8rem;
+	}
+
+	.trendino-quad-box__grid {
+		gap: 6px;
+	}
+}

@@ -1,0 +1,192 @@
+/**
+ * Trendino — circular "story" categories row.
+ */
+
+.trendino-stories-wrap {
+	position: relative;
+}
+
+.trendino-stories {
+	display: flex;
+	align-items: flex-start;
+	gap: 6px;
+	margin: 0;
+}
+
+/* Carousel mode: horizontal scroll with snapping. */
+.trendino-stories.is-carousel {
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	-webkit-overflow-scrolling: touch;
+	scrollbar-width: none;
+	scroll-behavior: smooth;
+}
+
+.trendino-stories.is-carousel::-webkit-scrollbar {
+	display: none;
+}
+
+/* Grid mode: wraps onto multiple rows. */
+.trendino-stories.is-grid {
+	display: grid;
+	grid-template-columns: repeat(var(--trendino-columns, 10), minmax(0, 1fr));
+	gap: 12px 8px;
+}
+
+.trendino-story {
+	flex: 0 0 auto;
+	scroll-snap-align: start;
+	width: var(--trendino-story-size, 88px);
+}
+
+.trendino-stories.is-grid .trendino-story {
+	width: auto;
+}
+
+.trendino-story__link {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	text-align: center;
+}
+
+.trendino-story__ring {
+	position: relative;
+	display: grid;
+	place-items: center;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	padding: 2px;
+	border-radius: 50%;
+	background: linear-gradient(135deg, var(--trendino-primary), var(--trendino-accent));
+	transition: transform var(--trendino-transition), box-shadow var(--trendino-transition);
+}
+
+.trendino-stories.shape-rounded .trendino-story__ring,
+.trendino-stories.shape-rounded .trendino-story__media,
+.trendino-stories.shape-rounded .trendino-story__img {
+	border-radius: var(--trendino-card-radius);
+}
+
+.trendino-stories.shape-square .trendino-story__ring,
+.trendino-stories.shape-square .trendino-story__media,
+.trendino-stories.shape-square .trendino-story__img {
+	border-radius: 4px;
+}
+
+.trendino-stories.shape-plain .trendino-story__ring {
+	background: var(--trendino-border);
+	padding: 1px;
+}
+
+.trendino-story__media {
+	display: grid;
+	place-items: center;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	border-radius: 50%;
+	background: var(--trendino-surface);
+	padding: 4px;
+}
+
+.trendino-story__img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	border-radius: 50%;
+	transition: transform 0.35s ease;
+}
+
+.trendino-story__img.is-placeholder {
+	object-fit: cover;
+	opacity: 0.5;
+}
+
+.trendino-story__badge {
+	position: absolute;
+	inset-block-start: -2px;
+	inset-inline-end: -2px;
+	padding: 1px 6px;
+	border-radius: 999px;
+	background: var(--trendino-primary);
+	color: #fff;
+	font-size: 0.6rem;
+	font-weight: 700;
+	box-shadow: 0 0 0 2px var(--trendino-surface);
+}
+
+.trendino-story__title {
+	font-size: 0.75rem;
+	line-height: 1.6;
+	color: var(--trendino-text);
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+/* Hover effects */
+
+.trendino-stories.hover-zoom .trendino-story__link:hover .trendino-story__img {
+	transform: scale(1.08);
+}
+
+.trendino-stories.hover-lift .trendino-story__link:hover .trendino-story__ring {
+	transform: translateY(-4px);
+	box-shadow: var(--trendino-shadow);
+}
+
+.trendino-stories.hover-glow .trendino-story__link:hover .trendino-story__ring {
+	box-shadow: 0 0 0 4px var(--trendino-primary-soft);
+}
+
+.trendino-story__link:hover .trendino-story__title {
+	color: var(--trendino-primary);
+}
+
+/* Floating arrows for the carousel mode. */
+
+.trendino-carousel__nav.is-floating {
+	position: absolute;
+	inset-inline: 0;
+	top: calc(var(--trendino-story-size, 88px) / 2);
+	transform: translateY(-50%);
+	display: flex;
+	justify-content: space-between;
+	pointer-events: none;
+	z-index: 3;
+}
+
+.trendino-carousel__nav.is-floating .trendino-carousel__arrow {
+	pointer-events: auto;
+	box-shadow: var(--trendino-shadow);
+}
+
+@media (max-width: 767px) {
+	.trendino-story {
+		width: var(--trendino-story-size-mobile, 70px);
+	}
+
+	.trendino-stories {
+		gap: 6px;
+		margin-inline: -12px;
+		padding-inline: 12px;
+	}
+
+	.trendino-stories.is-grid {
+		grid-template-columns: repeat(var(--trendino-columns-mobile, var(--trendino-columns, 4)), minmax(0, 1fr));
+		margin-inline: 0;
+		padding-inline: 0;
+	}
+
+	.trendino-story__title {
+		font-size: 0.68rem;
+		-webkit-line-clamp: 1;
+	}
+
+	.trendino-carousel__nav.is-floating {
+		display: none;
+	}
+}

@@ -1,0 +1,153 @@
+/**
+ * Trendino — section headings (shared by every homepage section).
+ */
+
+.trendino-section-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 16px;
+}
+
+.trendino-section-head__text {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+}
+
+.trendino-section-head__icon {
+	display: inline-flex;
+	color: var(--trendino-primary);
+	flex: 0 0 auto;
+}
+
+.trendino-section-head__title {
+	margin: 0;
+	font-size: 1.05rem;
+	font-weight: 800;
+	line-height: 1.6;
+	color: var(--trendino-secondary);
+	white-space: nowrap;
+}
+
+/* Accent heading, used by the "amazing offers" strip. */
+.trendino-section-head.is-accent .trendino-section-head__title,
+.trendino-section-head.is-accent .trendino-section-head__icon {
+	color: var(--trendino-primary);
+}
+
+/*
+ * The reference places the deal countdown inline in the heading row, between the
+ * title and the "see all" link, with a short caption before it.
+ */
+.trendino-section-head__meta {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	flex: 0 0 auto;
+}
+
+.trendino-section-head__meta-label {
+	font-size: 0.76rem;
+	color: var(--trendino-muted);
+	white-space: nowrap;
+}
+
+.trendino-section-head__subtitle {
+	font-size: 0.82rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-section-head__divider {
+	flex: 1 1 auto;
+	height: 1px;
+	background: var(--trendino-border);
+}
+
+.trendino-section-head__actions {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	flex: 0 0 auto;
+}
+
+.trendino-section-head__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 0.78rem;
+	font-weight: 500;
+	color: var(--trendino-muted);
+	white-space: nowrap;
+}
+
+.trendino-section-head__link:hover {
+	color: var(--trendino-primary);
+}
+
+.trendino-section-head__link svg {
+	transition: transform var(--trendino-transition);
+}
+
+.trendino-section-head__link:hover svg {
+	transform: translateX(-3px);
+}
+
+[dir="ltr"] .trendino-section-head__link:hover svg {
+	transform: translateX(3px);
+}
+
+/* ----------------------------------------------------------- Alignments */
+
+.trendino-section-head.is-align-center {
+	flex-direction: column;
+	text-align: center;
+}
+
+.trendino-section-head.is-align-center .trendino-section-head__text {
+	flex-direction: column;
+	gap: 4px;
+}
+
+.trendino-section-head.is-align-end {
+	flex-direction: row-reverse;
+}
+
+/* -------------------------------------------- Standalone heading widget */
+
+.trendino-section-heading .trendino-section-head {
+	margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+	.trendino-section-head {
+		margin-bottom: 12px;
+		gap: 8px;
+		flex-wrap: wrap;
+	}
+
+	/* Countdown drops to its own line under the title on phones. */
+	.trendino-section-head__meta {
+		order: 3;
+		width: 100%;
+		justify-content: flex-start;
+	}
+
+	.trendino-section-head__meta-label {
+		display: none;
+	}
+
+	.trendino-section-head__title {
+		font-size: 1rem;
+	}
+
+	.trendino-section-head__subtitle {
+		display: none;
+	}
+
+	.trendino-section-head__link {
+		font-size: 0.75rem;
+	}
+}

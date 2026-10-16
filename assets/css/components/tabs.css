@@ -1,0 +1,208 @@
+/**
+ * Trendino — product tabs.
+ */
+
+.trendino-tabs {
+	position: relative;
+}
+
+.trendino-tabs__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 16px;
+	flex-wrap: wrap;
+}
+
+.trendino-tabs__title-wrap {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	flex: 0 0 auto;
+}
+
+.trendino-tabs__icon {
+	display: inline-flex;
+	color: var(--trendino-primary);
+}
+
+.trendino-tabs__title {
+	margin: 0;
+	font-size: 1.1rem;
+	font-weight: 700;
+	color: var(--trendino-secondary);
+	white-space: nowrap;
+}
+
+.trendino-tabs__nav {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	flex: 0 1 auto;
+	margin-inline-start: auto;
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+/* Pill rail: the whole nav sits in a light rounded track (reference style). */
+.trendino-tabs.style-pills .trendino-tabs__nav {
+	padding: 4px;
+	border-radius: 999px;
+	background: var(--trendino-background);
+}
+
+.trendino-tabs.style-pills .trendino-tabs__button.is-active {
+	background: var(--trendino-surface);
+	color: var(--trendino-primary);
+	box-shadow: var(--trendino-shadow-sm);
+}
+
+.trendino-tabs__nav::-webkit-scrollbar {
+	display: none;
+}
+
+.trendino-tabs__button {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	height: 34px;
+	padding-inline: 14px;
+	border-radius: 999px;
+	font-size: 0.82rem;
+	font-weight: 500;
+	color: var(--trendino-muted);
+	white-space: nowrap;
+	transition: background var(--trendino-transition), color var(--trendino-transition);
+}
+
+.trendino-tabs__button:hover {
+	color: var(--trendino-primary);
+}
+
+.trendino-tabs__button.is-active {
+	background: var(--trendino-primary-soft);
+	color: var(--trendino-primary);
+	font-weight: 700;
+}
+
+/* Underline variant */
+
+.trendino-tabs.style-underline .trendino-tabs__nav {
+	gap: 18px;
+	border-bottom: 1px solid var(--trendino-border);
+}
+
+.trendino-tabs.style-underline .trendino-tabs__button {
+	position: relative;
+	height: 40px;
+	padding-inline: 0;
+	border-radius: 0;
+	background: none;
+}
+
+.trendino-tabs.style-underline .trendino-tabs__button::after {
+	content: "";
+	position: absolute;
+	inset-inline: 0;
+	inset-block-end: -1px;
+	height: 2px;
+	background: var(--trendino-primary);
+	transform: scaleX(0);
+	transition: transform var(--trendino-transition);
+}
+
+.trendino-tabs.style-underline .trendino-tabs__button.is-active::after {
+	transform: scaleX(1);
+}
+
+/* Boxed variant */
+
+.trendino-tabs.style-boxed .trendino-tabs__button {
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-radius);
+	background: var(--trendino-surface);
+}
+
+.trendino-tabs.style-boxed .trendino-tabs__button.is-active {
+	border-color: var(--trendino-primary);
+	background: var(--trendino-primary);
+	color: #fff;
+}
+
+/* Panels */
+
+.trendino-tabs__panel {
+	position: relative;
+}
+
+.trendino-tabs__panel[hidden] {
+	display: none;
+}
+
+.trendino-tabs__panel.is-active {
+	animation: trendino-fade-in 0.28s ease;
+}
+
+@keyframes trendino-fade-in {
+	from { opacity: 0; transform: translateY(6px); }
+	to { opacity: 1; transform: none; }
+}
+
+/* ------------------------------------------------- Inline CTA card (in track) */
+
+.trendino-cta-card {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	height: 100%;
+	min-height: 200px;
+	padding: 20px;
+	text-align: center;
+	border-radius: var(--trendino-card-radius);
+	background: var(--trendino-primary-soft);
+	color: var(--trendino-primary);
+	font-weight: 700;
+	font-size: 0.85rem;
+}
+
+.trendino-cta-card:hover {
+	background: var(--trendino-primary);
+	color: #fff;
+}
+
+.trendino-cta-card__icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	background: var(--trendino-surface);
+	color: var(--trendino-primary);
+}
+
+@media (max-width: 767px) {
+	.trendino-tabs__head {
+		gap: 8px;
+		margin-bottom: 12px;
+	}
+
+	.trendino-tabs__title {
+		font-size: 0.95rem;
+	}
+
+	.trendino-tabs__nav {
+		width: 100%;
+		margin-inline: -12px;
+		padding-inline: 12px;
+	}
+
+	.trendino-tabs__button {
+		height: 30px;
+		padding-inline: 10px;
+		font-size: 0.75rem;
+	}
+}

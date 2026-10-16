@@ -1,0 +1,410 @@
+/**
+ * Trendino — WooCommerce core styling (archives, single product, cart, checkout,
+ * my-account, notices). Kept to layout + token usage so WooCommerce updates stay safe.
+ */
+
+/* ------------------------------------------------------------- Shop layout */
+
+.trendino-shop__main {
+	min-width: 0;
+}
+
+.trendino-shop-toolbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	flex-wrap: wrap;
+	margin-bottom: 16px;
+	padding: 12px 16px;
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+}
+
+.woocommerce-result-count {
+	margin: 0;
+	font-size: 0.8rem;
+	color: var(--trendino-muted);
+}
+
+.woocommerce-ordering select {
+	min-height: 38px;
+	font-size: 0.82rem;
+	width: auto;
+}
+
+/* -------------------------------------------------------------- Loop grid */
+
+.woocommerce ul.products {
+	display: grid;
+	grid-template-columns: repeat(var(--trendino-shop-columns, 4), minmax(0, 1fr));
+	gap: var(--trendino-gap);
+	margin: 0;
+	padding: 0;
+}
+
+.woocommerce ul.products::before,
+.woocommerce ul.products::after {
+	display: none;
+}
+
+.woocommerce ul.products li.product {
+	width: auto !important;
+	float: none !important;
+	margin: 0 !important;
+	clear: none !important;
+}
+
+.woocommerce .woocommerce-pagination ul {
+	display: flex;
+	justify-content: center;
+	gap: 6px;
+	border: 0;
+	margin-top: 24px;
+}
+
+.woocommerce .woocommerce-pagination ul li {
+	border: 0;
+	margin: 0;
+}
+
+.woocommerce .woocommerce-pagination ul li a,
+.woocommerce .woocommerce-pagination ul li span {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 40px;
+	height: 40px;
+	padding: 0 10px;
+	border-radius: var(--trendino-radius);
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	font-size: 0.85rem;
+	font-weight: 700;
+}
+
+.woocommerce .woocommerce-pagination ul li span.current,
+.woocommerce .woocommerce-pagination ul li a:hover {
+	background: var(--trendino-primary);
+	border-color: var(--trendino-primary);
+	color: #fff;
+}
+
+/* ---------------------------------------------------------- Single product */
+
+.single-product div.product {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+	gap: 28px;
+	padding: 20px;
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+}
+
+.single-product div.product .woocommerce-product-gallery {
+	float: none !important;
+	width: auto !important;
+	margin: 0 !important;
+}
+
+.single-product div.product .summary {
+	float: none !important;
+	width: auto !important;
+	margin: 0 !important;
+}
+
+.single-product div.product .product_title {
+	font-size: 1.35rem;
+	margin-bottom: 12px;
+}
+
+.single-product div.product p.price,
+.single-product div.product span.price {
+	font-size: 1.35rem;
+	font-weight: 800;
+	color: var(--trendino-secondary);
+}
+
+.single-product div.product p.price del {
+	font-size: 0.85rem;
+	font-weight: 400;
+	color: var(--trendino-muted);
+}
+
+.single-product div.product p.price ins {
+	text-decoration: none;
+}
+
+.single-product .woocommerce-product-details__short-description {
+	font-size: 0.85rem;
+	line-height: 2;
+	color: var(--trendino-muted);
+	padding-block: 12px;
+	border-block: 1px solid var(--trendino-border);
+	margin-block: 12px;
+}
+
+.single-product form.cart {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+	margin-block: 16px !important;
+}
+
+.single-product .quantity input[type="number"] {
+	width: 84px;
+	text-align: center;
+}
+
+.woocommerce div.product form.cart .variations {
+	margin-bottom: 12px;
+}
+
+.woocommerce div.product .woocommerce-tabs {
+	grid-column: 1 / -1;
+	margin-top: 8px;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs {
+	display: flex;
+	gap: 6px;
+	padding: 0;
+	margin: 0 0 16px;
+	border-bottom: 1px solid var(--trendino-border);
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs::before {
+	display: none;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li {
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	border-radius: 0;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li::before,
+.woocommerce div.product .woocommerce-tabs ul.tabs li::after {
+	display: none;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li a {
+	display: inline-flex;
+	align-items: center;
+	height: 42px;
+	padding-inline: 16px;
+	font-size: 0.86rem;
+	font-weight: 700;
+	color: var(--trendino-muted);
+	border-bottom: 2px solid transparent;
+}
+
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active a {
+	color: var(--trendino-primary);
+	border-bottom-color: var(--trendino-primary);
+}
+
+.related.products,
+.upsells.products {
+	grid-column: 1 / -1;
+}
+
+/* ----------------------------------------------------- Buttons + notices */
+
+.woocommerce #respond input#submit,
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce a.button.alt,
+.woocommerce button.button.alt {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	min-height: 44px;
+	padding: 0 22px;
+	border-radius: var(--trendino-radius);
+	background: var(--trendino-primary);
+	color: #fff;
+	font-size: 0.88rem;
+	font-weight: 700;
+	line-height: 1;
+	transition: background var(--trendino-transition);
+}
+
+.woocommerce #respond input#submit:hover,
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover,
+.woocommerce a.button.alt:hover,
+.woocommerce button.button.alt:hover {
+	background: var(--trendino-primary-dark);
+	color: #fff;
+}
+
+.woocommerce .woocommerce-message,
+.woocommerce .woocommerce-info,
+.woocommerce .woocommerce-error {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 14px 18px;
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+	background: var(--trendino-surface);
+	font-size: 0.85rem;
+	list-style: none;
+}
+
+.woocommerce .woocommerce-message::before,
+.woocommerce .woocommerce-info::before,
+.woocommerce .woocommerce-error::before {
+	display: none;
+}
+
+.woocommerce .woocommerce-message {
+	border-inline-start: 4px solid var(--trendino-success);
+}
+
+.woocommerce .woocommerce-info {
+	border-inline-start: 4px solid var(--trendino-accent);
+}
+
+.woocommerce .woocommerce-error {
+	border-inline-start: 4px solid var(--trendino-primary);
+}
+
+/* ------------------------------------------------------- Cart / checkout */
+
+.woocommerce table.shop_table {
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+	border-collapse: separate;
+	overflow: hidden;
+	background: var(--trendino-surface);
+	font-size: 0.85rem;
+}
+
+.woocommerce table.shop_table th {
+	font-size: 0.82rem;
+	color: var(--trendino-muted);
+	font-weight: 700;
+}
+
+.woocommerce-cart .cart-collaterals .cart_totals,
+.woocommerce-checkout #order_review,
+.woocommerce-checkout .woocommerce-checkout-review-order {
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+	padding: 18px;
+}
+
+.woocommerce form .form-row label {
+	font-size: 0.82rem;
+	font-weight: 500;
+	margin-bottom: 4px;
+}
+
+.woocommerce-checkout #payment {
+	background: var(--trendino-background);
+	border-radius: var(--trendino-card-radius);
+}
+
+.woocommerce-checkout #payment ul.payment_methods {
+	border-bottom: 1px solid var(--trendino-border);
+}
+
+/* --------------------------------------------------------- My account */
+
+.woocommerce-account .woocommerce-MyAccount-navigation {
+	width: 240px;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation ul {
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+	overflow: hidden;
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation li a {
+	display: block;
+	padding: 12px 16px;
+	font-size: 0.85rem;
+	border-bottom: 1px solid var(--trendino-border);
+}
+
+.woocommerce-account .woocommerce-MyAccount-navigation li.is-active a {
+	background: var(--trendino-primary-soft);
+	color: var(--trendino-primary);
+	font-weight: 700;
+}
+
+.woocommerce-account .woocommerce-MyAccount-content {
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+	padding: 20px;
+	font-size: 0.86rem;
+}
+
+/* --------------------------------------------------------------- Ratings */
+
+.woocommerce .star-rating span::before,
+.woocommerce p.stars a::before {
+	color: var(--trendino-warning);
+}
+
+/* ------------------------------------------------------------ Responsive */
+
+@media (max-width: 1024px) {
+	.woocommerce ul.products {
+		grid-template-columns: repeat(var(--trendino-shop-columns-tablet, 3), minmax(0, 1fr));
+	}
+
+	.single-product div.product {
+		grid-template-columns: minmax(0, 1fr);
+		gap: 18px;
+	}
+}
+
+@media (max-width: 767px) {
+	.woocommerce ul.products {
+		grid-template-columns: repeat(var(--trendino-shop-columns-mobile, 2), minmax(0, 1fr));
+	}
+
+	.trendino-shop-toolbar {
+		padding: 10px 12px;
+		font-size: 0.78rem;
+	}
+
+	.single-product div.product {
+		padding: 14px;
+		border-radius: var(--trendino-radius);
+	}
+
+	.single-product div.product .product_title {
+		font-size: 1.05rem;
+	}
+
+	.woocommerce-account .woocommerce-MyAccount-navigation,
+	.woocommerce-account .woocommerce-MyAccount-content {
+		width: 100%;
+		float: none;
+	}
+
+	.woocommerce table.shop_table_responsive tr td {
+		font-size: 0.8rem;
+	}
+
+	/* Sticky add-to-cart bar space above the bottom nav. */
+	.single-product form.cart {
+		gap: 8px;
+	}
+}

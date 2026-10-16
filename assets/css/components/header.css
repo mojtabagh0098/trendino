@@ -1,0 +1,1085 @@
+/**
+ * Trendino — header, search, actions, menus, mobile drawer, bottom nav.
+ */
+
+.trendino-header {
+	position: relative;
+	z-index: 90;
+	background: var(--trendino-surface);
+	border-bottom: 1px solid var(--trendino-border);
+}
+
+.trendino-header.is-sticky {
+	position: sticky;
+	top: 0;
+	transition: transform 0.28s ease, box-shadow var(--trendino-transition);
+}
+
+.trendino-header.is-stuck {
+	box-shadow: var(--trendino-shadow);
+}
+
+.trendino-header.is-hidden {
+	transform: translateY(-100%);
+}
+
+/* ------------------------------------------------- Announcement / promo bar */
+
+.trendino-announce {
+	position: relative;
+	background: var(--trendino-secondary);
+	color: #fff;
+	font-size: 0.78rem;
+}
+
+.trendino-announce__inner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	min-height: 36px;
+	padding-inline: 44px;
+	text-align: center;
+}
+
+.trendino-announce__highlight {
+	color: var(--trendino-primary);
+	font-weight: 700;
+}
+
+.trendino-announce__link {
+	font-weight: 700;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+
+.trendino-announce__close {
+	position: absolute;
+	inset-inline-start: 12px;
+	top: 50%;
+	transform: translateY(-50%);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.trendino-announce__close:hover {
+	background: rgba(255, 255, 255, 0.12);
+	color: #fff;
+}
+
+/* ----------------------------------------------------------------- Top bar */
+
+.trendino-header__topbar {
+	border-bottom: 1px solid var(--trendino-border);
+	font-size: 0.78rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-topbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	min-height: 40px;
+}
+
+.trendino-topbar__links {
+	display: flex;
+	align-items: center;
+	gap: 18px;
+	margin: 0;
+}
+
+.trendino-topbar__links a,
+.trendino-topbar__message {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.trendino-topbar__end {
+	display: inline-flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.trendino-topbar__phone {
+	font-weight: 700;
+	color: var(--trendino-secondary);
+}
+
+/* ------------------------------------------------------------- Header main */
+
+.trendino-header__main {
+	padding-block: 12px;
+}
+
+.trendino-header__row {
+	display: flex;
+	align-items: center;
+	gap: 24px;
+	min-height: 56px;
+}
+
+.trendino-header__start {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex: 0 0 auto;
+}
+
+.trendino-header__search {
+	flex: 1 1 auto;
+	min-width: 0;
+	max-width: var(--trendino-search-max, 480px);
+	margin-inline-end: auto;
+}
+
+.trendino-header__end {
+	flex: 0 0 auto;
+}
+
+.trendino-header__burger {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: var(--trendino-radius);
+	color: var(--trendino-secondary);
+}
+
+/* ------------------------------------------------------------------- Logo */
+
+.trendino-logo__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.trendino-logo__image img {
+	max-height: 44px;
+	width: auto;
+	object-fit: contain;
+}
+
+.trendino-logo__text {
+	font-size: 1.35rem;
+	font-weight: 800;
+	color: var(--trendino-primary);
+	letter-spacing: -0.01em;
+}
+
+.trendino-logo__tagline {
+	font-size: 0.7rem;
+	color: var(--trendino-muted);
+}
+
+/* ----------------------------------------------------------------- Search */
+
+.trendino-search {
+	position: relative;
+	width: 100%;
+}
+
+.trendino-search__form {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	height: 44px;
+	padding-inline: 16px;
+	background: var(--trendino-background);
+	border: 1px solid transparent;
+	border-radius: 999px;
+	transition: border-color var(--trendino-transition), background var(--trendino-transition);
+}
+
+.trendino-search.is-open .trendino-search__form,
+.trendino-search__form:focus-within {
+	background: var(--trendino-surface);
+	border-color: var(--trendino-primary);
+}
+
+.trendino-search__icon {
+	display: inline-flex;
+	color: var(--trendino-muted);
+	flex: 0 0 auto;
+}
+
+.trendino-search__input {
+	flex: 1 1 auto;
+	min-height: 0;
+	height: 100%;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	font-size: 0.85rem;
+}
+
+.trendino-search__input:focus {
+	box-shadow: none;
+}
+
+.trendino-search__category {
+	flex: 0 0 auto;
+	width: auto;
+	min-height: 0;
+	height: 28px;
+	padding-block: 0;
+	border: 0;
+	border-inline-end: 1px solid var(--trendino-border);
+	border-radius: 0;
+	background: transparent;
+	font-size: 0.8rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-search__submit.is-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: calc(var(--trendino-radius) - 4px);
+	color: var(--trendino-muted);
+	flex: 0 0 auto;
+}
+
+.trendino-search__submit:hover {
+	color: var(--trendino-primary);
+}
+
+.trendino-search__trending {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 8px;
+	font-size: 0.75rem;
+	color: var(--trendino-muted);
+	flex-wrap: wrap;
+}
+
+/* Live results panel */
+
+.trendino-search__panel {
+	position: absolute;
+	inset-inline: 0;
+	top: calc(100% + 8px);
+	z-index: 40;
+	max-height: 420px;
+	overflow-y: auto;
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+	box-shadow: var(--trendino-shadow-lg);
+	padding: 8px;
+}
+
+.trendino-search__result {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 8px;
+	border-radius: var(--trendino-radius);
+}
+
+.trendino-search__result:hover {
+	background: var(--trendino-background);
+}
+
+.trendino-search__result-img {
+	width: 48px;
+	height: 48px;
+	object-fit: contain;
+	border-radius: 8px;
+	background: var(--trendino-background);
+	flex: 0 0 auto;
+}
+
+.trendino-search__result-text {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	min-width: 0;
+}
+
+.trendino-search__result-title {
+	font-size: 0.83rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.trendino-search__result-price {
+	font-size: 0.75rem;
+	font-weight: 700;
+	color: var(--trendino-primary);
+}
+
+.trendino-search__loading,
+.trendino-search__empty {
+	margin: 0;
+	padding: 16px;
+	text-align: center;
+	font-size: 0.82rem;
+	color: var(--trendino-muted);
+}
+
+/* ---------------------------------------------------------------- Actions */
+
+.trendino-header-actions {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.trendino-header-actions.has-dividers .trendino-header-action-wrap + .trendino-header-action-wrap::before {
+	content: "";
+	position: absolute;
+	inset-inline-start: -5px;
+	inset-block: 8px;
+	width: 1px;
+	background: var(--trendino-border);
+}
+
+.trendino-header-action-wrap {
+	position: relative;
+}
+
+.trendino-header-action {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	height: 40px;
+	padding-inline: 10px;
+	border-radius: var(--trendino-radius);
+	color: var(--trendino-secondary);
+	font-size: 0.82rem;
+	white-space: nowrap;
+}
+
+.trendino-header-action.is-outline {
+	border: 1px solid var(--trendino-border);
+	border-radius: 999px;
+}
+
+/*
+ * Cart is the single filled call-to-action in the header (reference: solid red
+ * pill with the label visible on desktop).
+ */
+.trendino-header-action--cart.is-filled {
+	background: var(--trendino-primary);
+	color: #fff;
+	border-radius: 999px;
+	padding-inline: 16px;
+	font-weight: 700;
+}
+
+.trendino-header-action--cart.is-filled:hover {
+	background: var(--trendino-primary-dark);
+	color: #fff;
+}
+
+.trendino-header-action--cart.is-filled .trendino-header-action__count {
+	background: #fff;
+	color: var(--trendino-primary);
+	position: static;
+	box-shadow: none;
+}
+
+.trendino-header-action.is-icon {
+	padding-inline: 8px;
+}
+
+.trendino-header-action:hover {
+	color: var(--trendino-primary);
+	background: var(--trendino-primary-soft);
+}
+
+.trendino-header-action__icon {
+	position: relative;
+	display: inline-flex;
+}
+
+.trendino-header-action__count {
+	position: absolute;
+	inset-block-start: -6px;
+	inset-inline-end: -8px;
+	min-width: 17px;
+	height: 17px;
+	padding-inline: 4px;
+	border-radius: 999px;
+	background: var(--trendino-primary);
+	color: #fff;
+	font-size: 0.62rem;
+	font-weight: 700;
+	line-height: 17px;
+	text-align: center;
+}
+
+/* --------------------------------------------------------------- Mini cart */
+
+.trendino-mini-cart {
+	position: absolute;
+	inset-inline-end: 0;
+	top: calc(100% + 10px);
+	z-index: 50;
+	width: 320px;
+	padding: 14px;
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+	box-shadow: var(--trendino-shadow-lg);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(6px);
+	transition: opacity var(--trendino-transition), transform var(--trendino-transition),
+		visibility var(--trendino-transition);
+}
+
+.trendino-header-action-wrap.is-open .trendino-mini-cart {
+	opacity: 1;
+	visibility: visible;
+	transform: none;
+}
+
+.trendino-mini-cart .woocommerce-mini-cart__empty-message {
+	margin: 0;
+	padding: 20px 0;
+	text-align: center;
+	color: var(--trendino-muted);
+	font-size: 0.85rem;
+}
+
+.trendino-mini-cart ul.cart_list li {
+	display: flex;
+	gap: 10px;
+	padding: 10px 0;
+	border-bottom: 1px solid var(--trendino-border);
+	font-size: 0.82rem;
+	position: relative;
+}
+
+.trendino-mini-cart ul.cart_list li img {
+	width: 52px;
+	height: 52px;
+	object-fit: contain;
+	border-radius: 8px;
+	background: var(--trendino-background);
+	order: -1;
+}
+
+.trendino-mini-cart .woocommerce-mini-cart__total {
+	display: flex;
+	justify-content: space-between;
+	padding: 12px 0;
+	font-weight: 700;
+	margin: 0;
+}
+
+.trendino-mini-cart .woocommerce-mini-cart__buttons {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 8px;
+	margin: 0;
+}
+
+.trendino-mini-cart .woocommerce-mini-cart__buttons a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 38px;
+	border-radius: var(--trendino-radius);
+	font-size: 0.8rem;
+	font-weight: 700;
+	background: var(--trendino-background);
+	color: var(--trendino-secondary);
+}
+
+.trendino-mini-cart .woocommerce-mini-cart__buttons .checkout {
+	background: var(--trendino-primary);
+	color: #fff;
+}
+
+/* ------------------------------------------------------------ Nav / menus */
+
+.trendino-header__nav {
+	border-top: 1px solid var(--trendino-border);
+}
+
+.trendino-header__nav-row {
+	display: flex;
+	align-items: center;
+	gap: 22px;
+	min-height: 44px;
+}
+
+.trendino-menu__list {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	margin: 0;
+}
+
+.trendino-menu__item {
+	position: relative;
+}
+
+.trendino-menu__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	height: 44px;
+	padding-inline: 10px;
+	font-size: 0.84rem;
+	font-weight: 500;
+	color: var(--trendino-text);
+}
+
+.trendino-menu__link:hover,
+.trendino-menu__item.current-menu-item > .trendino-menu__link {
+	color: var(--trendino-primary);
+}
+
+.trendino-menu__item.current-menu-item > .trendino-menu__link {
+	font-weight: 700;
+}
+
+/* Highlighted nav entry (e.g. "amazing offers") rendered in brand red. */
+.trendino-menu__item.is-highlight > .trendino-menu__link {
+	color: var(--trendino-primary);
+	font-weight: 700;
+}
+
+.trendino-menu.has-indicator .trendino-menu__item > .trendino-menu__link::after {
+	content: "";
+	position: absolute;
+	inset-inline: 10px;
+	inset-block-end: 0;
+	height: 3px;
+	border-radius: 3px 3px 0 0;
+	background: var(--trendino-primary);
+	transform: scaleX(0);
+	transform-origin: center;
+	transition: transform var(--trendino-transition);
+}
+
+.trendino-menu.has-indicator .trendino-menu__item:hover > .trendino-menu__link::after,
+.trendino-menu.has-indicator .trendino-menu__item.current-menu-item > .trendino-menu__link::after {
+	transform: scaleX(1);
+}
+
+.trendino-menu__badge {
+	padding: 1px 6px;
+	border-radius: 999px;
+	background: var(--trendino-primary);
+	color: #fff;
+	font-size: 0.6rem;
+	font-weight: 700;
+}
+
+.trendino-menu__indicator {
+	display: inline-flex;
+	transition: transform var(--trendino-transition);
+}
+
+.trendino-menu__item:hover > .trendino-menu__link .trendino-menu__indicator {
+	transform: rotate(180deg);
+}
+
+.trendino-menu__submenu {
+	position: absolute;
+	inset-inline-start: 0;
+	top: 100%;
+	z-index: 40;
+	min-width: 220px;
+	padding: 8px;
+	margin: 0;
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+	box-shadow: var(--trendino-shadow-lg);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(8px);
+	transition: opacity var(--trendino-transition), transform var(--trendino-transition),
+		visibility var(--trendino-transition);
+}
+
+.trendino-menu__submenu.is-flipped {
+	inset-inline-start: auto;
+	inset-inline-end: 0;
+}
+
+.trendino-menu__item:hover > .trendino-menu__submenu,
+.trendino-menu__item:focus-within > .trendino-menu__submenu {
+	opacity: 1;
+	visibility: visible;
+	transform: none;
+}
+
+.trendino-menu__submenu .trendino-menu__link {
+	height: auto;
+	width: 100%;
+	padding: 8px 12px;
+	border-radius: var(--trendino-radius);
+	justify-content: space-between;
+}
+
+.trendino-menu__submenu .trendino-menu__link:hover {
+	background: var(--trendino-background);
+}
+
+.trendino-menu__submenu .trendino-menu__submenu {
+	top: 0;
+	inset-inline-start: 100%;
+}
+
+/* --------------------------------------------------------- Category menu */
+
+.trendino-catmenu {
+	position: relative;
+	flex: 0 0 auto;
+}
+
+.trendino-catmenu__trigger {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	height: 40px;
+	padding-inline: 0;
+	color: var(--trendino-text);
+	font-size: 0.86rem;
+	font-weight: 500;
+}
+
+.trendino-catmenu__trigger:hover,
+.trendino-catmenu.is-open .trendino-catmenu__trigger {
+	color: var(--trendino-primary);
+}
+
+/* Boxed variant, when the widget is set to "button" style. */
+.trendino-catmenu.style-button .trendino-catmenu__trigger {
+	padding-inline: 16px;
+	border-radius: 999px;
+	background: var(--trendino-primary-soft);
+	color: var(--trendino-primary);
+	font-weight: 700;
+}
+
+.trendino-catmenu__caret {
+	transition: transform var(--trendino-transition);
+}
+
+.trendino-catmenu.is-open .trendino-catmenu__caret {
+	transform: rotate(180deg);
+}
+
+.trendino-catmenu__panel {
+	position: absolute;
+	inset-inline-start: 0;
+	top: calc(100% + 6px);
+	z-index: 45;
+	min-width: 260px;
+	padding: 8px;
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+	box-shadow: var(--trendino-shadow-lg);
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(8px);
+	transition: opacity var(--trendino-transition), transform var(--trendino-transition),
+		visibility var(--trendino-transition);
+}
+
+.trendino-catmenu.is-open .trendino-catmenu__panel {
+	opacity: 1;
+	visibility: visible;
+	transform: none;
+}
+
+.trendino-catmenu__item {
+	position: relative;
+}
+
+.trendino-catmenu__link {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 9px 12px;
+	border-radius: var(--trendino-radius);
+	font-size: 0.85rem;
+}
+
+.trendino-catmenu__link:hover {
+	background: var(--trendino-background);
+	color: var(--trendino-primary);
+}
+
+.trendino-catmenu__arrow {
+	margin-inline-start: auto;
+	color: var(--trendino-muted);
+}
+
+.trendino-catmenu__thumb {
+	width: 26px;
+	height: 26px;
+	object-fit: contain;
+	border-radius: 6px;
+	flex: 0 0 auto;
+}
+
+.trendino-catmenu__flyout {
+	position: absolute;
+	inset-inline-start: calc(100% + 8px);
+	top: -8px;
+	z-index: 46;
+	min-width: 540px;
+	min-height: 100%;
+	padding: 16px;
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	border-radius: var(--trendino-card-radius);
+	box-shadow: var(--trendino-shadow-lg);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity var(--trendino-transition), visibility var(--trendino-transition);
+}
+
+.trendino-catmenu__item:hover > .trendino-catmenu__flyout,
+.trendino-catmenu__item:focus-within > .trendino-catmenu__flyout {
+	opacity: 1;
+	visibility: visible;
+}
+
+.trendino-catmenu__flyout-head {
+	display: block;
+	margin-bottom: 12px;
+	font-weight: 700;
+	color: var(--trendino-primary);
+}
+
+.trendino-catmenu__children {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 8px 20px;
+	margin: 0;
+}
+
+.trendino-catmenu__child-link {
+	font-size: 0.83rem;
+	color: var(--trendino-text);
+}
+
+.trendino-catmenu__child-link:hover {
+	color: var(--trendino-primary);
+}
+
+.trendino-catmenu__grandchildren {
+	margin-top: 4px;
+	padding-inline-start: 10px;
+	font-size: 0.78rem;
+	color: var(--trendino-muted);
+}
+
+/* ----------------------------------------------------- Mobile header bits */
+
+.trendino-mobile-header {
+	display: none;
+}
+
+.trendino-mobile-header__search {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	height: 40px;
+	margin: 0 12px 12px;
+	padding-inline: 12px;
+	background: var(--trendino-background);
+	border-radius: var(--trendino-radius);
+	color: var(--trendino-muted);
+}
+
+.trendino-mobile-header__search input {
+	min-height: 0;
+	height: 100%;
+	padding: 0;
+	border: 0;
+	background: transparent;
+	font-size: 0.82rem;
+}
+
+.trendino-mobile-header__search input:focus {
+	box-shadow: none;
+}
+
+/* ----------------------------------------------------------------- Drawer */
+
+.trendino-drawer {
+	position: fixed;
+	inset: 0;
+	z-index: 200;
+}
+
+.trendino-drawer__backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(15, 27, 51, 0.5);
+	opacity: 0;
+	transition: opacity var(--trendino-transition);
+}
+
+.trendino-drawer.is-open .trendino-drawer__backdrop {
+	opacity: 1;
+}
+
+.trendino-drawer__panel {
+	position: absolute;
+	inset-block: 0;
+	inset-inline-start: 0;
+	width: min(320px, 86vw);
+	background: var(--trendino-surface);
+	overflow-y: auto;
+	transform: translateX(-100%);
+	transition: transform 0.28s ease;
+	padding-bottom: 32px;
+}
+
+[dir="rtl"] .trendino-drawer__panel {
+	transform: translateX(100%);
+}
+
+.trendino-drawer.is-open .trendino-drawer__panel {
+	transform: none;
+}
+
+.trendino-drawer__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 14px 16px;
+	border-bottom: 1px solid var(--trendino-border);
+}
+
+.trendino-drawer__title {
+	font-weight: 700;
+}
+
+.trendino-drawer__account {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 14px 16px;
+	background: var(--trendino-background);
+	font-size: 0.85rem;
+	font-weight: 700;
+}
+
+.trendino-drawer__section-title {
+	display: block;
+	padding: 14px 16px 6px;
+	font-size: 0.75rem;
+	font-weight: 700;
+	color: var(--trendino-muted);
+}
+
+.trendino-drawer__list li,
+.trendino-drawer__categories li {
+	position: relative;
+	border-bottom: 1px solid var(--trendino-border);
+}
+
+.trendino-drawer__list a,
+.trendino-drawer__categories a {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	padding: 12px 16px;
+	font-size: 0.86rem;
+}
+
+.trendino-drawer__thumb {
+	width: 24px;
+	height: 24px;
+	object-fit: contain;
+	border-radius: 6px;
+}
+
+.trendino-drawer__expand {
+	position: absolute;
+	inset-block-start: 4px;
+	inset-inline-end: 8px;
+	width: 34px;
+	height: 34px;
+	border-radius: var(--trendino-radius);
+	font-size: 1.1rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-drawer__list .sub-menu,
+.trendino-drawer__list .trendino-menu__submenu {
+	display: none;
+	position: static;
+	opacity: 1;
+	visibility: visible;
+	transform: none;
+	box-shadow: none;
+	border: 0;
+	border-radius: 0;
+	padding: 0;
+	background: var(--trendino-background);
+}
+
+.trendino-drawer__list .is-open > .sub-menu,
+.trendino-drawer__list .is-open > .trendino-menu__submenu {
+	display: block;
+}
+
+.trendino-drawer__list .sub-menu a {
+	padding-inline-start: 32px;
+	font-size: 0.82rem;
+}
+
+body.trendino-no-scroll {
+	overflow: hidden;
+}
+
+/* ------------------------------------------------------------ Bottom nav */
+
+.trendino-bottom-nav {
+	display: none;
+	position: fixed;
+	inset-inline: 0;
+	inset-block-end: 0;
+	z-index: 120;
+	background: var(--trendino-surface);
+	border-top: 1px solid var(--trendino-border);
+	padding-block: 6px;
+	padding-bottom: calc(6px + env(safe-area-inset-bottom));
+}
+
+.trendino-bottom-nav__item {
+	display: flex;
+	flex: 1 1 0;
+	flex-direction: column;
+	align-items: center;
+	gap: 2px;
+	font-size: 0.65rem;
+	color: var(--trendino-muted);
+}
+
+.trendino-bottom-nav__item.is-active {
+	color: var(--trendino-primary);
+}
+
+.trendino-bottom-nav__icon {
+	position: relative;
+	display: inline-flex;
+}
+
+.trendino-bottom-nav__count {
+	position: absolute;
+	inset-block-start: -4px;
+	inset-inline-end: -8px;
+	min-width: 16px;
+	height: 16px;
+	padding-inline: 4px;
+	border-radius: 999px;
+	background: var(--trendino-primary);
+	color: #fff;
+	font-size: 0.6rem;
+	line-height: 16px;
+	text-align: center;
+}
+
+/* ------------------------------------------------------------- Responsive */
+
+@media (max-width: 1024px) {
+	.trendino-header__nav,
+	.trendino-header__topbar {
+		display: none;
+	}
+
+	.trendino-announce__inner {
+		padding-inline: 40px;
+		font-size: 0.72rem;
+		text-align: start;
+	}
+
+	.trendino-header__burger {
+		display: inline-flex;
+	}
+
+	.trendino-header-action__label {
+		display: none;
+	}
+
+	.trendino-header-action.is-outline {
+		border: 0;
+		padding-inline: 8px;
+	}
+
+	/* The cart label collapses but the pill stays, so it reads as the main CTA. */
+	.trendino-header-action--cart.is-filled {
+		padding-inline: 10px;
+	}
+
+	.trendino-header-action--cart.is-filled .trendino-header-action__count {
+		position: absolute;
+		inset-block-start: -6px;
+		inset-inline-end: -8px;
+		background: var(--trendino-secondary);
+		color: #fff;
+	}
+}
+
+@media (max-width: 767px) {
+	.trendino-header__main {
+		padding-block: 10px 0;
+	}
+
+	.trendino-header__row {
+		gap: 10px;
+	}
+
+	/* The desktop inline search moves under the logo row on phones. */
+	.trendino-header__search {
+		display: none;
+	}
+
+	.trendino-mobile-header {
+		display: block;
+	}
+
+	.trendino-logo__image img {
+		max-height: 34px;
+	}
+
+	.trendino-logo__text {
+		font-size: 1.1rem;
+	}
+
+	.trendino-header-actions.has-dividers .trendino-header-action-wrap + .trendino-header-action-wrap::before {
+		display: none;
+	}
+
+	.trendino-bottom-nav {
+		display: flex;
+	}
+
+	/* Keep page content clear of the fixed bottom nav. */
+	.trendino-site {
+		padding-bottom: 62px;
+	}
+
+	.trendino-mini-cart {
+		display: none;
+	}
+}

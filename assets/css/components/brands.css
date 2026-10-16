@@ -1,0 +1,92 @@
+/**
+ * Trendino — brand carousel / grid.
+ */
+
+.trendino-brands-wrap {
+	position: relative;
+}
+
+.trendino-brand {
+	display: grid;
+	place-items: center;
+	gap: 6px;
+	height: 100%;
+	padding: 14px;
+	border-radius: var(--trendino-card-radius);
+	background: var(--trendino-surface);
+	border: 1px solid var(--trendino-border);
+	transition: border-color var(--trendino-transition), box-shadow var(--trendino-transition);
+}
+
+.trendino-brand:hover {
+	border-color: transparent;
+	box-shadow: var(--trendino-shadow);
+}
+
+.trendino-brand__logo {
+	max-height: var(--trendino-brand-height, 48px);
+	width: auto;
+	object-fit: contain;
+	filter: var(--trendino-brand-filter, none);
+	opacity: var(--trendino-brand-opacity, 1);
+	transition: filter var(--trendino-transition), opacity var(--trendino-transition);
+}
+
+.trendino-brand:hover .trendino-brand__logo {
+	filter: none;
+	opacity: 1;
+}
+
+/* Grayscale variant (set by the widget). */
+.trendino-brands.is-grayscale .trendino-brand__logo {
+	filter: grayscale(1);
+	opacity: 0.75;
+}
+
+.trendino-brand__fallback {
+	display: grid;
+	place-items: center;
+	width: 100%;
+	min-height: var(--trendino-brand-height, 48px);
+	border-radius: var(--trendino-radius);
+	background: var(--trendino-background);
+	color: var(--trendino-muted);
+	font-weight: 700;
+	font-size: 0.85rem;
+	text-align: center;
+	padding: 6px;
+}
+
+.trendino-brand__name {
+	font-size: 0.75rem;
+	color: var(--trendino-muted);
+	text-align: center;
+}
+
+.trendino-brand:hover .trendino-brand__name {
+	color: var(--trendino-primary);
+}
+
+/* Bare variant: no card chrome. */
+.trendino-brands.is-bare .trendino-brand {
+	border: 0;
+	background: transparent;
+}
+
+.trendino-brands.is-bare .trendino-brand:hover {
+	box-shadow: none;
+}
+
+@media (max-width: 767px) {
+	.trendino-brand {
+		padding: 10px;
+	}
+
+	.trendino-brand__logo {
+		max-height: 36px;
+	}
+
+	.trendino-brand__name {
+		font-size: 0.68rem;
+	}
+}

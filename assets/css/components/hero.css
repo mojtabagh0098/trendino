@@ -1,0 +1,297 @@
+/**
+ * Trendino — hero slider (+ optional side banners).
+ */
+
+.trendino-hero-layout {
+	display: grid;
+	gap: var(--trendino-gap);
+}
+
+.trendino-hero-layout.has-side {
+	/*
+	 * Reference layout: one wide slider plus a narrower companion banner beside
+	 * it (roughly a 2:1 split), both the same height.
+	 */
+	grid-template-columns: minmax(0, var(--trendino-hero-ratio-split, 2fr)) minmax(0, 1fr);
+	align-items: stretch;
+}
+
+.trendino-hero-layout.has-side.side-start {
+	direction: inherit;
+}
+
+.trendino-hero-layout.has-side.side-start .trendino-hero-side {
+	order: -1;
+}
+
+.trendino-hero {
+	position: relative;
+	overflow: hidden;
+	border-radius: var(--trendino-card-radius);
+	background: var(--trendino-surface);
+}
+
+.trendino-hero__viewport {
+	position: relative;
+	overflow: hidden;
+}
+
+.trendino-hero__track {
+	position: relative;
+	display: grid;
+}
+
+.trendino-hero__slide {
+	grid-area: 1 / 1;
+	position: relative;
+	display: block;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.5s ease, visibility 0.5s ease, transform 0.5s ease;
+	pointer-events: none;
+}
+
+.trendino-hero__slide.is-active {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+	z-index: 2;
+}
+
+/* Slide effect: incoming slide translates in from the inline-end side. */
+.trendino-hero.is-slide .trendino-hero__slide {
+	transform: translateX(6%);
+}
+
+[dir="rtl"] .trendino-hero.is-slide .trendino-hero__slide {
+	transform: translateX(-6%);
+}
+
+.trendino-hero.is-slide .trendino-hero__slide.is-active {
+	transform: none;
+}
+
+.trendino-hero__link {
+	display: block;
+}
+
+.trendino-hero__picture,
+.trendino-hero__img {
+	display: block;
+	width: 100%;
+}
+
+.trendino-hero__img {
+	aspect-ratio: var(--trendino-hero-ratio, 1000 / 340);
+	object-fit: cover;
+}
+
+.trendino-hero__img.is-placeholder {
+	opacity: 0.4;
+}
+
+.trendino-hero__overlay {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		to var(--trendino-overlay-dir, left),
+		rgba(15, 27, 51, 0.55),
+		rgba(15, 27, 51, 0)
+	);
+	pointer-events: none;
+}
+
+.trendino-hero__content {
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding: clamp(16px, 4vw, 48px);
+	pointer-events: none;
+	max-width: 56%;
+}
+
+.trendino-hero__content > * {
+	pointer-events: auto;
+}
+
+.trendino-hero__content.is-center-start { justify-content: center; align-items: flex-start; text-align: start; }
+.trendino-hero__content.is-center-center { justify-content: center; align-items: center; text-align: center; max-width: 100%; }
+.trendino-hero__content.is-center-end { justify-content: center; align-items: flex-end; text-align: end; margin-inline-start: auto; }
+.trendino-hero__content.is-top-start { justify-content: flex-start; align-items: flex-start; }
+.trendino-hero__content.is-bottom-start { justify-content: flex-end; align-items: flex-start; }
+.trendino-hero__content.is-bottom-center { justify-content: flex-end; align-items: center; text-align: center; max-width: 100%; }
+
+.trendino-hero__title {
+	margin: 0;
+	font-size: clamp(1.1rem, 2.6vw, 2.1rem);
+	font-weight: 800;
+	line-height: 1.5;
+	color: #fff;
+}
+
+.trendino-hero__subtitle {
+	margin: 0;
+	font-size: clamp(0.8rem, 1.4vw, 1rem);
+	color: rgba(255, 255, 255, 0.88);
+}
+
+.trendino-hero__button {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-height: 40px;
+	padding-inline: 24px;
+	border-radius: 999px;
+	background: #fff;
+	color: var(--trendino-secondary);
+	font-size: 0.84rem;
+	font-weight: 700;
+	transition: background var(--trendino-transition), color var(--trendino-transition);
+}
+
+.trendino-hero__button:hover {
+	background: var(--trendino-primary);
+	color: #fff;
+}
+
+/* Filled variant when the artwork is light. */
+.trendino-hero__slide.is-light .trendino-hero__button {
+	background: var(--trendino-primary);
+	color: #fff;
+}
+
+.trendino-hero__slide.is-light .trendino-hero__title,
+.trendino-hero__slide.is-light .trendino-hero__subtitle {
+	color: var(--trendino-secondary);
+}
+
+/* Arrows + dots */
+
+.trendino-hero .trendino-carousel__arrow.is-prev,
+.trendino-hero .trendino-carousel__arrow.is-next {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 4;
+	width: 40px;
+	height: 40px;
+	background: rgba(255, 255, 255, 0.9);
+	border: 0;
+	box-shadow: var(--trendino-shadow);
+	opacity: 0;
+	transition: opacity var(--trendino-transition), background var(--trendino-transition);
+}
+
+.trendino-hero:hover .trendino-carousel__arrow {
+	opacity: 1;
+}
+
+.trendino-hero .trendino-carousel__arrow.is-prev { inset-inline-start: 12px; }
+.trendino-hero .trendino-carousel__arrow.is-next { inset-inline-end: 12px; }
+
+.trendino-hero .trendino-carousel__dots {
+	position: absolute;
+	inset-inline: 0;
+	inset-block-end: 14px;
+	z-index: 4;
+	margin: 0;
+}
+
+/* Bottom-start dot placement (matches the reference hero). */
+.trendino-hero.dots-start .trendino-carousel__dots {
+	inset-inline-end: auto;
+	inset-inline-start: 24px;
+	justify-content: flex-start;
+}
+
+.trendino-hero .trendino-carousel__dot {
+	background: rgba(255, 255, 255, 0.55);
+}
+
+.trendino-hero .trendino-carousel__dot.is-active {
+	background: #fff;
+}
+
+/* Side banners */
+
+.trendino-hero-side {
+	display: grid;
+	grid-auto-rows: 1fr;
+	gap: var(--trendino-gap);
+	min-height: 100%;
+}
+
+.trendino-hero-side__item {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	border-radius: var(--trendino-card-radius);
+	min-height: 0;
+}
+
+.trendino-hero-side__img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.4s ease;
+}
+
+.trendino-hero-side__item:hover .trendino-hero-side__img {
+	transform: scale(1.04);
+}
+
+/* Responsive */
+
+@media (max-width: 1024px) {
+	.trendino-hero-layout.has-side {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.trendino-hero-layout.has-side.side-start .trendino-hero-side {
+		order: 0;
+	}
+
+	.trendino-hero-side {
+		grid-auto-flow: column;
+		grid-auto-columns: minmax(0, 1fr);
+		grid-auto-rows: auto;
+	}
+
+	.trendino-hero__content {
+		max-width: 70%;
+	}
+}
+
+@media (max-width: 767px) {
+	.trendino-hero {
+		border-radius: var(--trendino-radius);
+	}
+
+	.trendino-hero__img {
+		aspect-ratio: var(--trendino-hero-ratio-mobile, 16 / 10);
+	}
+
+	.trendino-hero__content {
+		max-width: 100%;
+		padding: 16px;
+		gap: 8px;
+	}
+
+	.trendino-hero__button {
+		min-height: 36px;
+		padding-inline: 16px;
+		font-size: 0.78rem;
+	}
+
+	.trendino-hero .trendino-carousel__arrow.is-prev,
+	.trendino-hero .trendino-carousel__arrow.is-next {
+		display: none;
+	}
+
+	.trendino-hero-side {
+		grid-auto-flow: row;
+	}
+}

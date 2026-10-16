@@ -1,0 +1,19 @@
+/**
+ * Trendino — WP admin tweaks (theme notices, customizer helpers).
+ */
+
+.trendino-plugins-notice p {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex-wrap: wrap;
+}
+
+.trendino-plugins-notice strong {
+	color: #ef4056;
+}
+
+/* Customizer: give colour controls a little breathing room. */
+#sub-accordion-section-trendino_colors .customize-control {
+	margin-bottom: 8px;
+}
