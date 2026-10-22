@@ -40,7 +40,7 @@ function trendino_demo_content_menu() {
 	);
 }
 
-add_action( 'wp_loaded', 'trendino_demo_content_load' );
+add_action( 'admin_init', 'trendino_demo_content_load' );
 function trendino_demo_content_load() {
 	if ( isset( $_GET['trendino_demo'] ) && check_admin_referer( 'trendino_nonce' ) ) {
 		trendino_import_demo();
@@ -97,7 +97,7 @@ function trendino_import_demo() {
 	trendino_import_categories();
 	trendino_import_brands();
 
-	if ( class_exists( 'WooCommerce' ) ) {
+	if ( class_exists( 'WooCommerce' ) && function_exists( 'wc_create_product_attribute' ) ) {
 		trendino_import_product_attributes();
 		trendino_import_products();
 	}
@@ -257,6 +257,9 @@ function trendino_get_brand_taxonomy() {
 //----------------------------------------------------------------------------------
 
 function trendino_import_product_attributes() {
+	if ( ! function_exists( 'wc_create_product_attribute' ) ) {
+		return;
+	}
 	$attribute_name = 'رنگ';
 	if ( ! taxonomy_exists( 'pa_' . $attribute_name ) ) {
 		wc_create_product_attribute( array(
