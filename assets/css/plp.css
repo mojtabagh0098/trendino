@@ -1,0 +1,941 @@
+/* ==========================================================================
+   Trendino WooCommerce Product Listing Page (PLP / Category Archive)
+   Path: assets/css/plp.css
+   ========================================================================== */
+
+.tno-plp-page-container {
+    padding-top: 8px;
+    padding-bottom: 40px;
+}
+
+/* --- ۱. مسیر راهنما (Breadcrumb) --- */
+.tno-plp-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #8A8FA3;
+    margin: 10px 0 22px;
+    flex-wrap: wrap;
+}
+
+.tno-plp-breadcrumb a {
+    color: #8A8FA3;
+    transition: color 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.tno-plp-breadcrumb a:hover {
+    color: #012561;
+}
+
+.tno-bc-sep {
+    display: inline-flex;
+    align-items: center;
+}
+
+.tno-bc-current {
+    color: #131313;
+    font-weight: 800;
+}
+
+/* --- ۲. نوار دسته‌بندی‌های بالای صفحه --- */
+.tno-plp-cats-strip {
+    display: grid;
+    grid-template-columns: repeat(9, minmax(115px, 1fr));
+    gap: 14px;
+    margin-bottom: 28px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+}
+
+.tno-plp-cats-strip::-webkit-scrollbar {
+    height: 4px;
+}
+
+.tno-plp-cats-strip::-webkit-scrollbar-thumb {
+    background: #e0e0e0;
+    border-radius: 4px;
+}
+
+.tno-plp-cat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    border: 1px solid #F0F0F0;
+    border-radius: 16px;
+    padding: 10px 10px 14px;
+    transition: all 0.2s ease;
+}
+
+.tno-plp-cat-box {
+    width: 100%;
+    height: 92px;
+    background: #F6F6F6;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.tno-plp-cat-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.25s ease;
+}
+
+.tno-plp-cat-item:hover .tno-plp-cat-box img {
+    transform: scale(1.06);
+}
+
+.tno-plp-cat-item.is-active {
+    background: #E8F0FC;
+    border-color: #DCE8FA;
+}
+
+.tno-plp-cat-item.is-active .tno-plp-cat-box {
+    background: #DCE8FA;
+}
+
+.tno-plp-cat-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #212121;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* --- ۳. نوار بالای آرشیو (هدر فیلتر + تب‌های مرتب‌سازی) --- */
+.tno-plp-top-bar {
+    display: grid;
+    grid-template-columns: 285px 1fr;
+    gap: 20px;
+    align-items: center;
+    background: #F9F9F9;
+    border: 1px solid #F0F0F0;
+    border-radius: 14px;
+    padding: 10px 18px;
+    margin-bottom: 20px;
+}
+
+.tno-plp-filter-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 800;
+    color: #131313;
+}
+
+.tno-mobile-filter-trigger {
+    display: none;
+    margin-right: auto;
+    background: #012561;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 8px;
+}
+
+.tno-plp-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.tno-plp-sort-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.tno-sort-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #131313;
+}
+
+.tno-sort-pills {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tno-sort-pill {
+    background: transparent;
+    color: #555555;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 16px;
+    border-radius: 100px;
+    transition: all 0.2s ease;
+}
+
+.tno-sort-pill:hover {
+    color: #012561;
+}
+
+.tno-sort-pill.is-active {
+    background: #012561;
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.tno-plp-result-count {
+    font-size: 13px;
+    font-weight: 500;
+    color: #757575;
+    white-space: nowrap;
+}
+
+/* --- ۴. چیدمان دو ستونه (سایدبار راست + گرید محصولات چپ) --- */
+.tno-plp-body {
+    display: grid;
+    grid-template-columns: 285px 1fr;
+    gap: 20px;
+    align-items: start;
+}
+
+.tno-plp-body.is-fullwidth {
+    grid-template-columns: 1fr;
+}
+
+/* --- ۵. سایدبار فیلترها --- */
+.tno-plp-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tno-sidebar-mobile-head {
+    display: none;
+}
+
+.tno-filter-block {
+    background: #ffffff;
+    border: 1px solid #ECECEC;
+    border-radius: 14px;
+    padding: 16px;
+}
+
+/* فیلترهای اعمال شده */
+.tno-applied-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 800;
+    color: #212121;
+    margin-bottom: 12px;
+}
+
+.tno-clear-all-filters {
+    background: transparent;
+    padding: 2px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.tno-applied-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tno-applied-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #E8F0FC;
+    color: #012561;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: background-color 0.15s ease;
+}
+
+.tno-applied-chip:hover {
+    background: #d5e4fa;
+}
+
+.tno-chip-remove {
+    font-style: normal;
+    font-size: 14px;
+    line-height: 1;
+}
+
+/* هدر آکاردئون‌های سایدبار */
+.tno-filter-block__head {
+    width: 100%;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 800;
+    color: #131313;
+    padding: 0;
+}
+
+.tno-acc-chevron {
+    transition: transform 0.25s ease;
+}
+
+.tno-filter-block:not(.is-open) .tno-acc-chevron {
+    transform: rotate(180deg);
+}
+
+.tno-filter-block:not(.is-open) .tno-filter-block__body {
+    display: none;
+}
+
+.tno-filter-block__body {
+    margin-top: 16px;
+}
+
+/* لیست چک‌باکس‌های دسته و برند */
+.tno-checkbox-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 240px;
+    overflow-y: auto;
+    padding-left: 4px;
+}
+
+.tno-checkbox-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.tno-checkbox-list::-webkit-scrollbar-thumb {
+    background: #e0e0e0;
+    border-radius: 4px;
+}
+
+.tno-check-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: #424242;
+    user-select: none;
+}
+
+.tno-check-label input {
+    display: none;
+}
+
+.tno-custom-check {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid #BDBDBD;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+}
+
+.tno-check-label input:checked + .tno-custom-check {
+    background-color: #131313;
+    border-color: #131313;
+}
+
+.tno-check-label input:checked + .tno-custom-check::after {
+    content: "";
+    width: 5px;
+    height: 9px;
+    border: solid #ffffff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    margin-bottom: 2px;
+}
+
+.tno-check-label input:checked ~ .tno-check-text {
+    color: #131313;
+    font-weight: 700;
+}
+
+/* دایره‌های انتخاب رنگ */
+.tno-color-swatches {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px 8px;
+    justify-items: center;
+}
+
+.tno-color-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.tno-color-item input {
+    display: none;
+}
+
+.tno-color-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.15s ease;
+}
+
+.tno-color-check {
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.15s ease;
+}
+
+.tno-color-item input:checked + .tno-color-circle .tno-color-check {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.tno-color-name {
+    font-size: 11px;
+    color: #555555;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* اسلایدر دوطرفه محدوده قیمت */
+.tno-price-range-slider {
+    margin-bottom: 18px;
+}
+
+.tno-slider-track-wrap {
+    position: relative;
+    height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.tno-slider-track {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: #E0E0E0;
+    border-radius: 4px;
+}
+
+.tno-slider-fill {
+    position: absolute;
+    height: 4px;
+    background: #012561;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.tno-slider-track-wrap input[type="range"] {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+    appearance: none;
+    z-index: 2;
+    direction: rtl;
+}
+
+.tno-slider-track-wrap input[type="range"]::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #012561;
+    border: 2px solid #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    pointer-events: auto;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+.tno-slider-track-wrap input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #012561;
+    border: 2px solid #ffffff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.tno-slider-Hints {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #8A8FA3;
+    margin-top: 4px;
+}
+
+.tno-price-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tno-price-field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #212121;
+    margin-bottom: 6px;
+}
+
+.tno-price-input-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #F9F9F9;
+    border: 1px solid #ECECEC;
+    border-radius: 10px;
+    padding: 8px 12px;
+}
+
+.tno-price-input-box input {
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: #212121;
+    width: 100%;
+    outline: none;
+    text-align: left;
+    direction: ltr;
+}
+
+.tno-price-input-box small {
+    font-size: 11px;
+    color: #8A8FA3;
+    margin-right: 8px;
+}
+
+/* سوئیچ‌های سایدبار */
+.tno-switch-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #212121;
+}
+
+.tno-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+}
+
+.tno-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.tno-switch-slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background-color: #E0E0E0;
+    border-radius: 30px;
+    transition: 0.25s;
+}
+
+.tno-switch-slider::before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    transition: 0.25s;
+}
+
+.tno-switch input:checked + .tno-switch-slider {
+    background-color: #012561;
+}
+
+.tno-switch input:checked + .tno-switch-slider::before {
+    transform: translateX(18px);
+}
+
+/* --- ۶. گرید ۴ ستونه و کارت‌های محصول --- */
+.tno-plp-grid {
+    display: grid;
+    gap: 14px;
+    transition: opacity 0.2s ease;
+}
+
+.tno-plp-grid.is-loading {
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.tno-cols-3 { grid-template-columns: repeat(3, 1fr); }
+.tno-cols-4 { grid-template-columns: repeat(4, 1fr); }
+.tno-cols-5 { grid-template-columns: repeat(5, 1fr); }
+
+.tno-plp-card {
+    background: #ffffff;
+    border: 1px solid #ECECEC;
+    border-radius: 16px;
+    padding: 46px 14px 16px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.tno-plp-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* لیبل‌های صورتی و آبی بالای کارت */
+.tno-plp-card .prod-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 11.5px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 8px;
+    line-height: 1.5;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.tno-plp-card .prod-badge::before {
+    display: none;
+}
+
+.tno-badge--pink {
+    background: #FDE4E7 !important;
+    color: #E81327 !important;
+}
+
+.tno-badge--blue {
+    background: #DCE8FA !important;
+    color: #012561 !important;
+}
+
+.tno-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #012561;
+    display: inline-block;
+}
+
+.tno-plp-card .prod-thumb {
+    height: 155px;
+    min-height: 155px;
+    margin-bottom: 10px;
+}
+
+.tno-plp-card .prod-thumb img {
+    max-height: 145px;
+    width: auto;
+    object-fit: contain;
+}
+
+.tno-plp-card .prod-title {
+    font-size: 13.5px;
+    line-height: 1.9;
+    font-weight: 700;
+    color: #212121;
+    margin-bottom: 14px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 51px;
+}
+
+.tno-plp-card__footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    direction: ltr; /* قیمت در سمت چپ، درصد تخفیف در سمت راست */
+    margin-top: auto;
+}
+
+.tno-plp-price-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    direction: rtl;
+}
+
+.tno-plp-old-price {
+    font-size: 12px;
+    color: #9E9E9E;
+    text-decoration: line-through;
+    line-height: 1.2;
+}
+
+.tno-plp-current-price {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #131313;
+}
+
+.tno-plp-current-price strong {
+    font-size: 17px;
+    font-weight: 900;
+}
+
+.tno-plp-current-price small {
+    font-size: 11px;
+    font-weight: 700;
+    color: #555;
+}
+
+.tno-plp-Empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    background: #fff;
+    border: 1px solid #ECECEC;
+    border-radius: 16px;
+}
+
+.tno-reset-btn {
+    margin-top: 14px;
+    background: #012561;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* --- ۷. صفحه‌بندی (Pagination) --- */
+.tno-plp-pagination {
+    margin: 34px 0 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.tno-plp-pagination ul {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tno-plp-pagination .page-numbers {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: #424242;
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+.tno-plp-pagination .page-numbers:hover {
+    background: #F0F0F0;
+}
+
+.tno-plp-pagination .page-numbers.current {
+    background: #1D1E20;
+    color: #ffffff;
+}
+
+/* --- ۸. باکس توضیحات سئو در پایین صفحه --- */
+.tno-plp-seo-box {
+    background: #F9F9F9;
+    border: 1px solid #ECECEC;
+    border-radius: 18px;
+    padding: 28px 32px 24px;
+    margin-top: 38px;
+    position: relative;
+}
+
+.tno-seo-box__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.tno-seo-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #012561;
+    box-shadow: 0 0 0 4px #DCE8FA;
+}
+
+.tno-seo-title {
+    font-family: rokh, 'Yekan Bakh', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #131313;
+}
+
+.tno-seo-box__content {
+    position: relative;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+.tno-seo-box__content.is-collapsed {
+    max-height: 135px;
+}
+
+.tno-seo-box__inner {
+    font-size: 13.5px;
+    line-height: 2.1;
+    color: #555555;
+    text-align: justify;
+}
+
+.tno-seo-box__inner h4,
+.tno-seo-box__inner h3 {
+    color: #212121;
+    font-size: 15px;
+    font-weight: 800;
+    margin: 14px 0 6px;
+}
+
+.tno-seo-fade-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 65px;
+    background: linear-gradient(to top, #F9F9F9 15%, rgba(249, 249, 249, 0));
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.tno-seo-box__content:not(.is-collapsed) .tno-seo-fade-overlay {
+    opacity: 0;
+}
+
+.tno-seo-box__footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 14px;
+}
+
+.tno-seo-toggle-btn {
+    background: #1D1E20;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 22px;
+    border-radius: 100px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.tno-seo-toggle-btn:hover {
+    background: #012561;
+}
+
+/* --- ۹. ریسپانسیو تبلت و موبایل --- */
+@media (max-width: 1100px) {
+    .tno-cols-4, .tno-cols-5 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .tno-plp-top-bar {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .tno-mobile-filter-trigger {
+        display: inline-flex;
+    }
+
+    .tno-plp-body {
+        grid-template-columns: 1fr;
+    }
+
+    .tno-plp-sidebar {
+        position: fixed;
+        top: 0;
+        right: -320px;
+        width: 300px;
+        height: 100vh;
+        background: #ffffff;
+        z-index: 9999;
+        padding: 20px;
+        overflow-y: auto;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+        transition: right 0.3s ease;
+    }
+
+    .tno-plp-sidebar.is-mobile-open {
+        right: 0;
+    }
+
+    .tno-sidebar-mobile-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #ECECEC;
+        font-size: 16px;
+    }
+
+    .tno-close-mobile-sidebar {
+        font-size: 24px;
+        background: none;
+        line-height: 1;
+    }
+
+    .tno-cols-3, .tno-cols-4, .tno-cols-5 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 540px) {
+    .tno-cols-3, .tno-cols-4, .tno-cols-5 {
+        grid-template-columns: 1fr;
+    }
+}
