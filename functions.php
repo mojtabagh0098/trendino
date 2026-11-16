@@ -154,3 +154,5 @@ add_action( 'shutdown', function() {
 } );
 
 require_once get_template_directory() . '/inc/plp-functions.php';
+require_once get_template_directory() . '/inc/login.php';
+require_once get_template_directory() . '/inc/admin-settings.php';
