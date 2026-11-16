@@ -1,160 +1,39 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const authWrapper = document.querySelector('.tno-auth-container');
-    if (!authWrapper) return;
-
-    const AJAX_URL = tnoAuthData.ajaxUrl;
-    const NONCE = tnoAuthData.nonce;
-
-    let currentPhone = '';
-    let countdownTimer = null;
-
-    // عناصر مراحل مختلف
-    const steps = {
-        phone: authWrapper.querySelector('.auth-step-phone'),
-        otp: authWrapper.querySelector('.auth-step-otp'),
-        password: authWrapper.querySelector('.auth-step-password'),
-        newPassword: authWrapper.querySelector('.auth-step-new-password')
-    };
-
-    function switchStep(stepName) {
-        Object.keys(steps).forEach(key => {
-            if (steps[key]) {
-                steps[key].style.display = (key === stepName) ? 'block' : 'none';
-            }
-        });
-    }
-
-    // ۱. مرحله اول: ورود شماره تلفن همراه
-    const phoneForm = authWrapper.querySelector('#tno-phone-form');
-    if (phoneForm) {
-        phoneForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const phoneInput = this.querySelector('input[name="phone"]');
-            const phone = phoneInput.value.trim();
-            const errorBox = this.querySelector('.auth-error-msg');
-
-            // بررسی صحت شماره تلفن (ایرانی)
-            const phoneRegex = /^09[0-9]{9}$/;
-            if (!phoneRegex.test(phone)) {
-                errorBox.style.display = 'block';
-                phoneInput.classList.add('is-invalid');
-                return;
-            }
-
-            errorBox.style.display = 'none';
-            phoneInput.classList.remove('is-invalid');
-            currentPhone = phone;
-
-            // استعلام وضعیت کاربر از سرور (ثبت‌نام شده یا جدید؟)
-            fetchStatus(phone);
-        });
-    }
-
-    function fetchStatus(phone) {
-        const formData = new FormData();
-        formData.append('action', 'tno_check_user_status');
-        formData.append('nonce', NONCE);
-        formData.append('phone', phone);
-
-        fetch(AJAX_URL, { method: 'POST', body: formData })
-            .then(res => res.json())
-            .then(res => {
-                if (res.success) {
-                    if (res.data.exists) {
-                        // کاربر قبلا ثبت‌نام کرده -> مرحله ورود با رمزعبور (تصویر ۴)
-                        authWrapper.querySelector('.user-display-phone').textContent = phone;
-                        switchStep('password');
-                    } else {
-                        // کاربر جدید است -> ارسال کد OTP و ورود به مرحله دریافت کد (تصویر ۲ و ۳)
-                        authWrapper.querySelector('.otp-target-phone').textContent = phone;
-                        switchStep('otp');
-                        startOtpCountdown(94); // ۱ دقیقه و ۳۴ ثانیه مطابق تصویر ۲
-                    }
-                }
-            });
-    }
-
-    // تایمر معکوس OTP
-    function startOtpCountdown(duration) {
-        let timer = duration, minutes, seconds;
-        const timerDisplay = authWrapper.querySelector('.otp-timer-display');
-        
-        if (countdownTimer) clearInterval(countdownTimer);
-
-        countdownTimer = setInterval(function () {
-            minutes = parseInt(timer / 60, 10);
-            seconds = parseInt(timer % 60, 10);
-
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-
-            if (timerDisplay) {
-                timerDisplay.textContent = `${minutes}:${seconds} دقیقه مانده تا دریافت مجدد کد`;
-            }
-
-            if (--timer < 0) {
-                clearInterval(countdownTimer);
-                if (timerDisplay) {
-                    timerDisplay.innerHTML = '<a href="#" class="tno-resend-otp-btn">دریافت مجدد کد</a>';
-                }
-            }
-        }, 1000);
-    }
-
-    // ۳. بررسی و تأیید کد OTP و هدایت به تعیین رمزعبور (تصویر ۵)
-    const otpInputs = authWrapper.querySelectorAll('.otp-digit-input');
-    otpInputs.forEach((input, index) => {
-        input.addEventListener('input', (e) => {
-            if (e.target.value && index < otpInputs.length - 1) {
-                otpInputs[index + 1].focus();
-            }
-            checkOtpComplete();
-        });
-    });
-
-    function checkOtpComplete() {
-        let code = '';
-        otpInputs.forEach(input => code += input.value);
-        if (code.length === 5) {
-            // تایید کد OTP از سرور و رفتن به مرحله ثبت رمزعبور جدید
-            switchStep('newPassword');
-        }
-    }
-
-    // سنجش قدرت رمزعبور (تصویر ۵، ۶، ۷ و ۸)
-    const newPassInput = authWrapper.querySelector('#tno-new-password');
-    if (newPassInput) {
-        newPassInput.addEventListener('input', function() {
-            const val = this.value;
-            const strengthLabel = authWrapper.querySelector('.password-strength-text');
-            const bars = authWrapper.querySelectorAll('.strength-bar');
-
-            let score = 0;
-            if (val.length >= 8) score++;
-            if (/[0-9]/.test(val)) score++;
-            if (/[a-z]/.test(val) && /[A-Z]/.test(val)) score++;
-            if (/[@$!%*?&]/.test(val)) score++;
-
-            bars.forEach((bar, idx) => {
-                bar.style.background = idx < score ? getStrengthColor(score) : '#ECECEC';
-            });
-
-            if (strengthLabel) {
-                strengthLabel.textContent = getStrengthText(score);
-                strengthLabel.style.color = getStrengthColor(score);
-            }
-        });
-    }
-
-    function getStrengthText(score) {
-        if (score <= 1) return 'ضعیف';
-        if (score === 2 || score === 3) return 'متوسط';
-        return 'قوی';
-    }
-
-    function getStrengthColor(score) {
-        if (score <= 1) return '#E54B4B'; // قرمز
-        if (score === 2 || score === 3) return '#F4A100'; // نارنجی
-        return '#26B94E'; // سبز
-    }
+document.addEventListener('DOMContentLoaded', () => {
+  const root = document.querySelector('#auth'); if (!root) return;
+  const $ = s => root.querySelector(s), all = s => [...root.querySelectorAll(s)];
+  const notice = $('.notice'), phoneForm = $('#phone-form'), passwordForm = $('#password-form'), otpForm = $('#otp-form'), newForm = $('#new-password-form');
+  let phone = '', purpose = root.dataset.forgot === '1' ? 'reset' : '', timer = null;
+  const digits = value => value.replace(/[۰-۹٠-٩]/g, c => String('۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩'.indexOf(c) % 10));
+  const showNotice = msg => { notice.textContent = msg; notice.hidden = !msg; };
+  const show = step => { all('[data-step]').forEach(el => el.hidden = el.dataset.step !== step); showNotice(''); all('.invalid').forEach(el => el.classList.remove('invalid')); };
+  if (purpose === 'reset') { $('#phone-subtitle').textContent = 'برای تغییر رمز عبور شماره موبایل خود را وارد کنید'; $('.terms').hidden = true; }
+  async function request(step, data = {}) {
+    const body = new URLSearchParams({ action:'tno_auth', nonce:root.dataset.nonce, step, redirect_to:root.dataset.redirect, ...data });
+    try { const response = await fetch(root.dataset.ajax, { method:'POST', credentials:'same-origin', body }); const result = await response.json(); if (!result.success) throw new Error(result.data?.message || 'خطایی رخ داد. دوباره تلاش کنید.'); return result.data || {}; }
+    catch (error) { showNotice(error.message || 'ارتباط با سرور برقرار نشد.'); throw error; }
+  }
+  async function run(button, fn) { if (button.dataset.busy) return; button.dataset.busy = '1'; button.disabled = true; try { await fn(); } catch (_) {} finally { delete button.dataset.busy; update(); } }
+  function update() {
+    phoneForm.querySelector('button').disabled = !phoneForm.phone.value.trim();
+    passwordForm.querySelector('.primary').disabled = !passwordForm.password.value;
+    otpForm.querySelector('.primary').disabled = all('.otp-row input').some(i => !i.value);
+    newForm.querySelector('.primary').disabled = score(newForm.password.value) !== 4 || !newForm.confirm.value || newForm.password.value !== newForm.confirm.value;
+  }
+  function countdown() { let remaining = Number(root.dataset.cooldown) || 94; clearInterval(timer); const target = $('.timer'); function tick() { if (remaining <= 0) { clearInterval(timer); target.innerHTML = '<button type="button" id="resend">دریافت مجدد کد</button>'; return; } target.innerHTML = '<b>' + String(Math.floor(remaining / 60)).padStart(2,'0') + ':' + String(remaining % 60).padStart(2,'0') + '</b> دقیقه مانده تا دریافت مجدد کد'; remaining--; } tick(); timer = setInterval(tick, 1000); }
+  function otpScreen() { $('#target-phone').textContent = phone; all('.otp-row input').forEach(i => i.value = ''); $('#back-password').hidden = purpose !== 'login'; show('otp'); countdown(); update(); all('.otp-row input')[0].focus(); }
+  phoneForm.addEventListener('submit', e => { e.preventDefault(); run(phoneForm.querySelector('button'), async () => { phone = digits(phoneForm.phone.value).replace(/[\s\-()]/g,''); const result = await request('start', { phone, forgot: purpose === 'reset' ? '1' : '' }); phone = result.phone; if (result.step === 'password') { purpose = 'login'; show('password'); } else { if (purpose !== 'reset') purpose = 'register'; otpScreen(); } }); });
+  passwordForm.addEventListener('submit', e => { e.preventDefault(); run(passwordForm.querySelector('.primary'), async () => { try { const result = await request('password', {password:passwordForm.password.value}); location.assign(result.redirect); } catch (err) { passwordForm.password.classList.add('invalid'); throw err; } }); });
+  $('#otp-login').addEventListener('click', e => run(e.currentTarget, async () => { await request('send'); otpScreen(); }));
+  $('#forgot').addEventListener('click', () => { purpose = 'reset'; $('#phone-subtitle').textContent = 'برای تغییر رمز عبور شماره موبایل خود را وارد کنید'; $('.terms').hidden = true; show('phone'); });
+  $('#back-password').addEventListener('click', () => show('password'));
+  $('.back-phone').addEventListener('click', () => show('phone'));
+  $('.timer').addEventListener('click', e => { if (e.target.id === 'resend') run(e.target, async () => { await request('send'); countdown(); }); });
+  const inputs = all('.otp-row input');
+  inputs.forEach((input, index) => { input.addEventListener('input', () => { input.value = digits(input.value).replace(/\D/g,'').slice(-1); $('.otp-row').classList.remove('invalid'); if (input.value && inputs[index+1]) inputs[index+1].focus(); update(); }); input.addEventListener('keydown', e => { if (e.key === 'Backspace' && !input.value && inputs[index-1]) inputs[index-1].focus(); }); input.addEventListener('paste', e => { const value = digits(e.clipboardData.getData('text')).replace(/\D/g,'').slice(0,5); if (value.length > 1) { e.preventDefault(); value.split('').forEach((v,i) => inputs[i].value=v); inputs[Math.min(value.length,4)].focus(); update(); } }); });
+  otpForm.addEventListener('submit', e => { e.preventDefault(); run(otpForm.querySelector('.primary'), async () => { try { const result = await request('verify', { code:inputs.map(i=>i.value).join('') }); if (result.redirect) location.assign(result.redirect); else show('newPassword'); } catch (err) { $('.otp-row').classList.add('invalid'); throw err; } }); });
+  function score(value) { return Number(value.length>=8)+Number(/[0-9]/.test(value))+Number(/[a-z]/.test(value)&&/[A-Z]/.test(value))+Number(/[@#$%^&*!?]/.test(value)); }
+  newForm.password.addEventListener('input', () => { const s = score(newForm.password.value), level = !newForm.password.value ? '' : s === 4 ? 'strong' : s >= 2 ? 'medium' : 'weak'; $('.strength').dataset.level = level; $('.strength-label').textContent = ({strong:'قوی',medium:'متوسط',weak:'ضعیف'})[level] || ''; });
+  newForm.addEventListener('submit', e => { e.preventDefault(); run(newForm.querySelector('.primary'), async () => { const result = await request('set_password', {password:newForm.password.value, confirm:newForm.confirm.value}); location.assign(result.redirect); }); });
+  all('.eye').forEach(button => button.addEventListener('click', () => { const input = button.parentElement.querySelector('input'); input.type = input.type === 'password' ? 'text' : 'password'; button.setAttribute('aria-label', input.type === 'password' ? 'نمایش رمز عبور' : 'پنهان کردن رمز عبور'); }));
+  root.addEventListener('input', update); update();
 });
