@@ -670,7 +670,11 @@ class TNO_PDP_Manager {
                 <?php if ( $rating >= 1 && $rating <= 5 ) : ?>
                 <div class="tno-review-stars" aria-label="امتیاز <?php echo esc_attr( $rating ); ?> از 5">
                     <?php for ( $i = 1; $i <= 5; $i++ ) : ?>
-                        <span class="tno-star <?php echo $i <= $rating ? 'is-filled' : ''; ?>">★</span>
+                        <span class="tno-star <?php echo $i <= $rating ? 'is-filled' : ''; ?>">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.28923 0.935581L4.29379 2.93981C4.15965 3.21698 3.79959 3.47996 3.49602 3.53681L1.69576 3.83531C0.545003 4.02721 0.276729 4.86585 1.10273 5.7045L2.50764 7.11883C2.74062 7.35337 2.87475 7.81534 2.7971 8.14939L2.39469 9.89771C2.07699 11.2765 2.81121 11.8167 4.01845 11.0917L5.70576 10.0825C6.00933 9.89771 6.51764 9.89771 6.82122 10.0825L8.50853 11.0917C9.71573 11.8095 10.45 11.2765 10.1323 9.89771L9.7299 8.14939C9.6663 7.80821 9.80048 7.34626 10.0334 7.11173L11.4383 5.69739C12.2644 4.86585 11.9961 4.02721 10.8453 3.8282L9.04508 3.5297C8.74148 3.47996 8.38148 3.20988 8.2473 2.9327L7.25187 0.928471C6.70826 -0.151818 5.83284 -0.151818 5.28923 0.935581Z" fill="#E69C2D"/>
+                            </svg>
+                        </span>
                     <?php endfor; ?>
                 </div>
                 <?php endif; ?>
@@ -720,12 +724,19 @@ class TNO_PDP_Manager {
                     <span><?php echo esc_html( $seller ); ?></span>
                 </div>
                 <div class="tno-helpful-box">
-                    <span class="tno-helpful-label">آیا این دیدگاه برایتان مفید بود؟</span>
                     <button type="button" class="tno-vote-btn js-vote-comment" data-id="<?php echo esc_attr( $comment->comment_ID ); ?>" data-type="like">
-                        <span class="tno-vote-count"><?php echo esc_html( $likes ); ?></span> 👍
+                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5.22461 12.552L7.29127 14.152C7.55794 14.4187 8.15794 14.552 8.55794 14.552H11.0912C11.8912 14.552 12.7579 13.952 12.9579 13.152L14.5579 8.28534C14.8912 7.35201 14.2912 6.552 13.2912 6.552H10.6246C10.2246 6.552 9.89127 6.21867 9.95794 5.752L10.2912 3.61867C10.4246 3.01867 10.0246 2.352 9.42461 2.152C8.89127 1.952 8.22461 2.21867 7.95794 2.61867L5.22461 6.68534" stroke-width="1.3" stroke-miterlimit="10" stroke="black"/>
+                            <path d="M1.82373 12.5539V6.02057C1.82373 5.08724 2.22373 4.75391 3.15707 4.75391H3.82373C4.75707 4.75391 5.15707 5.08724 5.15707 6.02057V12.5539C5.15707 13.4873 4.75707 13.8206 3.82373 13.8206H3.15707C2.22373 13.8206 1.82373 13.4873 1.82373 12.5539Z" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" stroke="black"/>
+                        </svg>
+                        <span class="tno-vote-count"><?php echo esc_html( $dislikes ); ?></span>
                     </button>
-                    <button type="button" class="tno-vote-btn js-vote-comment" data-id="<?php echo esc_attr( $comment->comment_ID ); ?>" data-type="dislike">
-                        <span class="tno-vote-count"><?php echo esc_html( $dislikes ); ?></span> 👎
+                    <button type="button" class="tno-vote-btn js-vote-comment" data-id="<?php echo esc_attr( $comment->comment_ID ); ?>" data-type="dislike"> 
+                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.0382 4.08789L8.97155 2.48789C8.70489 2.22122 8.10489 2.08789 7.70489 2.08789H5.17155C4.37155 2.08789 3.50489 2.68789 3.30489 3.48789L1.70489 8.35456C1.37155 9.28789 1.97155 10.0879 2.97155 10.0879H5.63822C6.03822 10.0879 6.37155 10.4212 6.30489 10.8879L5.97155 13.0212C5.83822 13.6212 6.23822 14.2879 6.83822 14.4879C7.37155 14.6879 8.03822 14.4212 8.30489 14.0212L11.0382 9.95456" stroke-width="1.3" stroke-miterlimit="10" stroke="black"/>
+                            <path d="M14.4388 4.08698V10.6203C14.4388 11.5536 14.0388 11.887 13.1055 11.887H12.4388C11.5055 11.887 11.1055 11.5536 11.1055 10.6203V4.08698C11.1055 3.15365 11.5055 2.82031 12.4388 2.82031H13.1055C14.0388 2.82031 14.4388 3.15365 14.4388 4.08698Z" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" stroke="black"/>
+                        </svg>
+                        <span class="tno-vote-count"><?php echo esc_html( $dislikes ); ?></span>
                     </button>
                 </div>
             </footer>
