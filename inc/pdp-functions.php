@@ -170,6 +170,11 @@ class TNO_PDP_Manager {
             <textarea name="tno_return_alert" rows="2"><?php echo esc_textarea( $return_alert ); ?></textarea>
         </div>
 
+        <div class="tno-admin-section-title">رسانه محصول</div>
+        <div class="tno-admin-grid">
+            <div class="tno-admin-field"><label>آدرس ویدیوی محصول (فایل ویدیویی)</label><input type="url" name="tno_product_video" value="<?php echo esc_attr( get_post_meta( $post->ID, '_tno_product_video', true ) ); ?>" dir="ltr"></div>
+            <div class="tno-admin-field"><label>آدرس کاتالوگ محصول</label><input type="url" name="tno_product_catalog" value="<?php echo esc_attr( get_post_meta( $post->ID, '_tno_product_catalog', true ) ); ?>" dir="ltr"></div>
+        </div>
         <div class="tno-admin-section-title">ویژگی‌های کلیدی بالای صفحه (حداکثر ۶ مورد برای گرید هدر)</div>
         <p class="description">در صورت خالی بودن، به صورت خودکار از ویژگی‌های استاندارد ووکامرس خوانده می‌شود.</p>
         <div id="tno-key-features-wrap">
@@ -302,6 +307,10 @@ class TNO_PDP_Manager {
         }
         if ( isset( $_POST['tno_ai_summary'] ) ) {
             update_post_meta( $post_id, '_tno_ai_summary', sanitize_textarea_field( wp_unslash( $_POST['tno_ai_summary'] ) ) );
+        }
+
+        foreach ( array( 'tno_product_video', 'tno_product_catalog' ) as $field ) {
+            if ( isset( $_POST[ $field ] ) ) update_post_meta( $post_id, '_' . $field, esc_url_raw( wp_unslash( $_POST[ $field ] ), array( 'http', 'https' ) ) );
         }
 
         // Save Key Features
@@ -914,7 +923,7 @@ class TNO_PDP_Manager {
             }
             update_user_meta( $uid, '_tno_wishlist', array_values( $list ) );
         } else {
-            $active = true;
+            wp_send_json_error( array( 'message' => 'برای افزودن به علاقه‌مندی‌ها وارد حساب کاربری شوید.' ), 401 );
         }
 
         wp_send_json_success( array( 'active' => $active ) );
