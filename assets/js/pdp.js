@@ -134,7 +134,7 @@
             more.querySelector('span').textContent = expanded ? 'مشاهده پاسخ‌های دیگر' : 'بستن پاسخ‌های دیگر';
             return;
         }
-        const vote = event.target.closest('#tno-sec-qa .js-vote-comment');
+        const vote = event.target.closest('#tno-sec-qa .js-vote-comment, #tno-sec-reviews .js-vote-comment');
         if (!vote || vote.disabled) return;
         const buttons = vote.closest('.tno-helpful-box').querySelectorAll('.js-vote-comment');
         buttons.forEach((button) => { button.disabled = true; });
