@@ -1,18 +1,94 @@
-jQuery( window ).on( 'elementor/frontend/init', function() {
+// ==========================================
+// ۰. سوالات متداول دسته‌بندی‌شده (مستقل از jQuery)
+// ==========================================
+(function () {
+    'use strict';
+
+    if (window.__tnoFaqBound) return;
+    window.__tnoFaqBound = true;
+
+    document.addEventListener('click', function (e) {
+        /* ۱) تغییر تب دسته‌بندی */
+        const tabBtn = e.target.closest('.tno-faq__tab');
+        if (tabBtn) {
+            e.preventDefault();
+            const root = tabBtn.closest('.tno-faq');
+            if (!root) return;
+
+            const selectedCat = (tabBtn.dataset.cat || 'all').trim();
+            const openFirst = root.dataset.openFirst === 'true';
+
+            root.querySelectorAll('.tno-faq__tab').forEach(function (btn) {
+                const isActive = btn === tabBtn;
+                btn.classList.toggle('is-active', isActive);
+                btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+
+            let firstOpened = false;
+            root.querySelectorAll('.tno-faq__item').forEach(function (item) {
+                const cats = (item.dataset.cats || '')
+                    .split(',')
+                    .map(function (c) { return c.trim(); })
+                    .filter(Boolean);
+
+                const isMatch = selectedCat === 'all' || cats.includes(selectedCat);
+                item.hidden = !isMatch;
+                item.classList.toggle('is-hidden', !isMatch);
+
+                const shouldOpen = isMatch && openFirst && !firstOpened;
+                if (shouldOpen) firstOpened = true;
+
+                item.classList.toggle('is-open', shouldOpen);
+                const trigger = item.querySelector('.tno-faq__trigger');
+                if (trigger) {
+                    trigger.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+                }
+            });
+            return;
+        }
+
+        /* ۲) باز و بسته کردن آکاردئون سوال */
+        const trigger = e.target.closest('.tno-faq__trigger');
+        if (trigger) {
+            e.preventDefault();
+            const item = trigger.closest('.tno-faq__item');
+            const root = trigger.closest('.tno-faq');
+            if (!item || !root) return;
+
+            const willOpen = !item.classList.contains('is-open');
+            const singleOpen = root.dataset.singleOpen === 'true';
+
+            if (singleOpen && willOpen) {
+                root.querySelectorAll('.tno-faq__item.is-open').forEach(function (openItem) {
+                    if (openItem === item) return;
+                    openItem.classList.remove('is-open');
+                    const openTrigger = openItem.querySelector('.tno-faq__trigger');
+                    if (openTrigger) {
+                        openTrigger.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            }
+
+            item.classList.toggle('is-open', willOpen);
+            trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        }
+    });
+})();
+jQuery(window).on('elementor/frontend/init', function () {
 
     // ==========================================
     // ۱. شمارنده زمان معکوس
     // ==========================================
-    var TNO_Countdown = function( $scope, $ ) {
+    var TNO_Countdown = function ($scope, $) {
         var $countdown = $scope.find('.tno-countdown');
-        if ( ! $countdown.length ) return;
+        if (!$countdown.length) return;
 
         var endTime = $countdown.data('end-time');
-        if ( ! endTime ) return;
+        if (!endTime) return;
 
         var countDownDate = new Date(endTime).getTime();
 
-        var x = setInterval(function() {
+        var x = setInterval(function () {
             var now = new Date().getTime();
             var distance = countDownDate - now;
 
@@ -33,14 +109,14 @@ jQuery( window ).on( 'elementor/frontend/init', function() {
             $countdown.find('.seconds').text(seconds < 10 ? "0" + seconds : seconds);
         }, 1000);
     };
-    elementorFrontend.hooks.addAction( 'frontend/element_ready/tno_box_title.default', TNO_Countdown );
+    elementorFrontend.hooks.addAction('frontend/element_ready/tno_box_title.default', TNO_Countdown);
 
     // ==========================================
     // ۲. ویجت هیرو
     // ==========================================
-    elementorFrontend.hooks.addAction( 'frontend/element_ready/tno_hero.default', function( $scope, $ ) {
+    elementorFrontend.hooks.addAction('frontend/element_ready/tno_hero.default', function ($scope, $) {
         var $heroCarousel = $scope.find('.tno-hero-swiper');
-        if ( ! $heroCarousel.length ) return;
+        if (!$heroCarousel.length) return;
 
         var loopAttr = $heroCarousel.data('loop');
         var isLoop = loopAttr === true || loopAttr === "true";
@@ -53,7 +129,7 @@ jQuery( window ).on( 'elementor/frontend/init', function() {
 
         var $nextEl = $scope.find('.swiper-button-next');
         var $prevEl = $scope.find('.swiper-button-prev');
-        if ( $nextEl.length && $prevEl.length ) {
+        if ($nextEl.length && $prevEl.length) {
             swiperOptions.navigation = {
                 nextEl: $nextEl[0],
                 prevEl: $prevEl[0],
@@ -61,7 +137,7 @@ jQuery( window ).on( 'elementor/frontend/init', function() {
         }
 
         var $paginationEl = $scope.find('.swiper-pagination');
-        if ( $paginationEl.length ) {
+        if ($paginationEl.length) {
             swiperOptions.pagination = {
                 el: $paginationEl[0],
                 type: 'bullets',
@@ -69,13 +145,13 @@ jQuery( window ).on( 'elementor/frontend/init', function() {
             };
         }
 
-        new Swiper( $heroCarousel[0], swiperOptions );
+        new Swiper($heroCarousel[0], swiperOptions);
     });
 
     // ==========================================
     // ۳. تب‌های محصولات (سازگاری با ویرایشگر المنتور)
     // ==========================================
-    elementorFrontend.hooks.addAction('frontend/element_ready/trendino_products.default', function() {
+    elementorFrontend.hooks.addAction('frontend/element_ready/trendino_products.default', function () {
         initTrendinoTabs();
         initTrendinoBestSellersTabs();
     });
@@ -83,13 +159,13 @@ jQuery( window ).on( 'elementor/frontend/init', function() {
     // ==========================================
     // ۴. پیشنهاد شگفت‌انگیز (اسلایدر)
     // ==========================================
-    elementorFrontend.hooks.addAction('frontend/element_ready/tno_flash_deal.default', function($scope) {
+    elementorFrontend.hooks.addAction('frontend/element_ready/tno_flash_deal.default', function ($scope) {
         const swiperElement = $scope[0].querySelector('.tno-flash-swiper');
-        
+
         if (swiperElement) {
             const settings = JSON.parse(swiperElement.getAttribute('data-settings'));
             const wrapperId = swiperElement.closest('.tno-flash-deal-wrapper').id;
-            
+
             const swiperOptions = {
                 slidesPerView: settings.breakpoints['768'] ? settings.breakpoints['768'].slidesPerView : 2,
                 spaceBetween: settings.spaceBetween,
@@ -125,13 +201,13 @@ jQuery( window ).on( 'elementor/frontend/init', function() {
     // ==========================================
     // ۵. مقالات (اسلایدر)
     // ==========================================
-    elementorFrontend.hooks.addAction('frontend/element_ready/tno_articles.default', function($scope) {
+    elementorFrontend.hooks.addAction('frontend/element_ready/tno_articles.default', function ($scope) {
         const swiperElement = $scope[0].querySelector('.tno-articles-swiper');
-        
+
         if (swiperElement) {
             const settings = JSON.parse(swiperElement.getAttribute('data-settings'));
             const wrapperId = swiperElement.closest('.tno-articles-wrapper').id;
-            
+
             const swiperOptions = {
                 slidesPerView: settings.breakpoints['768'] ? settings.breakpoints['768'].slidesPerView : 1,
                 spaceBetween: settings.spaceBetween,
@@ -169,7 +245,7 @@ jQuery( window ).on( 'elementor/frontend/init', function() {
 // ==========================================
 // توابع عمومی و اجرای خارج از ویرایشگر المنتور (Front-End)
 // ==========================================
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     initTrendinoTabs();
     initTrendinoBestSellersTabs();
 });
@@ -177,7 +253,7 @@ document.addEventListener("DOMContentLoaded", function() {
 function initTrendinoTabs() {
     const tabButtons = document.querySelectorAll('.tr-tab-btn');
     tabButtons.forEach(btn => {
-        btn.removeEventListener('click', tabClickHandler); 
+        btn.removeEventListener('click', tabClickHandler);
         btn.addEventListener('click', tabClickHandler);
     });
 }
@@ -186,10 +262,10 @@ function tabClickHandler(e) {
     const btn = e.currentTarget;
     const targetId = btn.getAttribute('data-target');
     const wrapper = btn.closest('.trendino-widget-wrapper');
-    
+
     wrapper.querySelectorAll('.tr-tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    
+
     wrapper.querySelectorAll('.tr-tab-pane').forEach(pane => pane.classList.remove('active'));
     wrapper.querySelector(`#${targetId}`).classList.add('active');
 }
@@ -197,7 +273,7 @@ function tabClickHandler(e) {
 function initTrendinoBestSellersTabs() {
     const tabButtons = document.querySelectorAll('.tno-bestsellers-wrapper .tno-tab-btn');
     tabButtons.forEach(btn => {
-        btn.removeEventListener('click', handleBestSellerTabClick); 
+        btn.removeEventListener('click', handleBestSellerTabClick);
         btn.addEventListener('click', handleBestSellerTabClick);
     });
 }
@@ -206,10 +282,10 @@ function handleBestSellerTabClick(e) {
     const btn = e.currentTarget;
     const targetId = btn.getAttribute('data-target');
     const wrapper = btn.closest('.tno-bestsellers-wrapper');
-    
+
     wrapper.querySelectorAll('.tno-tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    
+
     wrapper.querySelectorAll('.tno-tab-pane').forEach(pane => pane.classList.remove('active'));
     const targetPane = wrapper.querySelector(`#${targetId}`);
     if (targetPane) {

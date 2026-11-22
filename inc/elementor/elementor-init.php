@@ -35,6 +35,8 @@ function tno_register_elementor_widgets( $widgets_manager ) {
 	require_once( get_template_directory() . '/inc/elementor/widgets/tno-taste-box.php' );
 	require_once( get_template_directory() . '/inc/elementor/widgets/tno-articles.php' );
 	require_once( get_template_directory() . '/inc/elementor/widgets/tno-archive-plp.php' );
+	require_once( get_template_directory() . '/inc/elementor/widgets/tno-page-intro.php' );
+	require_once( get_template_directory() . '/inc/elementor/widgets/tno-faq.php' );
 
 
 	// 2. ثبت (Register) کردن ویجتها در المنتور
@@ -52,6 +54,8 @@ function tno_register_elementor_widgets( $widgets_manager ) {
 	$widgets_manager->register( new \Elementor_TNO_PLP_Categories_Widget() );
 	$widgets_manager->register( new \Elementor_TNO_Archive_Products_Widget() );
 	$widgets_manager->register( new \Elementor_TNO_Category_SEO_Widget() );
+	$widgets_manager->register( new \TNO_Widget_Page_Intro() );
+	$widgets_manager->register( new \TNO_Widget_FAQ() );
 	
 
 }

@@ -31,7 +31,7 @@ function tno_plp_enqueue_assets() {
         'tno-plp-style',
         get_template_directory_uri() . '/assets/css/plp.css',
         array( 'style' ),
-        '1.0.0'
+        '1.0.1'
     );
 
     wp_enqueue_script(

@@ -1,0 +1,381 @@
+:root {
+	--tno-m-primary: #00235b;
+	--tno-m-primary-hover: #001a44;
+	--tno-m-text: #111827;
+	--tno-m-text-secondary: #374151;
+	--tno-m-muted: #6b7280;
+	--tno-m-placeholder: #9ca3af;
+	--tno-m-border: #e5e7eb;
+	--tno-m-surface: #ffffff;
+	--tno-m-thumb-bg: #f5f5f7;
+	--tno-m-star: #f59e0b;
+	--tno-m-danger-bg: #fef2f2;
+	--tno-m-danger-text: #b91c1c;
+	--tno-m-success-bg: #ecfdf5;
+	--tno-m-success-text: #047857;
+	--tno-m-radius: 20px;
+	--tno-m-font: "YekanBakhFaNum", "YekanBakh", system-ui, -apple-system, sans-serif;
+}
+
+body.tno-modal-open {
+	overflow: hidden;
+}
+
+.tno-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 99999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	font-family: var(--tno-m-font);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.tno-modal[hidden] {
+	display: none;
+}
+
+.tno-modal.is-open {
+	opacity: 1;
+	visibility: visible;
+}
+
+.tno-modal__backdrop {
+	position: fixed;
+	inset: 0;
+	background: rgba(15, 23, 42, 0.52);
+	backdrop-filter: blur(2px);
+}
+
+.tno-modal__dialog {
+	position: relative;
+	z-index: 1;
+	width: 100%;
+	max-width: 580px;
+	max-height: calc(100vh - 32px);
+	overflow-y: auto;
+	background: var(--tno-m-surface);
+	border-radius: var(--tno-m-radius);
+	padding: 24px 28px 26px;
+	box-shadow: 0 24px 48px -12px rgba(15, 23, 42, 0.22);
+	transform: translateY(12px) scale(0.98);
+	transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tno-modal.is-open .tno-modal__dialog {
+	transform: translateY(0) scale(1);
+}
+
+.tno-modal--compact .tno-modal__dialog {
+	max-width: 470px;
+	padding: 24px 24px 24px;
+}
+
+/* Header */
+.tno-modal__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 24px;
+}
+
+.tno-modal__header--auth {
+	margin-bottom: 28px;
+}
+
+.tno-modal__title {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 700;
+	line-height: 1.5;
+	color: var(--tno-m-text);
+}
+
+.tno-modal__close {
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 34px;
+	padding: 0;
+	border: 0;
+	border-radius: 10px;
+	background: transparent;
+	color: var(--tno-m-text);
+	cursor: pointer;
+	transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.tno-modal__close:hover,
+.tno-modal__close:focus-visible {
+	background: #f3f4f6;
+	outline: none;
+}
+
+/* Product Summary & Rating (Review Modal) */
+.tno-modal-product {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin-bottom: 26px;
+}
+
+.tno-modal-product__thumb {
+	flex-shrink: 0;
+	width: 84px;
+	height: 84px;
+	border-radius: 14px;
+	background: var(--tno-m-thumb-bg);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 8px;
+	overflow: hidden;
+}
+
+.tno-modal-product__img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+}
+
+.tno-modal-product__info {
+	flex: 1;
+	min-width: 0;
+}
+
+.tno-modal-product__title {
+	font-size: 14.5px;
+	font-weight: 600;
+	line-height: 1.7;
+	color: var(--tno-m-text);
+	margin-bottom: 10px;
+}
+
+.tno-modal-rating {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.tno-modal-rating__label {
+	font-size: 13.5px;
+	font-weight: 500;
+	color: var(--tno-m-text-secondary);
+}
+
+.tno-stars {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.tno-star-btn {
+	padding: 2px;
+	border: 0;
+	background: transparent;
+	color: var(--tno-m-star);
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.12s ease;
+}
+
+.tno-star-btn:hover {
+	transform: scale(1.12);
+}
+
+.tno-star-btn:focus-visible {
+	outline: 2px solid var(--tno-m-primary);
+	outline-offset: 2px;
+	border-radius: 4px;
+}
+
+.tno-star-btn .tno-star-svg path {
+	fill: transparent;
+	transition: fill 0.14s ease;
+}
+
+.tno-star-btn.is-active .tno-star-svg path,
+.tno-star-btn.is-hovered .tno-star-svg path {
+	fill: var(--tno-m-star);
+}
+
+/* Quoted Question Preview (Answer Modal) */
+.tno-modal-question-preview {
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.9;
+	color: var(--tno-m-text);
+	margin-bottom: 20px;
+	word-break: break-word;
+}
+
+/* Form Controls */
+.tno-modal-field {
+	margin-bottom: 18px;
+}
+
+.tno-modal-field__label {
+	display: block;
+	font-size: 14px;
+	font-weight: 600;
+	color: var(--tno-m-text);
+	margin-bottom: 10px;
+}
+
+.tno-modal-textarea {
+	width: 100%;
+	min-height: 152px;
+	padding: 16px 18px;
+	font-family: inherit;
+	font-size: 14px;
+	line-height: 1.8;
+	color: var(--tno-m-text);
+	background: #ffffff;
+	border: 1px solid var(--tno-m-border);
+	border-radius: 16px;
+	resize: vertical;
+	box-sizing: border-box;
+	transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.tno-modal-textarea::placeholder {
+	color: var(--tno-m-placeholder);
+}
+
+.tno-modal-textarea:focus {
+	outline: none;
+	border-color: var(--tno-m-primary);
+	box-shadow: 0 0 0 3px rgba(0, 35, 91, 0.08);
+}
+
+/* Inline Alert */
+.tno-modal-alert {
+	padding: 11px 14px;
+	border-radius: 12px;
+	font-size: 13px;
+	font-weight: 500;
+	line-height: 1.6;
+	margin-bottom: 16px;
+}
+
+.tno-modal-alert.is-error {
+	background: var(--tno-m-danger-bg);
+	color: var(--tno-m-danger-text);
+}
+
+.tno-modal-alert.is-success {
+	background: var(--tno-m-success-bg);
+	color: var(--tno-m-success-text);
+}
+
+/* Primary Pill Button */
+.tno-modal-btn {
+	width: 100%;
+	min-height: 50px;
+	padding: 12px 24px;
+	border: 0;
+	border-radius: 9999px;
+	background: var(--tno-m-primary);
+	color: #ffffff;
+	font-family: inherit;
+	font-size: 15px;
+	font-weight: 600;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	cursor: pointer;
+	box-sizing: border-box;
+	transition: background-color 0.18s ease, opacity 0.18s ease, transform 0.1s ease;
+}
+
+.tno-modal-btn:hover,
+.tno-modal-btn:focus-visible {
+	background: var(--tno-m-primary-hover);
+	color: #ffffff;
+	outline: none;
+}
+
+.tno-modal-btn:active {
+	transform: scale(0.99);
+}
+
+.tno-modal-btn:disabled,
+.tno-modal-btn.is-loading {
+	opacity: 0.72;
+	cursor: not-allowed;
+}
+
+.tno-modal-btn__spinner {
+	display: none;
+	width: 18px;
+	height: 18px;
+	border: 2px solid rgba(255, 255, 255, 0.35);
+	border-top-color: #ffffff;
+	border-radius: 50%;
+	animation: tnoModalSpin 0.65s linear infinite;
+}
+
+.tno-modal-btn.is-loading .tno-modal-btn__spinner {
+	display: inline-block;
+}
+
+@keyframes tnoModalSpin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+/* Terms Footer */
+.tno-modal-terms {
+	margin: 14px 0 0;
+	text-align: center;
+	font-size: 12.5px;
+	color: var(--tno-m-muted);
+	line-height: 1.7;
+}
+
+.tno-modal-terms a {
+	color: var(--tno-m-primary);
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.tno-modal-terms a:hover {
+	text-decoration: underline;
+}
+
+/* Mobile Bottom Sheet */
+@media (max-width: 640px) {
+	.tno-modal {
+		align-items: flex-end;
+		padding: 0;
+	}
+
+	.tno-modal__dialog {
+		max-width: 100%;
+		border-radius: 22px 22px 0 0;
+		padding: 20px 18px 24px;
+		max-height: 90vh;
+	}
+
+	.tno-modal__title {
+		font-size: 16px;
+	}
+
+	.tno-modal-product__thumb {
+		width: 68px;
+		height: 68px;
+	}
+}

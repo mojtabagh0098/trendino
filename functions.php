@@ -8,7 +8,7 @@ function add_theme_scripts() {
         'tno-widgets-script', 
         get_template_directory_uri() . '/assets/js/tno-widgets.js', 
         [ 'jquery', 'elementor-frontend' ], // وابستگی‌ها
-        '1.0', 
+        '1.1', 
         true 
     );
 
@@ -17,6 +17,29 @@ function add_theme_scripts() {
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );
 	}
+    if ( is_product() ) {
+        wp_enqueue_style(
+            'tno-pdp-style',
+            get_template_directory_uri() . '/assets/css/pdp.css',
+            array(),
+            filemtime( get_template_directory() . '/assets/css/pdp.css' )
+        );
+
+        wp_enqueue_script(
+            'tno-pdp-script',
+            get_template_directory_uri() . '/assets/js/pdp.js',
+            array(),
+            filemtime( get_template_directory() . '/assets/js/pdp.js' ),
+            true
+        );
+
+        wp_localize_script( 'tno-pdp-script', 'tnoPdpData', array(
+            'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
+            'nonce'     => wp_create_nonce( 'tno_pdp_nonce' ),
+            'productId' => get_the_ID(),
+            'isLogged'  => is_user_logged_in(),
+        ) );
+    }
 }
 add_action( 'wp_enqueue_scripts', 'add_theme_scripts' );
 function register_trendino_menu() {
@@ -154,3 +177,87 @@ add_action( 'shutdown', function() {
 } );
 
 require_once get_template_directory() . '/inc/plp-functions.php';
+require_once get_template_directory() . '/inc/login.php';
+require_once get_template_directory() . '/inc/admin-settings.php';
+require_once get_template_directory() . '/inc/pdp-functions.php';
+require_once get_template_directory() . '/inc/pdp-modals.php';
+
+/**
+ * 1. Declare WooCommerce Support (Prevents fallback to page.php / default WC wrapper)
+ */
+add_action( 'after_setup_theme', function() {
+    add_theme_support( 'woocommerce' );
+    add_theme_support( 'wc-product-gallery-zoom' );
+    add_theme_support( 'wc-product-gallery-lightbox' );
+    add_theme_support( 'wc-product-gallery-slider' );
+}, 10 );
+
+/**
+ * 2. Load PDP Backend Module
+ */
+$tno_pdp_inc = get_stylesheet_directory() . '/inc/pdp-functions.php';
+if ( file_exists( $tno_pdp_inc ) ) {
+    require_once $tno_pdp_inc;
+}
+
+/**
+ * 3. Force Load Custom woocommerce/single-product.php (Bypasses WC_Template_Loader & Elementor)
+ */
+add_filter( 'template_include', function( $template ) {
+    if ( is_singular( 'product' ) ) {
+        $custom_pdp = get_stylesheet_directory() . '/woocommerce/single-product.php';
+        if ( file_exists( $custom_pdp ) ) {
+            return $custom_pdp;
+        }
+    }
+    return $template;
+}, 99999 );
+
+/**
+ * 4. Intercept wc_get_template_part if called directly
+ */
+add_filter( 'wc_get_template_part', function( $template, $slug, $name ) {
+    if ( $slug === 'content' && $name === 'single-product' ) {
+        $custom_pdp = get_stylesheet_directory() . '/woocommerce/single-product.php';
+        if ( file_exists( $custom_pdp ) ) {
+            return $custom_pdp;
+        }
+    }
+    return $template;
+}, 99999, 3 );
+
+/**
+ * 5. Enqueue PDP Assets & Dequeue Conflicting Default WC Styles on Product Page
+ */
+add_action( 'wp_enqueue_scripts', function() {
+    if ( is_singular( 'product' ) ) {
+        $css_path = get_stylesheet_directory() . '/assets/css/pdp.css';
+        $js_path  = get_stylesheet_directory() . '/assets/js/pdp.js';
+
+        if ( file_exists( $css_path ) ) {
+            wp_enqueue_style(
+                'tno-pdp-style',
+                get_stylesheet_directory_uri() . '/assets/css/pdp.css',
+                array(),
+                filemtime( $css_path )
+            );
+        }
+
+        if ( file_exists( $js_path ) ) {
+            wp_enqueue_script(
+                'tno-pdp-script',
+                get_stylesheet_directory_uri() . '/assets/js/pdp.js',
+                array(),
+                filemtime( $js_path ),
+                true
+            );
+
+            wp_localize_script( 'tno-pdp-script', 'tnoPdpData', array(
+                'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
+                'nonce'     => wp_create_nonce( 'tno_pdp_nonce' ),
+                'productId' => get_queried_object_id(),
+                'isLogged'  => is_user_logged_in(),
+            ) );
+        }
+    }
+}, 99 );

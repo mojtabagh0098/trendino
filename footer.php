@@ -41,14 +41,16 @@ $socials = array(
 
 <footer id="theme-footer" class="tf-footer" dir="rtl">
 
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 114" width="54%" height="auto" fill="none" style="position:absolute;width:54%;left:0;right:0;margin:0 auto;top:0;z-index:1;">
-        <path d="M 12 0 L 988 0 A 12 12 0 0 1 998.39 18 L 947.58 106 Q 942.96 114, 933.72 114 L 66.28 114 Q 57.04 114, 52.42 106 L 1.61 18 A 12 12 0 0 1 12 0 Z" fill="#F2F2F2" />
-    </svg>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 537 61" width="100%" height="auto" fill="none" style="width:60%;margin:0 auto;position:absolute;top:0;left:0;right:0;">
-        <path d="M 0 0 Q 8 0, 12 6.78 L 40 54.22 Q 44 61, 52 61 L 485 61 Q 493 61, 497 54.22 L 525 6.78 Q 529 0, 537 0 Z" fill="#FFFFFF" />
-    </svg>
-
     <div class="tf-footer__box">
+
+    <div class="tf-footer__notch" aria-hidden="true">
+        <svg class="tf-footer__notch-outer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 537 61" preserveAspectRatio="none" fill="none">
+            <path d="M 0 0 Q 8 0, 12 6.78 L 40 54.22 Q 44 61, 52 61 L 485 61 Q 493 61, 497 54.22 L 525 6.78 Q 529 0, 537 0 Z" fill="#FFFFFF"/>
+        </svg>
+        <svg class="tf-footer__notch-inner" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 114" preserveAspectRatio="none" fill="none">
+            <path d="M 12 0 L 988 0 A 12 12 0 0 1 998.39 18 L 947.58 106 Q 942.96 114, 933.72 114 L 66.28 114 Q 57.04 114, 52.42 106 L 1.61 18 A 12 12 0 0 1 12 0 Z" fill="#F2F2F2"/>
+        </svg>
+    </div>
 
         <!-- خبرنامه -->
         <div class="tf-footer__newsletter">

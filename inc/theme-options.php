@@ -32,12 +32,12 @@ add_action('after_setup_theme', function () {
 });
 
 add_action('wp_enqueue_scripts', function () {
-    wp_enqueue_style(
-        'tf-custom-footer',
-        get_theme_file_uri('/assets/css/custom-footer.css'),
-        array(),
-        '1.0.0'
-    );
+    // wp_enqueue_style(
+    //     'tf-custom-footer',
+    //     get_theme_file_uri('/assets/css/custom-footer.css'),
+    //     array(),
+    //     '1.0.0'
+    // );
 });
 
 add_action('customize_register', function ($wp_customize) {

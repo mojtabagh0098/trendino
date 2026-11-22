@@ -939,3 +939,610 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ==================================================
+   Trendino WooCommerce Cart Page Styles (Figma Match)
+   ================================================== */
+.tno-cart-page-container {
+    padding: 30px 0 60px;
+}
+
+/* استپ بار بالای صفحه */
+.tno-checkout-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #8A8FA3;
+}
+
+.tno-step-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tno-step-item.is-active {
+    color: #131313;
+}
+
+.tno-step-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #131313;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.tno-step-line {
+    width: 60px;
+    height: 1.5px;
+    background-color: #D1D5DB;
+}
+
+/* چیدمان کلی دو ستونه سبد خرید */
+.tno-cart-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    align-items: start;
+}
+
+/* ستون سمت راست: اقلام سبد خرید */
+.tno-cart-items-col {
+    background: #ffffff;
+    border: 1px solid #ECECEC;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.tno-cart-box-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #F0F0F0;
+    margin-bottom: 20px;
+}
+
+.tno-red-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #E81327;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px #FFC2C7;
+    display: block;
+}
+
+.tno-cart-box-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #131313;
+    margin: 0;
+}
+
+.tno-cart-count-badge {
+    background: #F5F5F5;
+    color: #555;
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+/* کارت هر محصول در سبد خرید */
+.tno-cart-item-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid #F5F5F5;
+    gap: 20px;
+}
+
+.tno-cart-item-card:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.tno-cart-item-thumb {
+    width: 90px;
+    height: 90px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tno-cart-item-thumb img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.tno-cart-item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tno-cart-item-title a {
+    font-size: 14px;
+    font-weight: 700;
+    color: #131313;
+    line-height: 1.8;
+    text-decoration: none;
+}
+
+.tno-cart-item-attributes {
+    font-size: 12px;
+    color: #757575;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.tno-cart-item-qty-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #555;
+}
+
+.tno-qty-box-inline .quantity input.qty {
+    width: 45px;
+    height: 32px;
+    text-align: center;
+    border: 1px solid #D1D5DB;
+    border-radius: 8px;
+    font-family: inherit;
+    font-weight: 700;
+}
+
+.tno-remove-item-btn {
+    color: #9CA3AF;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.tno-remove-item-btn:hover {
+    color: #E81327;
+}
+
+/* قیمت‌ها در کارت محصول */
+.tno-cart-item-pricing-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    min-width: 130px;
+}
+
+.tno-cart-badge-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.tno-item-disc-badge {
+    background: #E81327;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+
+.tno-item-old-price {
+    font-size: 12px;
+    color: #9CA3AF;
+}
+
+.tno-item-final-price {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    color: #131313;
+}
+
+.tno-item-final-price strong {
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.tno-item-final-price small {
+    font-size: 11px;
+    color: #757575;
+}
+
+/* ستون چپ: باکس مجموع قابل پرداخت */
+.tno-cart-summary-col {
+    background: #ffffff;
+    border: 1px solid #ECECEC;
+    border-radius: 16px;
+    padding: 24px;
+    position: sticky;
+    top: 100px;
+}
+
+.tno-summary-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #131313;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.tno-summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #6B7280;
+    margin-bottom: 14px;
+}
+
+.tno-summary-row strong {
+    color: #131313;
+    font-weight: 700;
+}
+
+.tno-summary-divider {
+    height: 1px;
+    background-color: #E5E7EB;
+    margin: 18px 0;
+}
+
+.tno-payable-row {
+    font-size: 14px;
+    font-weight: 700;
+    color: #131313;
+    margin-bottom: 22px;
+}
+
+.tno-payable-final-val {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    color: #131313;
+}
+
+.tno-payable-final-val strong {
+    font-size: 18px;
+    font-weight: 900;
+    color: #E81327;
+}
+
+.tno-payable-final-val small {
+    font-size: 12px;
+    color: #555;
+}
+
+.tno-proceed-checkout-btn {
+    display: block;
+    width: 100%;
+    background-color: #131313;
+    color: #ffffff;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 12px 0;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+
+.tno-proceed-checkout-btn:hover {
+    background-color: #E81327;
+}
+
+.tno-cart-empty-box {
+    text-align: center;
+    padding: 60px 20px;
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid #ECECEC;
+}
+
+.tno-return-shop-btn {
+    display: inline-block;
+    margin-top: 15px;
+    background: #012561;
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* ریسپانسیو موبایل و تبلت */
+@media (max-width: 992px) {
+    .tno-cart-layout {
+        grid-template-columns: 1fr;
+    }
+    .tno-cart-summary-col {
+        position: static;
+    }
+}
+
+/* ==================================================
+   Trendino Checkout / Shipping Page Styles (Figma Match)
+   ================================================== */
+.tno-checkout-page-container {
+    padding: 30px 0 60px;
+}
+
+.tno-checkout-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 24px;
+    align-items: start;
+}
+
+.tno-checkout-main-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.tno-checkout-section-box {
+    background: #ffffff;
+    border: 1px solid #ECECEC;
+    border-radius: 16px;
+    padding: 24px;
+}
+
+.tno-section-box-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #F0F0F0;
+    margin-bottom: 20px;
+}
+
+.tno-section-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #131313;
+    margin: 0;
+}
+
+/* فرم‌ها و اینپوت‌ها */
+.tno-form-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.tno-field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tno-field-full {
+    grid-column: 1 / -1;
+}
+
+.tno-field-wrap label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #4B5563;
+}
+
+.tno-input, .tno-select, .tno-textarea {
+    width: 100%;
+    height: 46px;
+    padding: 0 16px;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    background: #F9FAFB;
+    font-family: inherit;
+    font-size: 14px;
+    color: #1F2937;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.tno-input:focus, .tno-select:focus, .tno-textarea:focus {
+    border-color: #012561;
+    background: #fff;
+}
+
+.tno-textarea {
+    height: 110px;
+    padding: 12px 16px;
+    resize: vertical;
+}
+
+/* کارت آدرس */
+.tno-radio-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #F9FAFB;
+}
+
+.tno-radio-card.is-selected {
+    border-color: #012561;
+    background: #F0F4FF;
+}
+
+.tno-radio-card input {
+    display: none;
+}
+
+.tno-radio-custom {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #D1D5DB;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tno-radio-card.is-selected .tno-radio-custom {
+    border-color: #012561;
+    background: #012561;
+    box-shadow: inset 0 0 0 3px #fff;
+}
+
+.tno-address-text {
+    font-size: 13px;
+    color: #374151;
+}
+
+/* روش‌های ارسال */
+.tno-shipping-methods-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.tno-shipping-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px;
+    border: 1px solid #E5E7EB;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 700;
+    color: #4B5563;
+    background: #F9FAFB;
+    text-align: center;
+}
+
+.tno-shipping-card.is-selected {
+    border-color: #012561;
+    color: #012561;
+    background: #F0F4FF;
+}
+
+.tno-shipping-card input {
+    display: none;
+}
+
+/* تاریخ‌ها و زمان ارسال */
+.tno-date-chips-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+}
+
+.tno-chip-date {
+    flex-shrink: 0;
+    padding: 10px 18px;
+    border: 1px solid #E5E7EB;
+    border-radius: 100px;
+    font-size: 13px;
+    color: #4B5563;
+    cursor: pointer;
+    background: #F9FAFB;
+}
+
+.tno-chip-date.is-selected {
+    border-color: #012561;
+    background: #012561;
+    color: #fff;
+    font-weight: 700;
+}
+
+.tno-chip-date input {
+    display: none;
+}
+
+.tno-time-slots-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tno-radio-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1px solid #E5E7EB;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.tno-radio-row.is-selected {
+    border-color: #012561;
+    background: #F0F4FF;
+}
+
+.tno-radio-row input {
+    display: none;
+}
+
+/* ستون خلاصه سفارش (چپ) */
+.tno-checkout-summary-col {
+    background: #ffffff;
+    border: 1px solid #ECECEC;
+    border-radius: 16px;
+    padding: 24px;
+    position: sticky;
+    top: 100px;
+}
+
+.tno-summary-mini-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 220px;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.tno-summary-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12.5px;
+    color: #4B5563;
+    gap: 10px;
+}
+
+.tno-sum-item-name {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tno-express-tag {
+    background: #FEF2F2;
+    color: #E81327;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+@media (max-width: 992px) {
+    .tno-checkout-layout {
+        grid-template-columns: 1fr;
+    }
+    .tno-form-grid-2, .tno-shipping-methods-row {
+        grid-template-columns: 1fr;
+    }
+}
