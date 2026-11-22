@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 510" fill="none">
+  <!-- The unplugged cable, looping above the plug. -->
+  <path d="M264 4C260 51 266 93 286 100C302 106 325 81 337 67C356 45 316 48 266 54C226 58 187 67 150 67C127 67 129 57 139 46C152 32 166 21 177 29C190 38 186 70 184 86" stroke="#F50929" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M172 151V127H160V108H172V88H196V108H207V127H196V151M154 127H214" stroke="#06265F" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Hand-drawn 404 and socket. -->
+  <path d="M74 307V185L9 264H95M333 307V185L268 264H354" stroke="#06265F" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="183" cy="257" r="59" stroke="#06265F" stroke-width="9"/>
+  <circle cx="183" cy="257" r="44" stroke="#F50929" stroke-width="7"/>
+  <circle cx="167" cy="257" r="6.5" fill="#06265F"/>
+  <circle cx="200" cy="257" r="6.5" fill="#06265F"/>
+  <!-- Cable leaving the socket and running off the lower edge. -->
+  <path d="M184 320C183 350 181 391 191 420C201 449 227 442 241 429C263 409 236 385 201 384C163 382 127 387 103 411C81 433 75 471 78 510" stroke="#F50929" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
