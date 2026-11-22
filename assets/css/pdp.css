@@ -1401,3 +1401,46 @@
   background-color: rgba(230, 234, 240, 1);
   flex-grow: 1;
 }
+/* Product questions: the list and the question prompt share a clean RTL layout. */
+#tno-sec-qa .tno-qa-layout { gap: 30px; align-items: flex-start; }
+#tno-sec-qa .tno-reviews-sidebar { flex: 0 0 29%; position: static; }
+#tno-sec-qa .tno-reviews-main { flex: 1 1 0; min-width: 0; }
+#tno-sec-qa .tno-qa-submit-card { padding: 18px 16px; text-align: center; background: #f5f5f5; border-radius: 12px; }
+#tno-sec-qa .tno-qa-submit-title { margin: 0 0 12px; color: #131313; font-size: 14px; font-weight: 700; line-height: 2; }
+#tno-sec-qa .tno-submit-hint { margin: 0 0 18px; color: #929292; font-size: 12px; line-height: 1.8; }
+#tno-sec-qa .tno-btn-outline-black { padding: 8px 12px; font-size: 14px; font-weight: 600; }
+#tno-sec-qa .tno-btn-outline-black:hover { background: #012561; border-color: #012561; color: #fff; }
+#tno-sec-qa .tno-sort-toolbar { gap: 12px; margin: 0; padding: 0 0 16px; color: #929292; border-color: #ededed; }
+#tno-sec-qa .tno-sort-options { flex-wrap: wrap; gap: 8px; }
+#tno-sec-qa .tno-sort-label { color: #212121; font-size: 12px; font-weight: 700; }
+#tno-sec-qa .tno-sort-btn { padding: 4px 9px; color: #929292; font-size: 12px; border-radius: 99px; white-space: nowrap; }
+#tno-sec-qa .tno-sort-btn.is-active { background: #012561; color: #fff; }
+#tno-sec-qa .tno-total-count { font-size: 12px; white-space: nowrap; }
+#tno-sec-qa .tno-qa-card { padding: 20px 0 24px; border-color: #ededed; }
+#tno-sec-qa .tno-question-text { margin: 0 0 24px; color: #131313; font-size: 15px; line-height: 1.8; font-weight: 800; }
+#tno-sec-qa .tno-answers-list { padding: 0; margin: 0; }
+#tno-sec-qa .tno-answer-item { padding: 0; margin: 0 0 28px; background: transparent; border-radius: 0; }
+#tno-sec-qa .tno-answer-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; color: #333; font-size: 13px; }
+#tno-sec-qa .tno-a-badge { margin: 0; padding: 5px 12px; border-radius: 99px; background: #e7f3e9; color: #333; font-size: 12px; line-height: 1.5; }
+#tno-sec-qa .tno-answer-body, #tno-sec-qa .tno-answer-footer, #tno-sec-qa .tno-qa-actions, #tno-sec-qa .tno-qa-more { margin-right: 70px; }
+#tno-sec-qa .tno-answer-body { color: #131313; font-size: 14px; font-weight: 600; line-height: 2.2; overflow-wrap: anywhere; }
+#tno-sec-qa .tno-answer-body p { margin: 0; }
+#tno-sec-qa .tno-answer-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 20px; }
+#tno-sec-qa .tno-answer-date { color: #999; font-size: 12px; }
+#tno-sec-qa .tno-helpful-box { direction: ltr; gap: 14px; }
+#tno-sec-qa .tno-vote-btn { display: inline-flex; flex-direction: row-reverse; align-items: center; gap: 6px; padding: 0; border: 0; background: transparent; color: #212121; }
+#tno-sec-qa .tno-vote-btn:disabled { opacity: .55; cursor: default; }
+#tno-sec-qa .tno-qa-actions { display: flex; justify-content: flex-start; }
+#tno-sec-qa .tno-reply-q-btn { display: inline-flex; align-items: center; gap: 8px; padding: 0; color: #2385ff; font-size: 13px; font-weight: 500; }
+#tno-sec-qa .tno-reply-q-btn span { font-size: 22px; line-height: 1; font-weight: 400; }
+#tno-sec-qa .tno-qa-more { display: flex; align-items: center; gap: 12px; padding: 0; margin-bottom: 20px; border: 0; background: none; color: #212121; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; }
+#tno-sec-qa .tno-qa-chevron { display: grid; place-items: center; width: 24px; height: 24px; color: #012561; background: #f7f8fa; border-radius: 50%; }
+#tno-sec-qa .tno-qa-more[aria-expanded="true"] .tno-qa-chevron { transform: rotate(180deg); }
+#tno-sec-qa .tno-extra-answers[hidden] { display: none; }
+#tno-sec-qa button:focus-visible { outline: 2px solid #2385ff; outline-offset: 3px; }
+@media (max-width: 767px) {
+    #tno-sec-qa .tno-qa-layout { flex-direction: column; gap: 24px; }
+    #tno-sec-qa .tno-reviews-sidebar, #tno-sec-qa .tno-reviews-main { width: 100%; flex-basis: auto; }
+    #tno-sec-qa .tno-answer-body, #tno-sec-qa .tno-answer-footer, #tno-sec-qa .tno-qa-actions, #tno-sec-qa .tno-qa-more { margin-right: 20px; }
+    #tno-sec-qa .tno-sort-toolbar { align-items: flex-start; }
+}
