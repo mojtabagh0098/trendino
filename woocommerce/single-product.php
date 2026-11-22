@@ -57,7 +57,7 @@ while ( have_posts() ) :
     $questions = get_comments( array(
         'post_id' => $product_id,
         'status'  => 'approve',
-        'type'    => 'tno_qa',
+        'type__in' => array( 'tno_question', 'tno_qa' ),
         'parent'  => 0,
         'orderby' => 'comment_date_gmt',
         'order'   => 'DESC',
@@ -519,12 +519,13 @@ while ( have_posts() ) :
                     <h2 class="tno-section-title">پرسش‌ها</h2>
                 </div>
 
-                <div class="tno-reviews-layout">
+                <div class="tno-reviews-layout tno-qa-layout">
 
-                    <!-- Left Sidebar: Submit Question CTA -->
+                    <!-- Question CTA -->
                     <aside class="tno-reviews-sidebar">
-                        <div class="tno-score-card">
-                            <p class="tno-submit-hint">پرسش خود را درباره این کالا مطرح کنید</p>
+                        <div class="tno-score-card tno-qa-submit-card">
+                            <p class="tno-qa-submit-title"><?php echo esc_html( number_format_i18n( $qa_count ) ); ?> نفر راجع به این محصول پرسش ثبت کردند</p>
+                            <p class="tno-submit-hint">شما هم درباره این کالا پرسش ثبت کنید</p>
                             <button type="button" class="tno-btn-outline-black js-open-question-modal" data-tno-modal="question">ثبت پرسش</button>
                         </div>
                     </aside>
@@ -533,9 +534,10 @@ while ( have_posts() ) :
                     <div class="tno-reviews-main">
                         <div class="tno-sort-toolbar">
                             <div class="tno-sort-options">
-                                <span class="tno-sort-label">مرتب‌سازی:</span>
+                                <span class="tno-sort-label">مرتب‌سازی براساس</span>
+                                <button type="button" class="tno-sort-btn js-sort-questions" data-sort="buyers">فقط خریداران</button>
+                                <button type="button" class="tno-sort-btn js-sort-questions" data-sort="answers">بیشترین پاسخ</button>
                                 <button type="button" class="tno-sort-btn is-active js-sort-questions" data-sort="newest">جدیدترین</button>
-                                <button type="button" class="tno-sort-btn js-sort-questions" data-sort="helpful">مفیدترین</button>
                             </div>
                             <span class="tno-total-count"><?php echo esc_html( number_format_i18n( $qa_count ) ); ?> پرسش</span>
                         </div>

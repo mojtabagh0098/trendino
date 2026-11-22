@@ -736,51 +736,51 @@ class TNO_PDP_Manager {
      */
     public static function render_question_card( \WP_Comment $question ): void {
         $replies = get_comments( array(
-            'parent'  => $question->comment_ID,
-            'status'  => 'approve',
-            'type'    => 'tno_qa',
-            'orderby' => 'comment_date_gmt',
-            'order'   => 'ASC',
+            'post_id'  => $question->comment_post_ID,
+            'parent'   => $question->comment_ID,
+            'status'   => 'approve',
+            'type__in' => array( 'tno_answer', 'tno_qa' ),
+            'orderby'  => 'comment_date_gmt',
+            'order'    => 'ASC',
         ) );
+        $extra_id = 'tno-qa-extra-' . $question->comment_ID;
         ?>
         <article class="tno-qa-card" data-question-id="<?php echo esc_attr( $question->comment_ID ); ?>">
-            <div class="tno-question-head">
-                <span class="tno-q-user">
-                    <?php echo esc_html( $question->comment_author ); ?>
-                </span>
-                <div class="tno-question-text"><?php echo esc_html( $question->comment_content ); ?></div>
-            </div>
-
+            <h3 class="tno-question-text"><?php echo esc_html( $question->comment_content ); ?></h3>
             <?php if ( ! empty( $replies ) ) : ?>
                 <div class="tno-answers-list">
-                    <?php foreach ( $replies as $reply ) :
+                    <?php foreach ( $replies as $index => $reply ) :
                         $r_likes    = (int) get_comment_meta( $reply->comment_ID, '_tno_likes', true );
                         $r_dislikes = (int) get_comment_meta( $reply->comment_ID, '_tno_dislikes', true );
-                        ?>
+                        if ( 2 === $index ) : ?><div id="<?php echo esc_attr( $extra_id ); ?>" class="tno-extra-answers" hidden><?php endif; ?>
                         <div class="tno-answer-item">
                             <div class="tno-answer-meta">
-                                <span class="tno-a-badge">پاسخ</span>
-                                <strong><?php echo esc_html( $reply->comment_author ); ?></strong>
-                                <span class="tno-answer-date"><?php echo esc_html( get_comment_date( 'j F Y', $reply ) ); ?></span>
+                                <span><?php echo esc_html( $reply->comment_author ); ?></span>
+                                <span class="tno-a-badge"><?php echo $reply->user_id ? 'کاربر ترندینو' : 'کاربر ناشناس'; ?></span>
                             </div>
                             <div class="tno-answer-body"><?php echo wpautop( esc_html( $reply->comment_content ) ); ?></div>
-                            <div class="tno-helpful-box">
-                                <span class="tno-helpful-label">آیا این پاسخ مفید بود؟</span>
-                                <button type="button" class="tno-vote-btn js-vote-comment" data-id="<?php echo esc_attr( $reply->comment_ID ); ?>" data-type="like">
-                                    <span class="tno-vote-count"><?php echo esc_html( $r_likes ); ?></span> 👍
-                                </button>
-                                <button type="button" class="tno-vote-btn js-vote-comment" data-id="<?php echo esc_attr( $reply->comment_ID ); ?>" data-type="dislike">
-                                    <span class="tno-vote-count"><?php echo esc_html( $r_dislikes ); ?></span> 👎
-                                </button>
+                            <div class="tno-answer-footer">
+                                <time class="tno-answer-date"><?php echo esc_html( get_comment_date( 'Y/m/d', $reply ) ); ?></time>
+                                <div class="tno-helpful-box">
+                                    <button type="button" class="tno-vote-btn js-vote-comment" data-id="<?php echo esc_attr( $reply->comment_ID ); ?>" data-type="like" aria-label="پسندیدن پاسخ">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v11H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3Zm0 0 4-8a3 3 0 0 1 3 3v4h5.2a2 2 0 0 1 2 2.3l-1.3 8a2 2 0 0 1-2 1.7H7"/></svg><span class="tno-vote-count"><?php echo esc_html( number_format_i18n( $r_likes ) ); ?></span>
+                                    </button>
+                                    <button type="button" class="tno-vote-btn js-vote-comment" data-id="<?php echo esc_attr( $reply->comment_ID ); ?>" data-type="dislike" aria-label="نپسندیدن پاسخ">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 14V3h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3Zm0 0-4 8a3 3 0 0 1-3-3v-4H4.8a2 2 0 0 1-2-2.3l1.3-8a2 2 0 0 1 2-1.7H17"/></svg><span class="tno-vote-count"><?php echo esc_html( number_format_i18n( $r_dislikes ) ); ?></span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     <?php endforeach; ?>
+                    <?php if ( count( $replies ) > 2 ) : ?></div><?php endif; ?>
                 </div>
+                <?php if ( count( $replies ) > 2 ) : ?>
+                    <button type="button" class="tno-qa-more js-toggle-answers" aria-expanded="false" aria-controls="<?php echo esc_attr( $extra_id ); ?>"><span>مشاهده پاسخ‌های دیگر</span><span class="tno-qa-chevron" aria-hidden="true">⌄</span></button>
+                <?php endif; ?>
             <?php endif; ?>
-
             <div class="tno-qa-actions">
                 <button type="button" class="tno-reply-q-btn js-open-answer-modal" data-tno-modal="answer" data-question-id="<?php echo esc_attr( (string) $question->comment_ID ); ?>" data-question-text="<?php echo esc_attr( wp_strip_all_tags( $question->comment_content ) ); ?>" data-parent="<?php echo esc_attr( $question->comment_ID ); ?>">
-                    ثبت پاسخ به این پرسش <span>&larr;</span>
+                    <span aria-hidden="true">＋</span> ثبت پاسخ
                 </button>
             </div>
         </article>
@@ -840,18 +840,30 @@ class TNO_PDP_Manager {
         $args = array(
             'post_id' => $product_id,
             'status'  => 'approve',
-            'type'    => 'tno_qa',
+            'type__in' => array( 'tno_question', 'tno_qa' ),
             'parent'  => 0,
             'orderby' => 'comment_date_gmt',
             'order'   => 'DESC',
         );
 
-        if ( $sort === 'helpful' ) {
-            $args['meta_key'] = '_tno_likes';
-            $args['orderby']  = 'meta_value_num';
-        }
-
         $questions = get_comments( $args );
+        if ( $sort === 'buyers' ) {
+            $questions = array_values( array_filter( $questions, static function ( $question ) use ( $product_id ) {
+                return wc_customer_bought_product( $question->comment_author_email, $question->user_id, $product_id );
+            } ) );
+        } elseif ( $sort === 'answers' ) {
+            $answer_counts = array();
+            foreach ( $questions as $question ) {
+                $answer_counts[ $question->comment_ID ] = (int) get_comments( array(
+                    'post_id' => $product_id, 'parent' => $question->comment_ID,
+                    'status' => 'approve', 'type__in' => array( 'tno_answer', 'tno_qa' ), 'count' => true,
+                ) );
+            }
+            usort( $questions, static function ( $a, $b ) use ( $answer_counts ) {
+                $difference = $answer_counts[ $b->comment_ID ] <=> $answer_counts[ $a->comment_ID ];
+                return $difference ?: strcmp( $b->comment_date_gmt, $a->comment_date_gmt );
+            } );
+        }
         ob_start();
         if ( ! empty( $questions ) ) {
             foreach ( $questions as $q ) {

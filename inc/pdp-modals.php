@@ -92,7 +92,7 @@ add_action( 'pre_get_comments', function ( WP_Comment_Query $query ): void {
 	}
 
 	$type = $query->query_vars['type'] ?? '';
-	if ( '' === $type || 'comment' === $type || 'review' === $type ) {
+	if ( empty( $query->query_vars['type__in'] ) && ( '' === $type || 'comment' === $type || 'review' === $type ) ) {
 		$not_in = (array) ( $query->query_vars['type__not_in'] ?? [] );
 		$query->query_vars['type__not_in'] = array_unique(
 			array_merge( $not_in, [ TNO_QA_QUESTION_TYPE, TNO_QA_ANSWER_TYPE ] )
@@ -330,7 +330,7 @@ function tno_ajax_submit_product_answer(): void {
 		! $parent_comment
 		|| (int) $parent_comment->comment_post_ID !== $product_id
 		|| (int) $parent_comment->comment_parent !== 0
-		|| $parent_comment->comment_type !== TNO_QA_QUESTION_TYPE
+		|| ! in_array( $parent_comment->comment_type, [ TNO_QA_QUESTION_TYPE, 'tno_qa' ], true )
 		|| '1' !== (string) $parent_comment->comment_approved
 	) {
 		wp_send_json_error(

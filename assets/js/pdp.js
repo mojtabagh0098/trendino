@@ -122,6 +122,43 @@
         });
     });
 
+    // Delegation keeps answer controls working after the list is sorted via AJAX.
+    document.addEventListener('click', function (event) {
+        const more = event.target.closest('.js-toggle-answers');
+        if (more) {
+            const extra = document.getElementById(more.getAttribute('aria-controls'));
+            if (!extra) return;
+            const expanded = more.getAttribute('aria-expanded') === 'true';
+            extra.hidden = expanded;
+            more.setAttribute('aria-expanded', String(!expanded));
+            more.querySelector('span').textContent = expanded ? 'مشاهده پاسخ‌های دیگر' : 'بستن پاسخ‌های دیگر';
+            return;
+        }
+        const vote = event.target.closest('#tno-sec-qa .js-vote-comment');
+        if (!vote || vote.disabled) return;
+        const buttons = vote.closest('.tno-helpful-box').querySelectorAll('.js-vote-comment');
+        buttons.forEach((button) => { button.disabled = true; });
+        const fd = new FormData();
+        fd.append('action', 'tno_vote_comment');
+        fd.append('nonce', tnoPdpData.nonce);
+        fd.append('comment_id', vote.dataset.id);
+        fd.append('vote_type', vote.dataset.type);
+        fetch(tnoPdpData.ajaxUrl, { method: 'POST', body: fd })
+            .then((response) => response.json())
+            .then((result) => {
+                if (!result.success) {
+                    alert(result.data?.message || 'ثبت رأی انجام نشد.');
+                    return;
+                }
+                buttons.forEach((button) => {
+                    const count = button.dataset.type === 'like' ? result.data.likes : result.data.dislikes;
+                    button.querySelector('.tno-vote-count').textContent = new Intl.NumberFormat(document.documentElement.lang || 'fa').format(count);
+                });
+            })
+            .catch(() => alert('خطا در ارتباط با سرور. لطفاً دوباره تلاش کنید.'))
+            .finally(() => buttons.forEach((button) => { button.disabled = false; }));
+    });
+
     // 11. Wishlist & Share & Price Report
     document.querySelector('.js-toggle-wishlist')?.addEventListener('click', function () {
         const fd = new FormData();
