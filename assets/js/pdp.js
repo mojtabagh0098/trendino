@@ -19,20 +19,6 @@
         });
     });
 
-    const lightboxModal = document.getElementById('tno-lightbox-modal');
-    const lightboxImg = document.getElementById('tno-lightbox-img');
-
-    document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('js-open-lightbox')) {
-            lightboxImg.src = e.target.src;
-            lightboxModal.hidden = false;
-        }
-        if (e.target.closest('.js-open-gallery-modal') && mainImg) {
-            lightboxImg.src = mainImg.src;
-            lightboxModal.hidden = false;
-        }
-    });
-
     // 2. Variation Swatch Selector
     document.querySelectorAll('.js-select-swatch').forEach((swatch) => {
         swatch.addEventListener('click', function () {
@@ -171,15 +157,8 @@
             .then((res) => {
                 if (res.success) {
                     this.classList.toggle('is-active', res.data.active);
-                }
-            });
-    });
-
-    document.querySelector('.js-share-product')?.addEventListener('click', () => {
-        if (navigator.clipboard) {
-            navigator.clipboard.writeText(window.location.href);
-            alert('لینک محصول در کلیپ‌بورد کپی شد.');
-        }
+                } else { alert(res.data?.message || 'عملیات انجام نشد.'); }
+            }).catch(() => alert('خطا در ارتباط با سرور.'));
     });
 
     document.getElementById('tno-price-form')?.addEventListener('submit', function (e) {
@@ -194,7 +173,7 @@
             .then((res) => {
                 alert(res.data?.message || 'ثبت شد.');
                 if (res.success) {
-                    closeModals();
+                    document.getElementById('tno-price-modal').hidden = true;
                     this.reset();
                 }
             });
