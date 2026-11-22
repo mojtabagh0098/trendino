@@ -645,9 +645,9 @@ class TNO_PDP_Manager {
      * Render Single Review Card HTML (used both initially and via AJAX sort)
      */
     public static function render_review_card( \WP_Comment $comment ): void {
-        $rating     = (int) get_comment_meta( $comment->comment_ID, 'rating', true ) ?: 5;
+        $rating     = (int) get_comment_meta( $comment->comment_ID, 'rating', true );
         $verified   = (bool) get_comment_meta( $comment->comment_ID, 'verified', true );
-        $recommend  = get_comment_meta( $comment->comment_ID, '_tno_recommend', true ) ?: 'yes';
+        $recommend  = get_comment_meta( $comment->comment_ID, '_tno_recommend', true );
         $pros       = get_comment_meta( $comment->comment_ID, '_tno_pros', true );
         $cons       = get_comment_meta( $comment->comment_ID, '_tno_cons', true );
         $images     = get_comment_meta( $comment->comment_ID, '_tno_review_images', true );
@@ -667,11 +667,13 @@ class TNO_PDP_Manager {
                     <?php endif; ?>
                     <span class="tno-review-date"><?php echo esc_html( get_comment_date( 'j F Y', $comment ) ); ?></span>
                 </div>
+                <?php if ( $rating >= 1 && $rating <= 5 ) : ?>
                 <div class="tno-review-stars" aria-label="امتیاز <?php echo esc_attr( $rating ); ?> از 5">
                     <?php for ( $i = 1; $i <= 5; $i++ ) : ?>
                         <span class="tno-star <?php echo $i <= $rating ? 'is-filled' : ''; ?>">★</span>
                     <?php endfor; ?>
                 </div>
+                <?php endif; ?>
             </header>
 
             <?php if ( $recommend === 'yes' ) : ?>
@@ -804,10 +806,7 @@ class TNO_PDP_Manager {
             'order'   => 'DESC',
         );
 
-        if ( $sort === 'helpful' ) {
-            $args['meta_key'] = '_tno_likes';
-            $args['orderby']  = 'meta_value_num';
-        } elseif ( $sort === 'buyers' ) {
+        if ( $sort === 'buyers' ) {
             $args['meta_query'] = array(
                 array(
                     'key'   => 'verified',
@@ -817,6 +816,12 @@ class TNO_PDP_Manager {
         }
 
         $comments = get_comments( $args );
+        if ( $sort === 'helpful' ) {
+            usort( $comments, static function ( $a, $b ) {
+                $difference = (int) get_comment_meta( $b->comment_ID, '_tno_likes', true ) <=> (int) get_comment_meta( $a->comment_ID, '_tno_likes', true );
+                return $difference ?: strcmp( $b->comment_date_gmt, $a->comment_date_gmt );
+            } );
+        }
         ob_start();
         if ( ! empty( $comments ) ) {
             foreach ( $comments as $comment ) {

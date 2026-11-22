@@ -13,6 +13,7 @@ function tno_settings_schema() {
     $templates = array( 0 => 'چیدمان پیش‌فرض' );
     foreach ( get_posts( array( 'post_type' => 'elementor_library', 'posts_per_page' => -1, 'post_status' => 'publish' ) ) as $post ) $templates[ $post->ID ] = $post->post_title;
     $sections = array(
+        'update' => array( 'title' => 'بروزرسانی', 'icon' => 'dashicons-update', 'description' => 'بررسی و نصب آخرین نسخه قالب از مخزن رسمی ترندینو.', 'groups' => array() ),
         'auth' => array( 'title' => 'ورود و ثبت‌نام', 'icon' => 'dashicons-shield-alt', 'description' => 'تنظیم تجربه ورود، ثبت‌نام و امنیت کد یکبارمصرف.', 'groups' => array(
             'رفتار و امنیت' => array(
                 'registration' => array( 'label' => 'ثبت‌نام کاربران جدید', 'type' => 'checkbox', 'default' => 1, 'description' => 'کاربران جدید پس از تایید شماره و تعیین رمز، حساب دریافت می‌کنند.' ),
@@ -152,9 +153,13 @@ function tno_settings_page() {
       <main class="tno-main"><div class="tno-heading"><div><span class="tno-breadcrumb">تنظیمات قالب / <?php echo esc_html( $section['title'] ); ?></span><h2><?php echo esc_html( $section['title'] ); ?></h2><p><?php echo esc_html( $section['description'] ?? '' ); ?></p></div><span class="tno-heading-icon dashicons <?php echo esc_attr( $section['icon'] ?? 'dashicons-admin-generic' ); ?>"></span></div>
       <?php if ( isset( $_GET['saved'] ) ) : ?><div class="tno-alert success" role="status"><span class="dashicons dashicons-yes-alt"></span> تنظیمات این بخش با موفقیت ذخیره شد.</div><?php endif; ?>
       <?php if ( in_array( $tab, array( 'auth', 'sms' ), true ) ) : ?><div class="tno-alert <?php echo $configured && $template ? 'ready' : 'warning'; ?>"><span class="dashicons <?php echo $configured && $template ? 'dashicons-yes-alt' : 'dashicons-info-outline'; ?>"></span><div><strong><?php echo $configured && $template ? 'تنظیمات اتصال پیامک وارد شده است' : 'اتصال پیامک نیاز به تنظیم دارد'; ?></strong><p><?php echo $configured && $template ? 'برای بررسی عملکرد، ارسال پیامک واقعی را در محیط آزمایشی امتحان کنید.' : 'برای ثبت‌نام و بازیابی رمز، کلید API و الگوی تأییدشده کاوه‌نگار را در بخش سامانه پیامکی وارد کنید.'; ?></p></div><?php if ( 'auth' === $tab ) : ?><a href="<?php echo esc_url( admin_url( 'admin.php?page=tno-settings&tab=sms' ) ); ?>">تنظیم اتصال ←</a><?php endif; ?></div><?php endif; ?>
+      <?php if ( 'update' === $tab ) : ?>
+      <?php tno_render_update_settings(); ?>
+      <?php else : ?>
       <form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"><input type="hidden" name="action" value="tno_save_settings"><input type="hidden" name="tab" value="<?php echo esc_attr( $tab ); ?>"><?php wp_nonce_field( 'tno_save_settings' ); ?>
       <?php foreach ( $section['groups'] as $group => $fields ) : ?><section class="tno-card"><div class="tno-card-head"><div><span class="tno-card-indicator"></span><h3><?php echo esc_html( $group ); ?></h3></div><span class="tno-card-caption">تنظیمات بخش</span></div><div class="tno-fields"><?php foreach ( $fields as $key => $field ) : tno_settings_field( $tab, $key, $field ); endforeach; ?></div></section><?php endforeach; ?>
       <div class="tno-savebar"><div><strong>تغییرات این بخش</strong><span>پس از ویرایش، تنظیمات را ذخیره کنید.</span></div><button class="tno-save" type="submit"><span class="dashicons dashicons-saved"></span> ذخیره تغییرات</button></div></form>
+      <?php endif; ?>
       </main></div><footer class="tno-admin-footer">ترندینو <span>•</span> تنظیمات قالب</footer></div>
     <?php
 }

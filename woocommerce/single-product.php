@@ -43,7 +43,9 @@ while ( have_posts() ) :
     $criteria_averages = TNO_PDP_Manager::get_product_criteria_averages( $product_id );
 
     // Ratings & Counts
-    $avg_rating   = (float) $product->get_average_rating() ?: 4.5;
+    $avg_rating   = (float) $product->get_average_rating();
+    $rating_counts = $product->get_rating_counts();
+    $rating_count = array_sum( $rating_counts );
     $review_count = (int) $product->get_review_count();
 
     $reviews = get_comments( array(
@@ -79,9 +81,6 @@ while ( have_posts() ) :
 
     // AI Summary
     $ai_summary = get_post_meta( $product_id, '_tno_ai_summary', true );
-    if ( empty( $ai_summary ) ) {
-        $ai_summary = 'بر اساس تحلیل دیدگاه‌های ثبت‌شده توسط خریداران، این محصول از نظر کیفیت ساخت، طراحی ظاهری و ارزش خرید نسبت به قیمت، رضایت بالایی را کسب کرده است و برای استفاده روزمره و حرفه‌ای گزینه‌ای مطمئن محسوب می‌شود.';
-    }
     $ai_pros = array_filter( array_map( 'trim', explode( ',', get_post_meta( $product_id, '_tno_ai_pros', true ) ?: 'کیفیت ساخت بالا,ارزش خرید مناسب,عملکرد روان و سریع' ) ) );
     $ai_cons = array_filter( array_map( 'trim', explode( ',', get_post_meta( $product_id, '_tno_ai_cons', true ) ?: 'لوازم جانبی محدود در جعبه' ) ) );
     ?>
@@ -208,10 +207,10 @@ while ( have_posts() ) :
                                     <path d="M7.43716 1.90094L8.39049 3.8076C8.52049 4.07302 8.86716 4.3276 9.15966 4.37635L10.8876 4.66344C11.9926 4.8476 12.2526 5.64927 11.4563 6.4401L10.113 7.78344C9.88549 8.01094 9.76091 8.44969 9.83132 8.76385L10.2159 10.4268C10.5192 11.743 9.82049 12.2522 8.65591 11.5643L7.03632 10.6055C6.74382 10.4322 6.26174 10.4322 5.96382 10.6055L4.34424 11.5643C3.18507 12.2522 2.48091 11.7376 2.78424 10.4268L3.16882 8.76385C3.23924 8.44969 3.11466 8.01094 2.88716 7.78344L1.54382 6.4401C0.752991 5.64927 1.00757 4.8476 2.11257 4.66344L3.84049 4.37635C4.12757 4.3276 4.47424 4.07302 4.60424 3.8076L5.55757 1.90094C6.07757 0.866353 6.92257 0.866353 7.43716 1.90094Z" fill="#EFBD66"/>
                                 </svg>
                             </span>
-                            <span class="tno-stat-muted">(امتیاز <?php echo esc_html( number_format_i18n( max( 1, $review_count ) ) ); ?> خریدار )</span>
+                            <span class="tno-stat-muted">(امتیاز <?php echo esc_html( number_format_i18n( $rating_count ) ); ?> رأی )</span>
                         </div>
 
-                        <a href="#tno-sec-ai-summary" class="tno-ai-summary-link">خلاصه‌دیدگاه‌ها خریداران</a>
+                        <?php if ( ! empty( $ai_summary ) ) : ?><a href="#tno-sec-ai-summary" class="tno-ai-summary-link">خلاصه‌دیدگاه‌ها خریداران</a><?php endif; ?>
                         
                         <a href="#tno-sec-reviews" class="tno-stat-link">
                             <?php echo esc_html( number_format_i18n( $review_count ) ); ?> دیدگاه 
@@ -448,22 +447,23 @@ while ( have_posts() ) :
                                     <?php endfor; ?>
                                 </div>
                             </div>
-                            <span class="tno-total-votes-txt">از مجموع <?php echo esc_html( number_format_i18n( max( 1, $review_count ) ) ); ?> امتیاز</span>
+                            <span class="tno-total-votes-txt">از مجموع <?php echo esc_html( number_format_i18n( $rating_count ) ); ?> امتیاز</span>
 
                             <!-- 6 Criteria Progress Bars -->
                             <div class="tno-criteria-bars">
-                                <?php for ( $i = 1; $i <= 5; $i++ ) : ?>
+                                <?php for ( $i = 5; $i >= 1; $i-- ) :
+                                    $percentage = $rating_count ? round( 100 * (int) ( $rating_counts[ $i ] ?? 0 ) / $rating_count ) : 0; ?>
                                     <div class="tno-crit-item">
-                                        <span><?php echo $i; ?> امتیاز</span>
+                                        <span><?php echo esc_html( number_format_i18n( $i ) ); ?> امتیاز</span>
                                         <div class="tno-crit-track">
-                                            <div class="tno-crit-fill" style="width: <?php echo $i; ?>%;"></div>
+                                            <div class="tno-crit-fill" style="width: <?php echo esc_attr( $percentage ); ?>%;"></div>
                                         </div>
-                                        <span><?php echo $i; ?>%</span>
+                                        <span><?php echo esc_html( number_format_i18n( $percentage ) ); ?>٪</span>
                                     </div>
                                 <?php endfor; ?>
                             </div>
 
-                            <p class="tno-submit-hint">شمـا هـم دربـاره ایـن کــالا دیــدگاه ثبــت کنید، بــا ثبــت‌دیـدگاه بر روی کالاهای خریداری شده ۵ امتیاز دریافت کنید.</p>
+                            <p class="tno-submit-hint">شما هم درباره این کالا دیدگاه ثبت کنید.</p>
                             <button type="button" class="tno-btn-outline-black js-open-review-modal" data-tno-modal="review">ثبت دیدگاه</button>
                         </div>
                     </aside>
@@ -472,10 +472,11 @@ while ( have_posts() ) :
                     <div class="tno-reviews-main">
 
                         <!-- AI Summary Box -->
-                        <div class="tno-ai-summary-card">
+                        <?php if ( ! empty( $ai_summary ) ) : ?>
+                        <div class="tno-ai-summary-card" id="tno-sec-ai-summary">
                             <div class="tno-ai-header">
                                 <div class="tno-ai-title">
-                                    <img src="<?=esc_url( get_template_directory_uri() ) . '/assets/img/ai-summary-avatar.webp';?>" />
+                                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M9 18h6m-5 3h4M8 14a6 6 0 1 1 8 0c-1 .8-1.5 1.8-1.5 2.5h-5C9.5 15.8 9 14.8 8 14Z"/></svg>
                                     <div class="tno-ai-title-badge">
                                         <strong>خلاصه دیدگاه‌های خریداران</strong>
                                         <span class="tno-ai-badge">تولید شده با هوش مصنوعی</span>
@@ -484,6 +485,8 @@ while ( have_posts() ) :
                             </div>
                             <p class="tno-ai-text"><?php echo esc_html( $ai_summary ); ?></p>
                         </div>
+
+                        <?php endif; ?>
 
                         <!-- Sort Toolbar -->
                         <div class="tno-sort-toolbar">
