@@ -33,11 +33,20 @@ function add_theme_scripts() {
             true
         );
 
+        wp_enqueue_script(
+            'tno-pdp-gallery',
+            get_template_directory_uri() . '/assets/js/pdp-gallery.js',
+            array( 'tno-pdp-script' ),
+            filemtime( get_template_directory() . '/assets/js/pdp-gallery.js' ),
+            true
+        );
+
         wp_localize_script( 'tno-pdp-script', 'tnoPdpData', array(
             'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
             'nonce'     => wp_create_nonce( 'tno_pdp_nonce' ),
             'productId' => get_the_ID(),
             'isLogged'  => is_user_logged_in(),
+            'cartUrl'   => WC_AJAX::get_endpoint( 'add_to_cart' ),
         ) );
     }
 }
@@ -258,7 +267,10 @@ add_action( 'wp_enqueue_scripts', function() {
                 'nonce'     => wp_create_nonce( 'tno_pdp_nonce' ),
                 'productId' => get_queried_object_id(),
                 'isLogged'  => is_user_logged_in(),
+            'cartUrl'   => WC_AJAX::get_endpoint( 'add_to_cart' ),
             ) );
         }
     }
 }, 99 );
+
+require_once get_template_directory() . '/inc/pdp-gallery.php';
