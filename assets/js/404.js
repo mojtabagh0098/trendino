@@ -2,7 +2,7 @@
     'use strict';
     const link = document.querySelector('[data-404-countdown]');
     if (!link) return;
-    let remaining = 3;
+    let remaining = 10;
     const format = new Intl.NumberFormat('fa-IR');
     function render() {
         link.textContent = 'بازگشت تا ' + format.format(remaining) + ' ثانیه دیگه به صفحه اصلی';
