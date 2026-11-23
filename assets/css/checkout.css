@@ -1,0 +1,1216 @@
+/* ==========================================================================
+   Trendino Checkout (Steps 2 & 3) & Thank-You (Success & Failed)
+   ========================================================================== */
+
+:root {
+	--tno-chk-font: 'YekanBakhFaNum', 'YekanBakh', Tahoma, sans-serif;
+	--tno-chk-text: #1c222e;
+	--tno-chk-muted: #7b8494;
+	--tno-chk-placeholder: #9aa2b1;
+	--tno-chk-border: #eceff4;
+	--tno-chk-input-bg: #fcfcfd;
+	--tno-chk-navy: #14335e;
+	--tno-chk-dark: #14161a;
+	--tno-chk-disabled: #c8c8c8;
+	--tno-chk-red: #e63946;
+	--tno-chk-green: #00a878;
+	--tno-chk-ticket: #3c9df8;
+	--tno-chk-amber-bg: #fff8eb;
+	--tno-chk-amber-text: #7c5c26;
+	--tno-chk-amber-icon: #e09f3e;
+}
+
+.tno-chk-page,
+.tno-ty-page {
+	font-family: var(--tno-chk-font);
+	color: var(--tno-chk-text);
+	direction: rtl;
+}
+
+.tno-chk-page *,
+.tno-chk-page *::before,
+.tno-chk-page *::after,
+.tno-ty-page *,
+.tno-ty-page *::before,
+.tno-ty-page *::after {
+	box-sizing: border-box;
+}
+
+.tno-chk-container {
+	width: 100%;
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+/* --------------------------------------------------------------------------
+   Top 3-Step Indicator Bar
+   -------------------------------------------------------------------------- */
+.tno-chk-stepper-bar {
+	border-top: 1px solid #f1f3f7;
+	border-bottom: 1px solid #f1f3f7;
+	padding: 18px 0;
+	margin-bottom: 42px;
+}
+
+.tno-chk-stepper {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 14px;
+}
+
+.tno-chk-step-link,
+.tno-chk-step-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	border: 0;
+	background: transparent;
+	padding: 0;
+	font-family: inherit;
+	font-size: 13px;
+	font-weight: 500;
+	color: #9ca3af;
+	text-decoration: none;
+	cursor: pointer;
+	transition: color 0.2s ease;
+}
+
+.tno-chk-step.is-active .tno-chk-step-btn {
+	color: #111827;
+	font-weight: 700;
+}
+
+.tno-chk-step-dot {
+	display: none;
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: #111827;
+}
+
+.tno-chk-step.is-active .tno-chk-step-dot {
+	display: inline-block;
+}
+
+.tno-chk-step-line {
+	width: 96px;
+	height: 0;
+	border-top: 1.5px solid #2b303a;
+}
+
+.tno-chk-step-line--dynamic {
+	border-top-style: dashed;
+	border-top-color: #d5dae3;
+	transition: border-color 0.2s ease;
+}
+
+.tno-chk-page[data-step="payment"] .tno-chk-step-line--dynamic {
+	border-top-style: solid;
+	border-top-color: #2b303a;
+}
+
+/* --------------------------------------------------------------------------
+   Main Two-Column Checkout Grid
+   -------------------------------------------------------------------------- */
+.tno-chk-page {
+	padding-bottom: 72px;
+}
+
+.tno-chk-notices:empty {
+	display: none;
+}
+
+.tno-chk-notices {
+	margin-bottom: 20px;
+}
+
+.tno-chk-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 330px;
+	gap: 48px;
+	align-items: start;
+}
+
+.tno-chk-pane[hidden] {
+	display: none;
+}
+
+.tno-chk-section-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 26px;
+}
+
+.tno-chk-section-head h1,
+.tno-chk-section-head h2 {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 800;
+	color: #111827;
+}
+
+.tno-chk-dot-halo {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: var(--tno-chk-red);
+	box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.16);
+	flex-shrink: 0;
+}
+
+.tno-chk-block {
+	margin-bottom: 30px;
+}
+
+.tno-chk-subhead {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin: 0 0 16px;
+	font-size: 13.5px;
+	font-weight: 700;
+	color: #1f2937;
+}
+
+.tno-chk-dot {
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	background: var(--tno-chk-red);
+	flex-shrink: 0;
+}
+
+.tno-chk-divider {
+	border: 0;
+	border-top: 1px solid #f1f3f7;
+	margin: 28px 0;
+}
+
+/* Form Grids & Pill Inputs */
+.tno-chk-grid-3 {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.tno-chk-grid-2 {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 18px 16px;
+}
+
+.tno-chk-field {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.tno-chk-field label {
+	font-size: 12px;
+	font-weight: 600;
+	color: #374151;
+	padding-right: 6px;
+}
+
+.tno-chk-field input,
+.tno-chk-field select {
+	width: 100%;
+	height: 44px;
+	padding: 0 18px;
+	border: 1px solid var(--tno-chk-border);
+	border-radius: 999px;
+	background: var(--tno-chk-input-bg);
+	font-family: inherit;
+	font-size: 12.5px;
+	color: var(--tno-chk-text);
+	outline: none;
+	appearance: none;
+	transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.tno-chk-field input::placeholder {
+	color: var(--tno-chk-placeholder);
+}
+
+.tno-chk-field input:focus,
+.tno-chk-field select:focus,
+.tno-chk-textarea:focus {
+	border-color: var(--tno-chk-navy);
+	background: #ffffff;
+}
+
+.tno-chk-select-wrap {
+	position: relative;
+}
+
+.tno-chk-select-wrap select {
+	padding-left: 38px;
+	cursor: pointer;
+}
+
+.tno-chk-chevron {
+	position: absolute;
+	left: 14px;
+	top: 50%;
+	transform: translateY(-50%);
+	color: #6b7280;
+	pointer-events: none;
+}
+
+/* Radio Pills (Addresses, Shipping Methods, Days, Time Slots) */
+.tno-chk-stack {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.tno-chk-shipping-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 14px;
+}
+
+.tno-chk-days-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin-bottom: 16px;
+}
+
+.tno-chk-pill-radio {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	min-height: 44px;
+	padding: 10px 18px;
+	border: 1px solid var(--tno-chk-border);
+	border-radius: 999px;
+	background: var(--tno-chk-input-bg);
+	color: var(--tno-chk-muted);
+	font-size: 12.5px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: border-color 0.18s ease, color 0.18s ease, background-color 0.18s ease;
+}
+
+.tno-chk-pill-radio--full {
+	width: 100%;
+}
+
+.tno-chk-pill-radio--day {
+	padding: 8px 16px;
+	min-height: 40px;
+	font-size: 12px;
+}
+
+.tno-chk-pill-radio input[type="radio"] {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.tno-chk-radio-dot {
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	border: 1.5px solid #d1d5db;
+	background: #ffffff;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	transition: border-color 0.18s ease;
+}
+
+.tno-chk-radio-dot::after {
+	content: '';
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--tno-chk-navy);
+	transform: scale(0);
+	transition: transform 0.18s ease;
+}
+
+.tno-chk-pill-radio.is-selected {
+	border-color: var(--tno-chk-navy);
+	background: #ffffff;
+	color: #111827;
+	font-weight: 600;
+}
+
+.tno-chk-pill-radio.is-selected .tno-chk-radio-dot {
+	border-color: var(--tno-chk-navy);
+}
+
+.tno-chk-pill-radio.is-selected .tno-chk-radio-dot::after {
+	transform: scale(1);
+}
+
+.tno-chk-textarea {
+	width: 100%;
+	min-height: 112px;
+	padding: 16px 20px;
+	border: 1px solid var(--tno-chk-border);
+	border-radius: 16px;
+	background: var(--tno-chk-input-bg);
+	font-family: inherit;
+	font-size: 12.5px;
+	color: var(--tno-chk-text);
+	resize: vertical;
+	outline: none;
+}
+
+.tno-chk-textarea::placeholder {
+	color: var(--tno-chk-placeholder);
+}
+
+/* --------------------------------------------------------------------------
+   Step 3: Payment Gateways & Coupon Row
+   -------------------------------------------------------------------------- */
+.tno-chk-payment-list {
+	border-top: 1px solid #f1f3f7;
+	border-bottom: 1px solid #f1f3f7;
+	margin-bottom: 34px;
+}
+
+.tno-chk-payment-item {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 24px 8px;
+	cursor: pointer;
+	border-bottom: 1px dashed #e6e9f0;
+}
+
+.tno-chk-payment-item:last-child {
+	border-bottom: 0;
+}
+
+.tno-chk-payment-item input[type="radio"] {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.tno-chk-radio-dot--lg {
+	width: 18px;
+	height: 18px;
+}
+
+.tno-chk-payment-item.is-selected .tno-chk-radio-dot {
+	border-color: var(--tno-chk-navy);
+}
+
+.tno-chk-payment-item.is-selected .tno-chk-radio-dot::after {
+	transform: scale(1);
+}
+
+.tno-chk-payment-icon {
+	width: 56px;
+	height: 56px;
+	border-radius: 12px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	overflow: hidden;
+}
+
+.tno-chk-payment-icon img {
+	max-width: 38px;
+	max-height: 38px;
+	object-fit: contain;
+}
+
+.tno-chk-payment-icon--pink {
+	background: #fff2f4;
+	color: var(--tno-chk-red);
+}
+
+.tno-chk-payment-icon--blue {
+	background: #edf6ff;
+	color: #0077ff;
+}
+
+.tno-chk-snapp-fallback {
+	font-size: 11px;
+	font-weight: 800;
+	line-height: 1.15;
+	text-align: center;
+}
+
+.tno-chk-payment-meta {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.tno-chk-payment-title {
+	font-size: 14px;
+	font-weight: 700;
+	color: #111827;
+}
+
+.tno-chk-payment-sub {
+	display: inline-flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	font-size: 12.5px;
+	color: var(--tno-chk-muted);
+}
+
+.tno-chk-installment-pill {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 4px;
+	background: #f3f4f6;
+	color: #111827;
+	padding: 3px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+}
+
+.tno-chk-installment-pill small {
+	color: #6b7280;
+	font-size: 10.5px;
+}
+
+/* Coupon Bar */
+.tno-chk-coupon-section {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	padding-bottom: 28px;
+	border-bottom: 1px solid #f1f3f7;
+	flex-wrap: wrap;
+}
+
+.tno-chk-coupon-info h3 {
+	margin: 0 0 6px;
+	font-size: 14px;
+	font-weight: 700;
+	color: #111827;
+}
+
+.tno-chk-coupon-info p {
+	margin: 0;
+	font-size: 12px;
+	color: var(--tno-chk-muted);
+}
+
+.tno-chk-coupon-control {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 8px;
+}
+
+.tno-chk-coupon-pill {
+	display: flex;
+	align-items: center;
+	width: 310px;
+	max-width: 100%;
+	height: 46px;
+	padding: 4px 16px 4px 5px;
+	border: 1px solid var(--tno-chk-border);
+	border-radius: 999px;
+	background: #ffffff;
+}
+
+.tno-chk-coupon-pill input {
+	flex: 1;
+	min-width: 0;
+	border: 0;
+	background: transparent;
+	font-family: inherit;
+	font-size: 12.5px;
+	color: #111827;
+	outline: none;
+	text-align: left;
+	direction: ltr;
+	padding-left: 10px;
+}
+
+.tno-chk-coupon-btn {
+	height: 36px;
+	padding: 0 16px;
+	border: 0;
+	border-radius: 999px;
+	background: #f3f4f6;
+	color: #1f2937;
+	font-family: inherit;
+	font-size: 12px;
+	font-weight: 600;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tno-chk-coupon-btn:hover {
+	background: var(--tno-chk-dark);
+	color: #ffffff;
+}
+
+.tno-chk-coupon-feedback {
+	font-size: 12px;
+	min-height: 18px;
+}
+
+.tno-chk-coupon-feedback.is-error {
+	color: var(--tno-chk-red);
+}
+
+.tno-chk-coupon-feedback.is-success {
+	color: var(--tno-chk-green);
+}
+
+.tno-chk-applied-coupons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.tno-chk-coupon-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	background: #eef6ff;
+	color: var(--tno-chk-navy);
+	padding: 4px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.tno-chk-coupon-chip button {
+	border: 0;
+	background: transparent;
+	color: inherit;
+	cursor: pointer;
+	font-size: 15px;
+	line-height: 1;
+	padding: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Left Sticky Summary Sidebar
+   -------------------------------------------------------------------------- */
+.tno-chk-sidebar {
+	position: sticky;
+	top: 24px;
+}
+
+.tno-chk-summary-title {
+	margin: 0 0 18px;
+	padding-bottom: 16px;
+	border-bottom: 1px solid #f1f3f7;
+	font-size: 14.5px;
+	font-weight: 800;
+	color: #111827;
+}
+
+.tno-chk-summary-items {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding-bottom: 18px;
+	border-bottom: 1px solid #f1f3f7;
+}
+
+.tno-chk-summary-item {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+}
+
+.tno-chk-summary-item-name {
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.75;
+	color: #1f2937;
+}
+
+.tno-chk-qty {
+	font-style: normal;
+	color: var(--tno-chk-muted);
+	margin-right: 4px;
+}
+
+.tno-chk-summary-item-price {
+	white-space: nowrap;
+	font-size: 13px;
+	color: #111827;
+	display: inline-flex;
+	align-items: baseline;
+	gap: 4px;
+}
+
+.tno-chk-summary-item-price small,
+.tno-chk-row-val small,
+.tno-chk-total-val small {
+	font-size: 10.5px;
+	font-weight: 500;
+	color: #6b7280;
+}
+
+.tno-chk-summary-breakdown {
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+	padding: 18px 0;
+	border-bottom: 1px solid #f1f3f7;
+}
+
+.tno-chk-summary-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+	font-size: 12.5px;
+}
+
+.tno-chk-row-label {
+	color: #374151;
+	font-weight: 600;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.tno-chk-ship-method-name {
+	font-style: normal;
+	font-weight: 400;
+	font-size: 11.5px;
+	color: var(--tno-chk-muted);
+}
+
+.tno-chk-row-val {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 4px;
+	color: #111827;
+}
+
+.tno-chk-summary-row--discount .tno-chk-row-label,
+.tno-chk-summary-row--discount .tno-chk-row-val,
+.tno-chk-summary-row--discount .tno-chk-row-val small {
+	color: var(--tno-chk-red);
+}
+
+.tno-chk-summary-total {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20px 0 18px;
+}
+
+.tno-chk-total-label {
+	font-size: 13.5px;
+	font-weight: 700;
+	color: #111827;
+}
+
+.tno-chk-total-val {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 5px;
+	font-size: 18px;
+	font-weight: 900;
+	color: #111827;
+}
+
+.tno-chk-invoice-notice {
+	display: none;
+	align-items: center;
+	gap: 10px;
+	background: var(--tno-chk-amber-bg);
+	color: var(--tno-chk-amber-text);
+	padding: 12px 14px;
+	border-radius: 10px;
+	font-size: 12px;
+	font-weight: 500;
+	margin-bottom: 16px;
+}
+
+.tno-chk-invoice-notice svg {
+	color: var(--tno-chk-amber-icon);
+	flex-shrink: 0;
+}
+
+.tno-chk-cta-btn {
+	width: 100%;
+	height: 46px;
+	border: 0;
+	border-radius: 999px;
+	background: var(--tno-chk-disabled);
+	color: #ffffff;
+	font-family: inherit;
+	font-size: 13.5px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.tno-chk-cta-btn.is-ready,
+.tno-chk-cta-btn--dark {
+	background: var(--tno-chk-dark);
+}
+
+.tno-chk-cta-btn.is-ready:hover,
+.tno-chk-cta-btn--dark:hover {
+	background: #000000;
+}
+
+/* Step-conditional visibility inside sidebar */
+.tno-chk-page[data-step="address"] .tno-chk-place-order-btn,
+.tno-chk-page[data-step="address"] .tno-chk-ship-label-step2 {
+	display: none;
+}
+
+.tno-chk-page[data-step="payment"] .tno-chk-next-step-btn,
+.tno-chk-page[data-step="payment"] .tno-chk-ship-label-step1 {
+	display: none;
+}
+
+.tno-chk-page[data-step="payment"] .tno-chk-invoice-notice {
+	display: flex;
+}
+
+/* --------------------------------------------------------------------------
+   Thank-You Pages (Success & Failed)
+   -------------------------------------------------------------------------- */
+.tno-ty-page {
+	padding-bottom: 84px;
+}
+
+.tno-ty-hero {
+	position: relative;
+	height: 82px;
+	margin-bottom: 58px;
+}
+
+.tno-ty-page--success .tno-ty-hero {
+	border-top: 1px solid rgba(0, 168, 120, 0.35);
+	background: linear-gradient(180deg, rgba(0, 168, 120, 0.08) 0%, rgba(0, 168, 120, 0.02) 100%);
+}
+
+.tno-ty-page--failed .tno-ty-hero {
+	border-top: 1px solid rgba(230, 57, 70, 0.38);
+	background: linear-gradient(180deg, rgba(230, 57, 70, 0.09) 0%, rgba(230, 57, 70, 0.02) 100%);
+}
+
+.tno-ty-badge-wrap {
+	position: absolute;
+	left: 50%;
+	bottom: -44px;
+	transform: translateX(-50%);
+	width: 88px;
+	height: 88px;
+	border-radius: 50%;
+	background: #ffffff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	box-shadow: 0 8px 26px rgba(15, 23, 42, 0.04);
+}
+
+.tno-ty-status-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.tno-ty-status-icon--success {
+	color: var(--tno-chk-green);
+}
+
+.tno-ty-status-icon--failed {
+	width: 46px;
+	height: 46px;
+	border-radius: 50%;
+	background: var(--tno-chk-red);
+	color: #ffffff;
+}
+
+.tno-ty-container {
+	width: 100%;
+	max-width: 640px;
+	margin: 0 auto;
+	padding: 0 20px;
+	text-align: center;
+}
+
+.tno-ty-title {
+	margin: 0 0 12px;
+	font-size: 20px;
+	font-weight: 800;
+	color: #111827;
+}
+
+.tno-ty-accent--green {
+	color: var(--tno-chk-green);
+}
+
+.tno-ty-accent--red {
+	color: var(--tno-chk-red);
+}
+
+.tno-ty-subtitle {
+	margin: 0 0 36px;
+	font-size: 13px;
+	color: var(--tno-chk-muted);
+}
+
+/* Summary Table */
+.tno-ty-summary-table {
+	max-width: 490px;
+	margin: 0 auto 34px;
+	border-top: 1px solid #f1f3f7;
+}
+
+.tno-ty-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 15px 4px;
+	border-bottom: 1px solid #f1f3f7;
+	font-size: 13px;
+}
+
+.tno-ty-label {
+	color: #8c95a6;
+}
+
+.tno-ty-value {
+	font-weight: 700;
+	color: #1f2937;
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.tno-ty-value small {
+	font-weight: 400;
+	font-size: 11px;
+	color: #6b7280;
+}
+
+.tno-ty-gw-dot {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--tno-chk-red);
+}
+
+/* Blue Perforated Next-Purchase Coupon Ticket */
+.tno-ty-ticket-wrap {
+	margin: 0 auto 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+}
+
+.tno-ty-ticket {
+	position: relative;
+	display: flex;
+	align-items: stretch;
+	width: 288px;
+	max-width: 100%;
+	height: 98px;
+	border: 0;
+	padding: 0;
+	background: var(--tno-chk-ticket);
+	background-image:
+		radial-gradient(circle at 22% 28%, rgba(255, 255, 255, 0.25) 1.5px, transparent 1.5px),
+		radial-gradient(circle at 78% 72%, rgba(255, 255, 255, 0.28) 1.5px, transparent 1.5px),
+		radial-gradient(circle at 60% 24%, rgba(255, 255, 255, 0.2) 2px, transparent 2px);
+	color: #ffffff;
+	font-family: inherit;
+	cursor: pointer;
+	border-radius: 6px;
+	overflow: hidden;
+	box-shadow: 0 12px 26px rgba(60, 157, 248, 0.24);
+	transition: transform 0.18s ease;
+}
+
+.tno-ty-ticket:hover {
+	transform: translateY(-2px);
+}
+
+/* Serrated left/right stamp edges */
+.tno-ty-ticket::before,
+.tno-ty-ticket::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 6px;
+	background-size: 6px 10px;
+	background-repeat: repeat-y;
+	pointer-events: none;
+}
+
+.tno-ty-ticket::before {
+	right: -3px;
+	background-image: radial-gradient(circle at 6px 5px, #ffffff 3.2px, transparent 3.4px);
+}
+
+.tno-ty-ticket::after {
+	left: -3px;
+	background-image: radial-gradient(circle at 0 5px, #ffffff 3.2px, transparent 3.4px);
+}
+
+.tno-ty-ticket-stub {
+	width: 68px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+}
+
+.tno-ty-ticket-code {
+	writing-mode: vertical-rl;
+	transform: rotate(180deg);
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.3px;
+}
+
+.tno-ty-ticket-divider {
+	position: relative;
+	width: 1px;
+	border-left: 1.5px dashed rgba(255, 255, 255, 0.65);
+}
+
+.tno-ty-ticket-divider::before,
+.tno-ty-ticket-divider::after {
+	content: '';
+	position: absolute;
+	left: -8px;
+	width: 14px;
+	height: 14px;
+	border-radius: 50%;
+	background: #ffffff;
+}
+
+.tno-ty-ticket-divider::before {
+	top: -7px;
+}
+
+.tno-ty-ticket-divider::after {
+	bottom: -7px;
+}
+
+.tno-ty-ticket-body {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 4px;
+	padding: 10px 14px;
+}
+
+.tno-ty-ticket-percent {
+	font-size: 32px;
+	font-weight: 900;
+	line-height: 1.1;
+}
+
+.tno-ty-ticket-caption {
+	font-size: 11px;
+	font-weight: 500;
+	opacity: 0.94;
+}
+
+.tno-ty-copy-status {
+	font-size: 12px;
+	color: var(--tno-chk-green);
+	min-height: 18px;
+}
+
+/* Action Buttons */
+.tno-ty-actions {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 14px;
+	max-width: 520px;
+	margin: 0 auto 44px;
+}
+
+.tno-ty-btn {
+	flex: 1;
+	height: 44px;
+	border-radius: 999px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 13px;
+	font-weight: 600;
+	text-decoration: none;
+	transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.tno-ty-actions--single .tno-ty-btn {
+	max-width: 390px;
+}
+
+.tno-ty-btn--dark {
+	background: var(--tno-chk-dark);
+	color: #ffffff;
+}
+
+.tno-ty-btn--dark:hover {
+	background: #000000;
+}
+
+.tno-ty-btn--outline {
+	background: #ffffff;
+	color: #1f2937;
+	border: 1px solid #e5e7eb;
+}
+
+.tno-ty-btn--outline:hover {
+	border-color: #9ca3af;
+}
+
+/* Social Follow Cards */
+.tno-ty-socials {
+	border-top: 1px solid #f1f3f7;
+	padding-top: 26px;
+}
+
+.tno-ty-socials-title {
+	margin: 0 0 22px;
+	font-size: 13px;
+	font-weight: 600;
+	color: #374151;
+}
+
+.tno-ty-socials-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.tno-ty-social-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 112px;
+	padding: 16px 18px;
+	border: 1px solid #f0f2f6;
+	border-radius: 16px;
+	text-decoration: none;
+	color: #1f2937;
+	background-color: #fafbfc;
+	background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+	background-size: 14px 14px;
+	transition: border-color 0.2s ease, transform 0.18s ease;
+}
+
+.tno-ty-social-card:hover {
+	border-color: #d1d5db;
+	transform: translateY(-2px);
+}
+
+.tno-ty-social-icon {
+	width: 34px;
+	height: 34px;
+	border-radius: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	color: #ffffff;
+	align-self: flex-start;
+}
+
+.tno-ty-social-card--bale .tno-ty-social-icon {
+	background: #00b894;
+}
+
+.tno-ty-social-card--instagram .tno-ty-social-icon {
+	background: linear-gradient(135deg, #feda75 0%, #d62976 55%, #4f5bd5 100%);
+}
+
+.tno-ty-social-card--telegram .tno-ty-social-icon {
+	background: #2aabee;
+}
+
+.tno-ty-social-bottom {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.tno-ty-social-name {
+	font-size: 13px;
+	font-weight: 700;
+}
+
+.tno-ty-social-arrow {
+	color: #6b7280;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 992px) {
+	.tno-chk-layout {
+		grid-template-columns: 1fr;
+		gap: 32px;
+	}
+
+	.tno-chk-sidebar {
+		position: static;
+	}
+}
+
+@media (max-width: 680px) {
+	.tno-chk-grid-3,
+	.tno-chk-grid-2,
+	.tno-chk-shipping-grid,
+	.tno-ty-socials-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.tno-chk-step-line {
+		width: 36px;
+	}
+
+	.tno-chk-coupon-section {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.tno-chk-coupon-control {
+		align-items: stretch;
+	}
+
+	.tno-chk-coupon-pill {
+		width: 100%;
+	}
+
+	.tno-ty-actions {
+		flex-direction: column;
+	}
+
+	.tno-ty-btn {
+		width: 100%;
+	}
+}
