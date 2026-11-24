@@ -44,6 +44,9 @@ add_action( 'wp_enqueue_scripts', function (): void {
 			'savingAccount'  => 'در حال ذخیره...',
 			'saveAccountBtn' => 'ذخیره اطلاعات',
 			'accountSaved'   => 'اطلاعات حساب کاربری با موفقیت ذخیره شد.',
+			'addingToCart'   => 'در حال افزودن...',
+			'addedToCart'    => 'به سبد اضافه شد ✓',
+			'addToCartBtn'   => 'افزودن به سبد خرید',
 		],
 	] );
 } );
@@ -709,3 +712,269 @@ function tno_ajax_save_account_details(): void {
 	] );
 }
 add_action( 'wp_ajax_tno_save_account_details', 'tno_ajax_save_account_details' );
+
+/**
+ * Retrieve user's wishlist product IDs (newest first, synced with PDP `_tno_wishlist`).
+ *
+ * @return int[]
+ */
+function tno_account_get_wishlist_ids( int $user_id ): array {
+	if ( $user_id <= 0 ) {
+		return [];
+	}
+
+	$raw = get_user_meta( $user_id, '_tno_wishlist', true );
+	if ( ! is_array( $raw ) ) {
+		return [];
+	}
+
+	$ids = array_values( array_unique( array_filter( array_map( 'absint', $raw ) ) ) );
+	return array_reverse( $ids );
+}
+
+/**
+ * Retrieve recently viewed product IDs from user meta & cookie (newest first).
+ *
+ * @return int[]
+ */
+function tno_account_get_recent_view_ids( int $user_id ): array {
+	$cookie_ids = [];
+	if ( ! empty( $_COOKIE['tno_recent_views'] ) ) {
+		$parts      = explode( ',', sanitize_text_field( wp_unslash( $_COOKIE['tno_recent_views'] ) ) );
+		$cookie_ids = array_values( array_filter( array_map( 'absint', $parts ) ) );
+	}
+
+	$meta_ids = [];
+	if ( $user_id > 0 ) {
+		$raw = get_user_meta( $user_id, '_tno_recent_views', true );
+		if ( is_array( $raw ) ) {
+			$meta_ids = array_values( array_filter( array_map( 'absint', $raw ) ) );
+		}
+	}
+
+	$merged = array_values( array_unique( array_merge( $meta_ids, $cookie_ids ) ) );
+	return array_slice( $merged, 0, 24 );
+}
+
+/**
+ * Track product page visits for "آخرین کالاهای دیده شده".
+ */
+add_action( 'template_redirect', function (): void {
+	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
+		return;
+	}
+
+	$product_id = get_queried_object_id();
+	if ( $product_id <= 0 || get_post_type( $product_id ) !== 'product' ) {
+		return;
+	}
+
+	$cookie_ids = [];
+	if ( ! empty( $_COOKIE['tno_recent_views'] ) ) {
+		$parts      = explode( ',', sanitize_text_field( wp_unslash( $_COOKIE['tno_recent_views'] ) ) );
+		$cookie_ids = array_values( array_filter( array_map( 'absint', $parts ) ) );
+	}
+
+	$cookie_ids = array_values( array_diff( $cookie_ids, [ $product_id ] ) );
+	array_unshift( $cookie_ids, $product_id );
+	$cookie_ids = array_slice( $cookie_ids, 0, 24 );
+
+	if ( ! headers_sent() ) {
+		setcookie(
+			'tno_recent_views',
+			implode( ',', $cookie_ids ),
+			time() + ( 30 * DAY_IN_SECONDS ),
+			COOKIEPATH ?: '/',
+			COOKIE_DOMAIN ?: '',
+			is_ssl(),
+			true
+		);
+	}
+	$_COOKIE['tno_recent_views'] = implode( ',', $cookie_ids );
+
+	if ( is_user_logged_in() ) {
+		$user_id  = get_current_user_id();
+		$meta_ids = get_user_meta( $user_id, '_tno_recent_views', true );
+		$meta_ids = is_array( $meta_ids ) ? array_values( array_filter( array_map( 'absint', $meta_ids ) ) ) : [];
+		$merged   = array_values( array_unique( array_merge( [ $product_id ], $meta_ids, $cookie_ids ) ) );
+		update_user_meta( $user_id, '_tno_recent_views', array_slice( $merged, 0, 24 ) );
+	}
+} );
+
+/**
+ * Render a product card for Wishlist and Recently Viewed pages matching Trendino design.
+ */
+function tno_account_render_product_card( WC_Product $product, string $context = 'wishlist' ): void {
+	$product_id = $product->get_id();
+	$title      = $product->get_name();
+	$permalink  = $product->get_permalink();
+	$image_id   = $product->get_image_id();
+	$image_url  = $image_id ? wp_get_attachment_image_url( $image_id, 'woocommerce_thumbnail' ) : wc_placeholder_img_src( 'woocommerce_thumbnail' );
+
+	$custom_label = trim( (string) get_post_meta( $product_id, 'label', true ) );
+	$badge_style  = (string) get_post_meta( $product_id, '_tno_badge_style', true ) === 'blue' ? 'blue' : 'pink';
+
+	$regular_price = (float) $product->get_regular_price();
+	$active_price  = (float) $product->get_price();
+	if ( $product->is_type( 'variable' ) ) {
+		$regular_price = (float) $product->get_variation_regular_price( 'min', true );
+		$active_price  = (float) $product->get_variation_price( 'min', true );
+	}
+
+	$is_on_sale   = $product->is_on_sale() && $regular_price > 0 && $active_price > 0 && $active_price < $regular_price;
+	$discount_pct = $is_on_sale ? (int) round( ( ( $regular_price - $active_price ) / $regular_price ) * 100 ) : 0;
+
+	$can_ajax_cart = $product->is_type( 'simple' ) && $product->is_purchasable() && $product->is_in_stock();
+	$is_in_stock   = $product->is_in_stock();
+	?>
+	<article class="tno-acc-prod-card" data-acc-product-id="<?php echo esc_attr( (string) $product_id ); ?>">
+		<div class="tno-acc-prod-top">
+			<?php if ( $custom_label !== '' ) : ?>
+				<span class="tno-acc-prod-badge tno-acc-prod-badge--<?php echo esc_attr( $badge_style ); ?>">
+					<span class="tno-acc-prod-badge-dot" aria-hidden="true"></span>
+					<span><?php echo esc_html( $custom_label ); ?></span>
+				</span>
+			<?php endif; ?>
+		</div>
+
+		<a href="<?php echo esc_url( $permalink ); ?>" class="tno-acc-prod-thumb">
+			<img src="<?php echo esc_url( (string) $image_url ); ?>" alt="<?php echo esc_attr( $title ); ?>" loading="lazy">
+		</a>
+
+		<h3 class="tno-acc-prod-title">
+			<a href="<?php echo esc_url( $permalink ); ?>"><?php echo esc_html( $title ); ?></a>
+		</h3>
+
+		<div class="tno-acc-prod-price-row">
+			<div class="tno-acc-prod-prices">
+				<?php if ( $is_on_sale ) : ?>
+					<del class="tno-acc-prod-old-price"><?php echo esc_html( tno_format_toman( $regular_price ) ); ?></del>
+				<?php endif; ?>
+				<?php if ( $active_price > 0 ) : ?>
+					<div class="tno-acc-prod-cur-price">
+						<strong><?php echo esc_html( tno_format_toman( $active_price ) ); ?></strong>
+						<small>تومان</small>
+					</div>
+				<?php else : ?>
+					<div class="tno-acc-prod-cur-price">
+						<strong>ناموجود</strong>
+					</div>
+				<?php endif; ?>
+			</div>
+
+			<?php if ( $is_on_sale && $discount_pct > 0 ) : ?>
+				<span class="tno-acc-prod-discount"><?php echo esc_html( tno_fa_digits( (string) $discount_pct ) ); ?>%</span>
+			<?php endif; ?>
+		</div>
+
+		<div class="tno-acc-prod-actions">
+			<?php if ( ! $is_in_stock ) : ?>
+				<button type="button" class="tno-acc-prod-cart-btn is-disabled" disabled>ناموجود</button>
+			<?php elseif ( $can_ajax_cart ) : ?>
+				<button type="button" class="tno-acc-prod-cart-btn" data-acc-add-cart="<?php echo esc_attr( (string) $product_id ); ?>">افزودن به سبد خرید</button>
+			<?php else : ?>
+				<a href="<?php echo esc_url( $permalink ); ?>" class="tno-acc-prod-cart-btn">افزودن به سبد خرید</a>
+			<?php endif; ?>
+
+			<button
+				type="button"
+				class="tno-acc-prod-del-btn"
+				data-remove-acc-product="<?php echo esc_attr( (string) $product_id ); ?>"
+				data-remove-context="<?php echo esc_attr( $context ); ?>"
+				aria-label="حذف از لیست"
+				title="حذف"
+			>
+				<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<polyline points="3 6 5 6 21 6"/>
+					<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+					<path d="M10 11v6M14 11v6"/>
+					<path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+				</svg>
+			</button>
+		</div>
+	</article>
+	<?php
+}
+
+/**
+ * AJAX: Remove a product from user's Wishlist (`_tno_wishlist`).
+ */
+function tno_ajax_account_remove_wishlist(): void {
+	check_ajax_referer( 'tno_account_nonce', 'nonce' );
+
+	if ( ! is_user_logged_in() ) {
+		wp_send_json_error( [ 'message' => 'دسترسی غیرمجاز.' ], 401 );
+	}
+
+	$user_id    = get_current_user_id();
+	$product_id = absint( $_POST['product_id'] ?? 0 );
+	$list       = get_user_meta( $user_id, '_tno_wishlist', true );
+	$list       = is_array( $list ) ? array_values( array_filter( array_map( 'absint', $list ) ) ) : [];
+	$list       = array_values( array_diff( $list, [ $product_id ] ) );
+
+	update_user_meta( $user_id, '_tno_wishlist', $list );
+	wp_send_json_success( [ 'remaining' => count( $list ) ] );
+}
+add_action( 'wp_ajax_tno_account_remove_wishlist', 'tno_ajax_account_remove_wishlist' );
+
+/**
+ * AJAX: Remove a product from user's Recently Viewed list (`_tno_recent_views` & cookie).
+ */
+function tno_ajax_account_remove_recent_view(): void {
+	check_ajax_referer( 'tno_account_nonce', 'nonce' );
+
+	if ( ! is_user_logged_in() ) {
+		wp_send_json_error( [ 'message' => 'دسترسی غیرمجاز.' ], 401 );
+	}
+
+	$user_id    = get_current_user_id();
+	$product_id = absint( $_POST['product_id'] ?? 0 );
+
+	$meta_ids = get_user_meta( $user_id, '_tno_recent_views', true );
+	$meta_ids = is_array( $meta_ids ) ? array_values( array_filter( array_map( 'absint', $meta_ids ) ) ) : [];
+	$meta_ids = array_values( array_diff( $meta_ids, [ $product_id ] ) );
+	update_user_meta( $user_id, '_tno_recent_views', $meta_ids );
+
+	if ( ! empty( $_COOKIE['tno_recent_views'] ) ) {
+		$parts      = explode( ',', sanitize_text_field( wp_unslash( $_COOKIE['tno_recent_views'] ) ) );
+		$cookie_ids = array_values( array_diff( array_filter( array_map( 'absint', $parts ) ), [ $product_id ] ) );
+		if ( ! headers_sent() ) {
+			setcookie(
+				'tno_recent_views',
+				implode( ',', $cookie_ids ),
+				time() + ( 30 * DAY_IN_SECONDS ),
+				COOKIEPATH ?: '/',
+				COOKIE_DOMAIN ?: '',
+				is_ssl(),
+				true
+			);
+		}
+	}
+
+	wp_send_json_success( [ 'remaining' => count( $meta_ids ) ] );
+}
+add_action( 'wp_ajax_tno_account_remove_recent_view', 'tno_ajax_account_remove_recent_view' );
+
+/**
+ * AJAX: Add simple product to WooCommerce cart from Wishlist or Recently Viewed card.
+ */
+function tno_ajax_account_add_to_cart(): void {
+	check_ajax_referer( 'tno_account_nonce', 'nonce' );
+
+	$product_id = absint( $_POST['product_id'] ?? 0 );
+	if ( $product_id <= 0 || ! function_exists( 'WC' ) || ! WC()->cart ) {
+		wp_send_json_error( [ 'message' => 'محصول معتبر نیست.' ], 400 );
+	}
+
+	$added = WC()->cart->add_to_cart( $product_id, 1 );
+	if ( ! $added ) {
+		wp_send_json_error( [ 'message' => 'امکان افزودن این محصول به سبد خرید وجود ندارد.' ], 400 );
+	}
+
+	$count = WC()->cart->get_cart_contents_count();
+	wp_send_json_success( [
+		'cartCount'      => $count,
+		'cartCountLabel' => tno_fa_digits( (string) $count ),
+	] );
+}
+add_action( 'wp_ajax_tno_account_add_to_cart', 'tno_ajax_account_add_to_cart' );

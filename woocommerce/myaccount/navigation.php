@@ -54,7 +54,11 @@ $menu_items    = wc_get_account_menu_items();
 			$is_logout = ( $endpoint === 'customer-logout' );
 			?>
 			<li class="tno-acc-menu-item <?php echo esc_attr( $classes ); ?> <?php echo $is_logout ? 'tno-acc-menu-item--logout' : ''; ?>">
-				<a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>" class="tno-acc-menu-link">
+				<a
+					href="<?php echo esc_url( $is_logout ? wc_logout_url() : wc_get_account_endpoint_url( $endpoint ) ); ?>"
+					class="tno-acc-menu-link"
+					<?php echo $is_logout ? 'data-open-logout-modal="1"' : ''; ?>
+				>
 					<span class="tno-acc-menu-icon" aria-hidden="true">
 						<?php echo $icons[ $endpoint ] ?? $icons['dashboard']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					</span>

@@ -557,4 +557,115 @@
 			}
 		});
 	}
+
+	/* ----------------------------------------------------------------------
+	   Logout Confirmation Modal
+	   ---------------------------------------------------------------------- */
+	const logoutModal = document.getElementById('tno-logout-modal');
+	if (logoutModal) {
+		document.addEventListener('click', (e) => {
+			const trigger = e.target.closest('[data-open-logout-modal]');
+			if (!trigger) return;
+			e.preventDefault();
+			openModal(logoutModal);
+		});
+	}
+
+	/* ----------------------------------------------------------------------
+	   Wishlist & Recently Viewed -> Add to Cart & Remove Card
+	   ---------------------------------------------------------------------- */
+	const prodGrid = document.getElementById('tno-acc-prod-grid');
+	if (prodGrid) {
+		const prodSection = document.getElementById('tno-acc-prod-section');
+		const prodEmpty = document.getElementById('tno-acc-prod-empty');
+
+		prodGrid.addEventListener('click', async (e) => {
+			const delBtn = e.target.closest('[data-remove-acc-product]');
+			if (delBtn) {
+				const productId = delBtn.dataset.removeAccProduct;
+				const context = delBtn.dataset.removeContext || 'wishlist';
+				const card = delBtn.closest('.tno-acc-prod-card');
+				if (!productId || !card) return;
+
+				delBtn.disabled = true;
+				try {
+					const body = new URLSearchParams({
+						action: context === 'recent' ? 'tno_account_remove_recent_view' : 'tno_account_remove_wishlist',
+						nonce: cfg.nonce,
+						product_id: productId,
+					});
+					const res = await fetch(cfg.ajaxUrl, {
+						method: 'POST',
+						credentials: 'same-origin',
+						headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+						body: body.toString(),
+					});
+					const json = await res.json();
+					if (json.success) {
+						card.remove();
+						if (prodGrid.querySelectorAll('.tno-acc-prod-card').length === 0) {
+							if (prodSection) prodSection.hidden = true;
+							if (prodEmpty) prodEmpty.hidden = false;
+						}
+					} else {
+						delBtn.disabled = false;
+					}
+				} catch (_) {
+					delBtn.disabled = false;
+				}
+				return;
+			}
+
+			const addBtn = e.target.closest('[data-acc-add-cart]');
+			if (addBtn && !addBtn.disabled) {
+				const productId = addBtn.dataset.accAddCart;
+				if (!productId) return;
+
+				addBtn.disabled = true;
+				const origText = addBtn.textContent;
+				addBtn.textContent = cfg.i18n.addingToCart || 'در حال افزودن...';
+
+				try {
+					const body = new URLSearchParams({
+						action: 'tno_account_add_to_cart',
+						nonce: cfg.nonce,
+						product_id: productId,
+					});
+					const res = await fetch(cfg.ajaxUrl, {
+						method: 'POST',
+						credentials: 'same-origin',
+						headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+						body: body.toString(),
+					});
+					const json = await res.json();
+
+					if (json.success) {
+						addBtn.classList.add('is-added');
+						addBtn.textContent = cfg.i18n.addedToCart || 'به سبد اضافه شد ✓';
+
+						if (window.jQuery) {
+							window.jQuery(document.body).trigger('wc_fragment_refresh');
+						}
+						if (json.data?.cartCountLabel) {
+							document.querySelectorAll('.tno-cart-badge, .tno-header-cart-count, .cart-contents-count').forEach((el) => {
+								el.textContent = json.data.cartCountLabel;
+							});
+						}
+
+						setTimeout(() => {
+							addBtn.classList.remove('is-added');
+							addBtn.textContent = cfg.i18n.addToCartBtn || origText;
+							addBtn.disabled = false;
+						}, 1600);
+					} else {
+						addBtn.textContent = origText;
+						addBtn.disabled = false;
+					}
+				} catch (_) {
+					addBtn.textContent = origText;
+					addBtn.disabled = false;
+				}
+			}
+		});
+	}
 })();
