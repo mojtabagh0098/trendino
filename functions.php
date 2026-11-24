@@ -199,6 +199,7 @@ require_once get_template_directory() . '/inc/pdp-modals.php';
 require_once get_template_directory() . '/inc/compare-functions.php';
 require_once get_template_directory() . '/inc/checkout-settings.php';
 require_once get_template_directory() . '/inc/checkout-functions.php';
+require_once get_template_directory() . '/inc/myaccount-functions.php';
 
 /**
  * 1. Declare WooCommerce Support (Prevents fallback to page.php / default WC wrapper)
