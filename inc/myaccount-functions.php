@@ -504,7 +504,27 @@ function tno_ajax_submit_order_review(): void {
 		WC_Comments::clear_transients( $product_id );
 	}
 
-	wp_send_json_success( [ 'commentId' => (int) $comment_id ] );
+	$approved   = (int) get_comment( (int) $comment_id )->comment_approved;
+	$j          = tno_gregorian_to_jalali( current_time( 'timestamp' ) );
+	$date_label = sprintf( '%s %s %s', tno_fa_digits( (string) $j['day'] ), $j['month_name'], tno_fa_digits( (string) $j['year'] ) );
+	$prod       = wc_get_product( $product_id );
+	$img_id     = $prod instanceof WC_Product ? $prod->get_image_id() : 0;
+	$img_url    = $img_id ? wp_get_attachment_image_url( $img_id, 'woocommerce_thumbnail' ) : wc_placeholder_img_src( 'woocommerce_thumbnail' );
+
+	wp_send_json_success( [
+		'commentId' => (int) $comment_id,
+		'review'    => [
+			'productId'    => $product_id,
+			'productTitle' => $prod instanceof WC_Product ? $prod->get_name() : get_the_title( $product_id ),
+			'productUrl'   => get_permalink( $product_id ) ?: '#',
+			'productImage' => (string) $img_url,
+			'rating'       => $rating,
+			'content'      => $content,
+			'dateLabel'    => $date_label,
+			'statusLabel'  => $approved === 1 ? 'تایید شده' : 'در انتظار تایید',
+			'statusTone'   => $approved === 1 ? 'green' : 'amber',
+		],
+	] );
 }
 add_action( 'wp_ajax_tno_submit_order_review', 'tno_ajax_submit_order_review' );
 
@@ -978,3 +998,166 @@ function tno_ajax_account_add_to_cart(): void {
 	] );
 }
 add_action( 'wp_ajax_tno_account_add_to_cart', 'tno_ajax_account_add_to_cart' );
+
+/**
+ * Fetch pending-review purchased products, submitted reviews, and submitted questions for My Account.
+ *
+ * @return array{
+ *   pending: array<int, array<string, mixed>>,
+ *   reviews: array<int, array<string, mixed>>,
+ *   questions: array<int, array<string, mixed>>
+ * }
+ */
+function tno_account_get_reviews_bundle( int $user_id ): array {
+	$pending   = [];
+	$reviews   = [];
+	$questions = [];
+
+	if ( $user_id <= 0 ) {
+		return [
+			'pending'   => $pending,
+			'reviews'   => $reviews,
+			'questions' => $questions,
+		];
+	}
+
+	// 1. User's submitted product reviews (all non-trashed)
+	$raw_reviews = get_comments( [
+		'user_id' => $user_id,
+		'type'    => 'review',
+		'status'  => [ 'approve', 'hold' ],
+		'orderby' => 'comment_date_gmt',
+		'order'   => 'DESC',
+		'number'  => 100,
+	] );
+
+	$reviewed_product_ids = [];
+	foreach ( $raw_reviews as $c ) {
+		if ( ! ( $c instanceof WP_Comment ) ) {
+			continue;
+		}
+		$pid = (int) $c->comment_post_ID;
+		if ( get_post_type( $pid ) !== 'product' ) {
+			continue;
+		}
+
+		$reviewed_product_ids[ $pid ] = true;
+		$prod                         = function_exists( 'wc_get_product' ) ? wc_get_product( $pid ) : null;
+		$img_id                       = $prod instanceof WC_Product ? $prod->get_image_id() : 0;
+		$img_url                      = $img_id ? wp_get_attachment_image_url( $img_id, 'woocommerce_thumbnail' ) : wc_placeholder_img_src( 'woocommerce_thumbnail' );
+		$ts                           = strtotime( $c->comment_date_gmt . ' GMT' ) ?: current_time( 'timestamp' );
+		$j                            = tno_gregorian_to_jalali( $ts );
+		$is_approved                  = (string) $c->comment_approved === '1';
+
+		$reviews[] = [
+			'comment_id'    => (int) $c->comment_ID,
+			'product_id'    => $pid,
+			'product_title' => $prod instanceof WC_Product ? $prod->get_name() : get_the_title( $pid ),
+			'product_url'   => get_permalink( $pid ) ?: '#',
+			'product_image' => (string) $img_url,
+			'rating'        => max( 0, min( 5, (int) get_comment_meta( (int) $c->comment_ID, 'rating', true ) ) ),
+			'content'       => wp_strip_all_tags( (string) $c->comment_content ),
+			'date_label'    => sprintf( '%s %s %s', tno_fa_digits( (string) $j['day'] ), $j['month_name'], tno_fa_digits( (string) $j['year'] ) ),
+			'status_label'  => $is_approved ? 'تایید شده' : 'در انتظار تایید',
+			'status_tone'   => $is_approved ? 'green' : 'amber',
+		];
+	}
+
+	// 2. Purchased products awaiting review
+	if ( function_exists( 'wc_get_orders' ) ) {
+		/** @var WC_Order[] $orders */
+		$orders = wc_get_orders( [
+			'customer_id' => $user_id,
+			'status'      => [ 'wc-completed', 'wc-shipped', 'wc-processing' ],
+			'limit'       => 80,
+			'orderby'     => 'date',
+			'order'       => 'DESC',
+		] );
+
+		$seen_pending = [];
+		foreach ( $orders as $order ) {
+			foreach ( $order->get_items() as $item ) {
+				if ( ! ( $item instanceof WC_Order_Item_Product ) ) {
+					continue;
+				}
+				$pid = (int) $item->get_product_id();
+				if ( $pid <= 0 || isset( $reviewed_product_ids[ $pid ] ) || isset( $seen_pending[ $pid ] ) ) {
+					continue;
+				}
+				$prod = $item->get_product();
+				if ( ! ( $prod instanceof WC_Product ) || $prod->get_status() !== 'publish' ) {
+					continue;
+				}
+				$seen_pending[ $pid ] = true;
+				$img_id               = $prod->get_image_id();
+				$img_url              = $img_id ? wp_get_attachment_image_url( $img_id, 'woocommerce_thumbnail' ) : wc_placeholder_img_src( 'woocommerce_thumbnail' );
+
+				$pending[] = [
+					'product_id' => $pid,
+					'order_id'   => $order->get_id(),
+					'title'      => $prod->get_name(),
+					'permalink'  => $prod->get_permalink(),
+					'image_url'  => (string) $img_url,
+				];
+			}
+		}
+	}
+
+	// 3. User's submitted product questions
+	$raw_questions = get_comments( [
+		'user_id'  => $user_id,
+		'type__in' => [ 'tno_question', 'tno_qa' ],
+		'parent'   => 0,
+		'status'   => [ 'approve', 'hold' ],
+		'orderby'  => 'comment_date_gmt',
+		'order'    => 'DESC',
+		'number'   => 100,
+	] );
+
+	foreach ( $raw_questions as $q ) {
+		if ( ! ( $q instanceof WP_Comment ) ) {
+			continue;
+		}
+		$pid = (int) $q->comment_post_ID;
+		if ( get_post_type( $pid ) !== 'product' ) {
+			continue;
+		}
+
+		$prod        = function_exists( 'wc_get_product' ) ? wc_get_product( $pid ) : null;
+		$img_id      = $prod instanceof WC_Product ? $prod->get_image_id() : 0;
+		$img_url     = $img_id ? wp_get_attachment_image_url( $img_id, 'woocommerce_thumbnail' ) : wc_placeholder_img_src( 'woocommerce_thumbnail' );
+		$ts          = strtotime( $q->comment_date_gmt . ' GMT' ) ?: current_time( 'timestamp' );
+		$j           = tno_gregorian_to_jalali( $ts );
+		$is_approved = (string) $q->comment_approved === '1';
+
+		$answers = get_comments( [
+			'parent'  => (int) $q->comment_ID,
+			'status'  => 'approve',
+			'number'  => 1,
+			'orderby' => 'comment_date_gmt',
+			'order'   => 'ASC',
+		] );
+		$answer_text = ! empty( $answers ) && $answers[0] instanceof WP_Comment
+			? wp_strip_all_tags( (string) $answers[0]->comment_content )
+			: '';
+
+		$questions[] = [
+			'comment_id'    => (int) $q->comment_ID,
+			'product_id'    => $pid,
+			'product_title' => $prod instanceof WC_Product ? $prod->get_name() : get_the_title( $pid ),
+			'product_url'   => get_permalink( $pid ) ?: '#',
+			'product_image' => (string) $img_url,
+			'content'       => wp_strip_all_tags( (string) $q->comment_content ),
+			'answer'        => $answer_text,
+			'date_label'    => sprintf( '%s %s %s', tno_fa_digits( (string) $j['day'] ), $j['month_name'], tno_fa_digits( (string) $j['year'] ) ),
+			'status_label'  => $is_approved ? 'تایید شده' : 'در انتظار تایید',
+			'status_tone'   => $is_approved ? 'green' : 'amber',
+		];
+	}
+
+	return [
+		'pending'   => $pending,
+		'reviews'   => $reviews,
+		'questions' => $questions,
+	];
+}

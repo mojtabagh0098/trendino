@@ -109,21 +109,123 @@
 	});
 
 	/* ----------------------------------------------------------------------
-	   Order Details -> Product Review Modal
+	   Order Details & Reviews Page -> Product Review Modal + Success Countdown
 	   ---------------------------------------------------------------------- */
 	const reviewModal = document.getElementById('tno-review-modal');
 	const reviewForm = document.getElementById('tno-review-form');
+	const reviewSuccessModal = document.getElementById('tno-review-success-modal');
+	const reviewSuccessCount = document.getElementById('tno-rev-success-count');
+	const reviewSuccessClose = document.getElementById('tno-rev-success-close');
+
+	function toFaNum(val) {
+		const map = { 0: '۰', 1: '۱', 2: '۲', 3: '۳', 4: '۴', 5: '۵', 6: '۶', 7: '۷', 8: '۸', 9: '۹' };
+		return String(val).replace(/\d/g, (d) => map[d] || d);
+	}
 
 	if (reviewModal && reviewForm) {
 		const starButtons = reviewModal.querySelectorAll('.tno-rev-star');
 		const ratingInput = document.getElementById('tno-rev-rating');
 		const feedbackEl = document.getElementById('tno-rev-feedback');
 		const submitBtn = document.getElementById('tno-rev-submit');
+		let successTimer = null;
 
 		function paintStars(value) {
 			starButtons.forEach((btn) => {
 				btn.classList.toggle('is-filled', Number(btn.dataset.star) <= value);
 			});
+		}
+
+		function finishSuccessFlow() {
+			if (successTimer) {
+				clearInterval(successTimer);
+				successTimer = null;
+			}
+			closeModal(reviewSuccessModal);
+		}
+
+		function showReviewSuccess(reviewData) {
+			closeModal(reviewModal);
+
+			// Update Reviews & Q&A page DOM live if present
+			if (reviewData && reviewData.productId) {
+				const pendingCard = document.querySelector(`.tno-rev-pending-card[data-pending-product-id="${reviewData.productId}"]`);
+				if (pendingCard) {
+					pendingCard.remove();
+					const pendingGrid = document.getElementById('tno-rev-pending-grid');
+					const pendingEmpty = document.getElementById('tno-rev-pending-empty');
+					if (pendingGrid && pendingGrid.querySelectorAll('.tno-rev-pending-card').length === 0) {
+						pendingGrid.hidden = true;
+						if (pendingEmpty) pendingEmpty.hidden = false;
+					}
+				}
+
+				const myReviewsGrid = document.getElementById('tno-rev-my-reviews-grid');
+				const myReviewsEmpty = document.getElementById('tno-rev-my-reviews-empty');
+				if (myReviewsGrid) {
+					myReviewsGrid.hidden = false;
+					if (myReviewsEmpty) myReviewsEmpty.hidden = true;
+
+					let starsHtml = '';
+					for (let s = 1; s <= 5; s++) {
+						const filled = s <= Number(reviewData.rating || 0) ? '#f5b942' : 'none';
+						starsHtml += `<svg width="14" height="14" viewBox="0 0 24 24" fill="${filled}" stroke="#f5b942" stroke-width="1.8" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+					}
+
+					const card = document.createElement('article');
+					card.className = 'tno-rev-history-card';
+					card.innerHTML = `
+						<div class="tno-rev-card-prod">
+							<a class="tno-rev-card-thumb"><img alt="" loading="lazy"></a>
+							<div class="tno-rev-card-head-info">
+								<h3 class="tno-rev-card-title"><a></a></h3>
+								<div class="tno-rev-readonly-stars">${starsHtml}</div>
+							</div>
+						</div>
+						<p class="tno-rev-history-text"></p>
+						<footer class="tno-rev-history-foot">
+							<span class="tno-rev-history-date"></span>
+							<span class="tno-status-badge"></span>
+						</footer>
+					`;
+					const thumbLink = card.querySelector('.tno-rev-card-thumb');
+					thumbLink.href = reviewData.productUrl || '#';
+					thumbLink.querySelector('img').src = reviewData.productImage || '';
+					thumbLink.querySelector('img').alt = reviewData.productTitle || '';
+					const titleLink = card.querySelector('.tno-rev-card-title a');
+					titleLink.href = reviewData.productUrl || '#';
+					titleLink.textContent = reviewData.productTitle || '';
+					card.querySelector('.tno-rev-history-text').textContent = reviewData.content || '';
+					card.querySelector('.tno-rev-history-date').textContent = reviewData.dateLabel || '';
+					const badge = card.querySelector('.tno-status-badge');
+					badge.className = 'tno-status-badge tno-status-badge--' + (reviewData.statusTone || 'amber');
+					badge.textContent = reviewData.statusLabel || 'در انتظار تایید';
+					myReviewsGrid.prepend(card);
+				}
+			}
+
+			if (!reviewSuccessModal) return;
+
+			let remaining = 3;
+			if (reviewSuccessCount) {
+				reviewSuccessCount.textContent = toFaNum(remaining);
+			}
+			openModal(reviewSuccessModal);
+
+			if (successTimer) clearInterval(successTimer);
+			successTimer = setInterval(() => {
+				remaining -= 1;
+				if (remaining <= 0) {
+					finishSuccessFlow();
+					return;
+				}
+				if (reviewSuccessCount) {
+					reviewSuccessCount.textContent = toFaNum(remaining);
+				}
+			}, 1000);
+		}
+
+		if (reviewSuccessClose) {
+			reviewSuccessClose.addEventListener('click', finishSuccessFlow);
 		}
 
 		starButtons.forEach((btn) => {
@@ -139,17 +241,32 @@
 			paintStars(Number(ratingInput.value));
 		});
 
+		// Pending review card star hover preview
+		document.querySelectorAll('[data-card-stars]').forEach((group) => {
+			const cardStars = group.querySelectorAll('.tno-rev-card-star');
+			cardStars.forEach((btn) => {
+				btn.addEventListener('mouseenter', () => {
+					const val = Number(btn.dataset.star);
+					cardStars.forEach((b) => b.classList.toggle('is-filled', Number(b.dataset.star) <= val));
+				});
+			});
+			group.addEventListener('mouseleave', () => {
+				cardStars.forEach((b) => b.classList.remove('is-filled'));
+			});
+		});
+
 		document.addEventListener('click', (e) => {
 			const trigger = e.target.closest('[data-open-review]');
 			if (!trigger) return;
 
+			const initialRating = Number(trigger.dataset.initialRating || 0);
 			document.getElementById('tno-rev-product-id').value = trigger.dataset.productId || '';
 			document.getElementById('tno-rev-order-id').value = trigger.dataset.orderId || '';
 			document.getElementById('tno-rev-product-title').textContent = trigger.dataset.productTitle || '';
 			document.getElementById('tno-rev-product-img').src = trigger.dataset.productImage || '';
 			document.getElementById('tno-rev-comment').value = '';
-			ratingInput.value = '0';
-			paintStars(0);
+			ratingInput.value = String(initialRating);
+			paintStars(initialRating);
 			feedbackEl.textContent = '';
 			feedbackEl.className = 'tno-modal-feedback';
 
@@ -198,15 +315,46 @@
 					return;
 				}
 
-				feedbackEl.className = 'tno-modal-feedback is-success';
-				feedbackEl.textContent = cfg.i18n.reviewSaved;
-				setTimeout(() => closeModal(reviewModal), 1200);
+				showReviewSuccess(json.data?.review || null);
 			} catch (_) {
 				feedbackEl.className = 'tno-modal-feedback is-error';
 				feedbackEl.textContent = cfg.i18n.errorGeneric;
 			} finally {
 				submitBtn.disabled = false;
 			}
+		});
+	}
+
+	/* ----------------------------------------------------------------------
+	   Reviews & Questions Tabs Switching
+	   ---------------------------------------------------------------------- */
+	const reviewsApp = document.getElementById('tno-reviews-app');
+	if (reviewsApp) {
+		const revTabs = reviewsApp.querySelectorAll('[data-rev-tab]');
+		const revPanels = reviewsApp.querySelectorAll('[data-rev-panel]');
+
+		function activateReviewTab(targetTab) {
+			revTabs.forEach((btn) => {
+				const active = btn.dataset.revTab === targetTab;
+				btn.classList.toggle('is-active', active);
+				btn.setAttribute('aria-selected', active ? 'true' : 'false');
+			});
+			revPanels.forEach((panel) => {
+				panel.hidden = panel.dataset.revPanel !== targetTab;
+			});
+			const url = new URL(window.location.href);
+			if (targetTab === 'pending') {
+				url.searchParams.delete('tab');
+			} else {
+				url.searchParams.set('tab', targetTab);
+			}
+			window.history.replaceState({}, '', url.toString());
+		}
+
+		reviewsApp.addEventListener('click', (e) => {
+			const tabBtn = e.target.closest('[data-rev-tab]');
+			if (!tabBtn) return;
+			activateReviewTab(tabBtn.dataset.revTab);
 		});
 	}
 
