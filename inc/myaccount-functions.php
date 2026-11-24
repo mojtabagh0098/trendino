@@ -41,6 +41,9 @@ add_action( 'wp_enqueue_scripts', function (): void {
 			'clubClaimBtn'   => 'دریافت کد تخفیف',
 			'clubNoPoints'   => 'امتیاز کافی ندارید',
 			'clubCopied'     => 'کد تخفیف کپی شد!',
+			'savingAccount'  => 'در حال ذخیره...',
+			'saveAccountBtn' => 'ذخیره اطلاعات',
+			'accountSaved'   => 'اطلاعات حساب کاربری با موفقیت ذخیره شد.',
 		],
 	] );
 } );
@@ -585,3 +588,124 @@ function tno_ajax_manage_address(): void {
 	wp_send_json_success( [ 'address' => $entry ] );
 }
 add_action( 'wp_ajax_tno_manage_address', 'tno_ajax_manage_address' );
+
+/**
+ * Normalize Persian/Arabic digits to Latin ASCII digits.
+ */
+function tno_account_to_latin_digits( string $value ): string {
+	return strtr( $value, [
+		'۰' => '0', '۱' => '1', '۲' => '2', '۳' => '3', '۴' => '4',
+		'۵' => '5', '۶' => '6', '۷' => '7', '۸' => '8', '۹' => '9',
+		'٠' => '0', '١' => '1', '٢' => '2', '٣' => '3', '٤' => '4',
+		'٥' => '5', '٦' => '6', '٧' => '7', '٨' => '8', '٩' => '9',
+	] );
+}
+
+/**
+ * Validate Iranian 10-digit National ID (کد ملی).
+ */
+function tno_account_is_valid_iran_national_code( string $code ): bool {
+	if ( ! preg_match( '/^\d{10}$/', $code ) ) {
+		return false;
+	}
+	if ( preg_match( '/^(\d)\1{9}$/', $code ) ) {
+		return false;
+	}
+
+	$sum = 0;
+	for ( $i = 0; $i < 9; $i++ ) {
+		$sum += (int) $code[ $i ] * ( 10 - $i );
+	}
+	$rem   = $sum % 11;
+	$check = (int) $code[9];
+
+	return $rem < 2 ? $check === $rem : $check === ( 11 - $rem );
+}
+
+/**
+ * AJAX: Save user profile details from My Account -> Edit Account form.
+ */
+function tno_ajax_save_account_details(): void {
+	check_ajax_referer( 'tno_account_nonce', 'nonce' );
+
+	if ( ! is_user_logged_in() ) {
+		wp_send_json_error( [ 'message' => 'دسترسی غیرمجاز.' ], 401 );
+	}
+
+	$user_id       = get_current_user_id();
+	$user          = get_userdata( $user_id );
+	$first_name    = sanitize_text_field( wp_unslash( $_POST['first_name'] ?? '' ) );
+	$last_name     = sanitize_text_field( wp_unslash( $_POST['last_name'] ?? '' ) );
+	$raw_phone     = sanitize_text_field( wp_unslash( $_POST['phone'] ?? '' ) );
+	$raw_email     = sanitize_text_field( wp_unslash( $_POST['email'] ?? '' ) );
+	$raw_national  = sanitize_text_field( wp_unslash( $_POST['national_code'] ?? '' ) );
+
+	$phone         = preg_replace( '/\s+/', '', tno_account_to_latin_digits( $raw_phone ) ) ?? '';
+	$email         = trim( tno_account_to_latin_digits( $raw_email ) );
+	$national_code = preg_replace( '/\D+/', '', tno_account_to_latin_digits( $raw_national ) ) ?? '';
+
+	if ( $first_name === '' || $last_name === '' ) {
+		wp_send_json_error( [ 'message' => 'لطفاً نام و نام خانوادگی خود را وارد کنید.' ], 400 );
+	}
+
+	if ( $phone !== '' && ! preg_match( '/^09\d{9}$/', $phone ) ) {
+		wp_send_json_error( [ 'message' => 'شماره همراه باید ۱۱ رقم و با ۰۹ شروع شود.' ], 400 );
+	}
+
+	if ( $email !== '' ) {
+		if ( ! is_email( $email ) ) {
+			wp_send_json_error( [ 'message' => 'فرمت ایمیل واردشده معتبر نیست.' ], 400 );
+		}
+		$existing_owner = email_exists( $email );
+		if ( $existing_owner && (int) $existing_owner !== $user_id ) {
+			wp_send_json_error( [ 'message' => 'این ایمیل قبلاً توسط کاربر دیگری ثبت شده است.' ], 400 );
+		}
+	}
+
+	if ( $national_code !== '' && ! tno_account_is_valid_iran_national_code( $national_code ) ) {
+		wp_send_json_error( [ 'message' => 'کد ملی واردشده معتبر نیست.' ], 400 );
+	}
+
+	$display_name = trim( $first_name . ' ' . $last_name );
+	$update_args  = [
+		'ID'           => $user_id,
+		'first_name'   => $first_name,
+		'last_name'    => $last_name,
+		'display_name' => $display_name,
+	];
+	if ( $email !== '' ) {
+		$update_args['user_email'] = sanitize_email( $email );
+	} elseif ( $user && $user->user_email !== '' && $raw_email === '' ) {
+		$update_args['user_email'] = '';
+	}
+
+	$result = wp_update_user( $update_args );
+	if ( is_wp_error( $result ) ) {
+		wp_send_json_error( [ 'message' => 'خطا در ذخیره‌سازی اطلاعات کاربری.' ], 500 );
+	}
+
+	update_user_meta( $user_id, 'billing_first_name', $first_name );
+	update_user_meta( $user_id, 'billing_last_name', $last_name );
+	if ( $phone !== '' ) {
+		update_user_meta( $user_id, 'billing_phone', $phone );
+	} else {
+		delete_user_meta( $user_id, 'billing_phone' );
+	}
+	if ( $email !== '' ) {
+		update_user_meta( $user_id, 'billing_email', sanitize_email( $email ) );
+	}
+	if ( $national_code !== '' ) {
+		update_user_meta( $user_id, '_tno_national_code', $national_code );
+		update_user_meta( $user_id, 'billing_national_code', $national_code );
+	} else {
+		delete_user_meta( $user_id, '_tno_national_code' );
+		delete_user_meta( $user_id, 'billing_national_code' );
+	}
+
+	wp_send_json_success( [
+		'message'      => 'اطلاعات حساب کاربری با موفقیت ذخیره شد.',
+		'displayName'  => $display_name,
+		'phoneDisplay' => $phone !== '' ? tno_fa_digits( $phone ) : '',
+	] );
+}
+add_action( 'wp_ajax_tno_save_account_details', 'tno_ajax_save_account_details' );

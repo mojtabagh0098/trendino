@@ -485,4 +485,76 @@
 			}
 		});
 	}
+
+	/* ----------------------------------------------------------------------
+	   Edit Account Details (اطلاعات حساب کاربری)
+	   ---------------------------------------------------------------------- */
+	const editAccountForm = document.getElementById('tno-edit-account-form');
+	if (editAccountForm) {
+		const feedbackEl = document.getElementById('tno-edit-account-feedback');
+		const submitBtn = document.getElementById('tno-edit-account-submit');
+		const submitLabel = submitBtn ? submitBtn.querySelector('span') : null;
+
+		editAccountForm.addEventListener('submit', async (e) => {
+			e.preventDefault();
+			if (!submitBtn) return;
+
+			submitBtn.disabled = true;
+			if (submitLabel) {
+				submitLabel.textContent = cfg.i18n.savingAccount || 'در حال ذخیره...';
+			}
+			if (feedbackEl) {
+				feedbackEl.hidden = true;
+				feedbackEl.textContent = '';
+			}
+
+			try {
+				const body = new URLSearchParams({
+					action: 'tno_save_account_details',
+					nonce: cfg.nonce,
+					first_name: document.getElementById('tno-acc-first-name')?.value.trim() || '',
+					last_name: document.getElementById('tno-acc-last-name')?.value.trim() || '',
+					phone: document.getElementById('tno-acc-phone')?.value.trim() || '',
+					email: document.getElementById('tno-acc-email')?.value.trim() || '',
+					national_code: document.getElementById('tno-acc-national-code')?.value.trim() || '',
+				});
+
+				const res = await fetch(cfg.ajaxUrl, {
+					method: 'POST',
+					credentials: 'same-origin',
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+					body: body.toString(),
+				});
+				const json = await res.json();
+
+				if (feedbackEl) {
+					feedbackEl.hidden = false;
+					feedbackEl.className = 'tno-edit-account-feedback ' + (json.success ? 'is-success' : 'is-error');
+					feedbackEl.textContent = json.data?.message || (json.success ? cfg.i18n.accountSaved : cfg.i18n.errorGeneric);
+				}
+
+				if (json.success && json.data) {
+					const navName = document.querySelector('.tno-acc-profile-name');
+					const navPhone = document.querySelector('.tno-acc-profile-phone');
+					if (navName && json.data.displayName) {
+						navName.textContent = json.data.displayName;
+					}
+					if (navPhone && typeof json.data.phoneDisplay === 'string') {
+						navPhone.textContent = json.data.phoneDisplay;
+					}
+				}
+			} catch (_) {
+				if (feedbackEl) {
+					feedbackEl.hidden = false;
+					feedbackEl.className = 'tno-edit-account-feedback is-error';
+					feedbackEl.textContent = cfg.i18n.errorGeneric;
+				}
+			} finally {
+				submitBtn.disabled = false;
+				if (submitLabel) {
+					submitLabel.textContent = cfg.i18n.saveAccountBtn || 'ذخیره اطلاعات';
+				}
+			}
+		});
+	}
 })();
