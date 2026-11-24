@@ -1031,6 +1031,366 @@
 }
 
 /* --------------------------------------------------------------------------
+   Customer Club (باشگاه مشتریان)
+   -------------------------------------------------------------------------- */
+.tno-club-shell {
+	background: var(--tno-acc-surface);
+	border: 1px solid var(--tno-acc-border);
+	border-radius: 16px;
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.tno-club-balance-banner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	background: linear-gradient(270deg, #fff2f4 0%, #fde7ea 100%);
+	border-radius: 14px;
+	padding: 20px 26px;
+}
+
+.tno-club-balance-copy {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.tno-club-balance-title {
+	margin: 0;
+	font-size: 14px;
+	font-weight: 800;
+	color: #111827;
+}
+
+.tno-club-balance-meta {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.tno-club-balance-value {
+	font-size: 12.5px;
+	font-weight: 600;
+	color: #374151;
+}
+
+.tno-club-pending-note {
+	font-size: 11.5px;
+	color: #d97706;
+	font-weight: 600;
+}
+
+.tno-club-balance-icon {
+	flex-shrink: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.tno-club-feedback {
+	padding: 12px 16px;
+	border-radius: 12px;
+	font-size: 12.5px;
+	font-weight: 600;
+}
+
+.tno-club-feedback.is-success {
+	background: #e6f8f1;
+	color: #047857;
+	border: 1px solid #a7f3d0;
+}
+
+.tno-club-feedback.is-error {
+	background: #ffeef0;
+	color: var(--tno-acc-red);
+	border: 1px solid #fecdd3;
+}
+
+.tno-club-card {
+	background: #ffffff;
+	border: 1px solid var(--tno-acc-border);
+	border-radius: 14px;
+	padding: 20px 22px;
+}
+
+.tno-club-card .tno-acc-card-title {
+	margin-bottom: 16px;
+}
+
+.tno-club-tiers-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.tno-club-tier {
+	border: 1px solid var(--tno-acc-border);
+	border-radius: 14px;
+	padding: 12px;
+	background: #ffffff;
+	display: flex;
+	flex-direction: column;
+}
+
+.tno-club-tier-banner {
+	height: 118px;
+	border-radius: 10px;
+	position: relative;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 16px;
+}
+
+.tno-club-tier-banner--dark {
+	background: radial-gradient(circle at 26% 52%, #a6111f 0%, #3d070e 54%, #0d0a0f 100%);
+	color: #ffffff;
+}
+
+.tno-club-tier-banner--blue {
+	background: linear-gradient(135deg, #dcf1fd 0%, #bfe7fc 100%);
+	color: #111827;
+}
+
+.tno-club-tier-banner--pink {
+	background: linear-gradient(135deg, #ffe5ea 0%, #ffc8d3 100%);
+	color: #111827;
+}
+
+.tno-club-tier-custom-img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.tno-club-tier-banner-pts {
+	position: relative;
+	z-index: 2;
+	font-size: 16px;
+	font-weight: 800;
+	white-space: nowrap;
+}
+
+.tno-club-tier-art {
+	width: 124px;
+	height: 98px;
+	flex-shrink: 0;
+	position: relative;
+	z-index: 1;
+	margin-left: -6px;
+}
+
+.tno-club-tier-art svg {
+	width: 100%;
+	height: 100%;
+	display: block;
+}
+
+.tno-club-tier-body {
+	padding: 12px 4px 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.tno-club-tier-sub {
+	font-size: 11.5px;
+	color: #6b7280;
+	font-weight: 500;
+}
+
+.tno-club-tier-cost {
+	font-size: 13.5px;
+	font-weight: 800;
+	color: #111827;
+}
+
+.tno-club-tier-btn {
+	margin-top: auto;
+	height: 40px;
+	width: 100%;
+	border: 0;
+	border-radius: 999px;
+	background: #f3f4f6;
+	color: #b0b7c3;
+	font-family: inherit;
+	font-size: 12.5px;
+	font-weight: 700;
+	cursor: not-allowed;
+	transition: background-color 0.18s ease, color 0.18s ease, opacity 0.18s ease;
+}
+
+.tno-club-tier-btn.is-available {
+	background: var(--tno-acc-dark);
+	color: #ffffff;
+	cursor: pointer;
+}
+
+.tno-club-tier-btn.is-available:hover {
+	background: #000000;
+}
+
+.tno-club-tier-btn:disabled:not(.is-available) {
+	opacity: 1;
+}
+
+.tno-club-rules-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	font-size: 12.5px;
+	color: #374151;
+	line-height: 1.9;
+}
+
+.tno-club-rules-list li {
+	display: flex;
+	align-items: baseline;
+	gap: 6px;
+}
+
+.tno-club-rule-num,
+.tno-club-ledger-num {
+	font-weight: 700;
+	color: #1f2937;
+	flex-shrink: 0;
+}
+
+.tno-club-ledger-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.tno-club-ledger-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	padding: 4px 0;
+}
+
+.tno-club-ledger-desc {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 6px;
+	font-size: 12.5px;
+	color: #374151;
+	line-height: 1.7;
+}
+
+.tno-club-pts-pill {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 4px 12px;
+	border-radius: 8px;
+	font-size: 11.5px;
+	font-weight: 700;
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+.tno-club-pts-pill--green {
+	background: #e6f8f1;
+	color: var(--tno-acc-green);
+}
+
+.tno-club-pts-pill--red {
+	background: #ffeef0;
+	color: var(--tno-acc-red);
+}
+
+.tno-club-pts-pill--amber {
+	background: #fff6e5;
+	color: #d97706;
+}
+
+.tno-club-pts-pill--muted {
+	background: #f3f4f6;
+	color: #6b7280;
+}
+
+.tno-club-empty-text {
+	margin: 0;
+	font-size: 12.5px;
+	color: #6b7280;
+}
+
+.tno-club-coupons-list {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.tno-club-coupon-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	padding: 12px 16px;
+	border: 1px solid #f1f3f7;
+	border-radius: 12px;
+	background: #fcfcfd;
+}
+
+.tno-club-coupon-info {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.tno-club-coupon-title {
+	font-size: 13px;
+	font-weight: 700;
+	color: #111827;
+}
+
+.tno-club-coupon-exp {
+	font-size: 11.5px;
+	color: var(--tno-acc-muted);
+}
+
+.tno-club-coupon-actions {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.tno-club-code-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 12px;
+	border: 1px dashed #cbd5e1;
+	border-radius: 8px;
+	background: #ffffff;
+	color: #111827;
+	font-family: inherit;
+	font-size: 12px;
+	font-weight: 800;
+	cursor: pointer;
+	transition: border-color 0.18s ease, background-color 0.18s ease;
+}
+
+.tno-club-code-pill:hover {
+	border-color: var(--tno-acc-navy);
+	background: #f8fafc;
+}
+
+/* --------------------------------------------------------------------------
    Responsive (Desktop -> Tablet -> Mobile Orders UI)
    -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
@@ -1039,6 +1399,10 @@
 	}
 
 	.tno-stat-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.tno-club-tiers-grid {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
@@ -1153,5 +1517,29 @@
 
 	.tno-addr-form-grid {
 		grid-template-columns: 1fr;
+	}
+
+	.tno-club-shell {
+		padding: 14px;
+		gap: 14px;
+	}
+
+	.tno-club-balance-banner {
+		padding: 16px 18px;
+	}
+
+	.tno-club-card {
+		padding: 16px;
+	}
+
+	.tno-club-tiers-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.tno-club-ledger-row,
+	.tno-club-coupon-row {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 10px;
 	}
 }

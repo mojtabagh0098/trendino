@@ -37,6 +37,10 @@ add_action( 'wp_enqueue_scripts', function (): void {
 			'fillAddress'    => 'لطفاً استان، شهر و نشانی پستی را کامل وارد کنید.',
 			'confirmDelete'  => 'آیا از حذف این آدرس مطمئن هستید؟',
 			'errorGeneric'   => 'خطایی رخ داد، لطفاً دوباره تلاش کنید.',
+			'clubClaiming'   => 'در حال صدور کد...',
+			'clubClaimBtn'   => 'دریافت کد تخفیف',
+			'clubNoPoints'   => 'امتیاز کافی ندارید',
+			'clubCopied'     => 'کد تخفیف کپی شد!',
 		],
 	] );
 } );

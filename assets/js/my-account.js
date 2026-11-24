@@ -334,4 +334,155 @@
 			}
 		});
 	}
+
+	/* ----------------------------------------------------------------------
+	   Customer Club (باشگاه مشتریان) -> Claim Coupon & Copy Code
+	   ---------------------------------------------------------------------- */
+	const clubApp = document.getElementById('tno-club-app');
+	if (clubApp) {
+		const balanceEl = document.getElementById('tno-club-balance-value');
+		const feedbackEl = document.getElementById('tno-club-feedback');
+		const couponsList = document.getElementById('tno-club-coupons-list');
+		const ledgerList = document.getElementById('tno-club-ledger-list');
+
+		function showClubFeedback(msg, isError = false) {
+			if (!feedbackEl) return;
+			feedbackEl.hidden = false;
+			feedbackEl.className = 'tno-club-feedback ' + (isError ? 'is-error' : 'is-success');
+			feedbackEl.textContent = msg;
+		}
+
+		function refreshTierButtons(newBalance) {
+			clubApp.querySelectorAll('.tno-club-tier').forEach((card) => {
+				const cost = Number(card.dataset.tierCost || 0);
+				const btn = card.querySelector('.tno-club-tier-btn');
+				if (!btn) return;
+				if (newBalance >= cost) {
+					btn.disabled = false;
+					btn.classList.add('is-available');
+					btn.textContent = cfg.i18n.clubClaimBtn || 'دریافت کد تخفیف';
+				} else {
+					btn.disabled = true;
+					btn.classList.remove('is-available');
+					btn.textContent = cfg.i18n.clubNoPoints || 'امتیاز کافی ندارید';
+				}
+			});
+		}
+
+		function toFaDigits(str) {
+			const map = { 0: '۰', 1: '۱', 2: '۲', 3: '۳', 4: '۴', 5: '۵', 6: '۶', 7: '۷', 8: '۸', 9: '۹' };
+			return String(str).replace(/\d/g, (d) => map[d] || d);
+		}
+
+		clubApp.addEventListener('click', async (e) => {
+			const copyBtn = e.target.closest('[data-copy-coupon]');
+			if (copyBtn) {
+				const code = copyBtn.dataset.copyCoupon || '';
+				if (!code) return;
+				try {
+					await navigator.clipboard.writeText(code);
+					showClubFeedback((cfg.i18n.clubCopied || 'کد تخفیف کپی شد!') + ' (' + code + ')');
+				} catch (_) {
+					showClubFeedback(code);
+				}
+				return;
+			}
+
+			const claimBtn = e.target.closest('[data-claim-tier]');
+			if (!claimBtn || claimBtn.disabled) return;
+
+			const tierId = claimBtn.dataset.claimTier;
+			if (!tierId) return;
+
+			claimBtn.disabled = true;
+			const origText = claimBtn.textContent;
+			claimBtn.textContent = cfg.i18n.clubClaiming || 'در حال صدور کد...';
+
+			try {
+				const body = new URLSearchParams({
+					action: 'tno_club_claim_tier',
+					nonce: cfg.nonce,
+					tier_id: tierId,
+				});
+
+				const res = await fetch(cfg.ajaxUrl, {
+					method: 'POST',
+					credentials: 'same-origin',
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+					body: body.toString(),
+				});
+				const json = await res.json();
+
+				if (!json.success) {
+					claimBtn.disabled = false;
+					claimBtn.textContent = origText;
+					showClubFeedback(json.data?.message || cfg.i18n.errorGeneric, true);
+					return;
+				}
+
+				const data = json.data;
+				if (balanceEl && data.balanceLabel) {
+					balanceEl.textContent = data.balanceLabel;
+				}
+				refreshTierButtons(Number(data.balance || 0));
+				showClubFeedback(data.message || 'کد تخفیف با موفقیت صادر شد.');
+
+				if (couponsList && data.coupon) {
+					const emptyCoupons = document.getElementById('tno-club-coupons-empty');
+					if (emptyCoupons) emptyCoupons.remove();
+
+					const row = document.createElement('div');
+					row.className = 'tno-club-coupon-row';
+					row.innerHTML = `
+						<div class="tno-club-coupon-info">
+							<strong class="tno-club-coupon-title"></strong>
+							<span class="tno-club-coupon-exp"></span>
+						</div>
+						<div class="tno-club-coupon-actions">
+							<button type="button" class="tno-club-code-pill" data-copy-coupon="">
+								<span dir="ltr"></span>
+								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+							</button>
+							<span class="tno-club-pts-pill tno-club-pts-pill--green"></span>
+						</div>
+					`;
+					row.querySelector('.tno-club-coupon-title').textContent = data.coupon.title;
+					row.querySelector('.tno-club-coupon-exp').textContent = 'اعتبار تا ' + data.coupon.expires;
+					const pill = row.querySelector('.tno-club-code-pill');
+					pill.dataset.copyCoupon = data.coupon.code;
+					pill.querySelector('span').textContent = data.coupon.code;
+					row.querySelector('.tno-club-pts-pill').textContent = data.coupon.status;
+					couponsList.prepend(row);
+				}
+
+				if (ledgerList && data.coupon) {
+					const emptyLedger = document.getElementById('tno-club-ledger-empty');
+					if (emptyLedger) emptyLedger.remove();
+
+					const tierCard = claimBtn.closest('.tno-club-tier');
+					const cost = Number(tierCard?.dataset.tierCost || 0);
+					const newRow = document.createElement('div');
+					newRow.className = 'tno-club-ledger-row';
+					newRow.innerHTML = `
+						<span class="tno-club-ledger-desc">
+							<span class="tno-club-ledger-num">۱.</span>
+							<span class="tno-club-ledger-text"></span>
+						</span>
+						<span class="tno-club-pts-pill tno-club-pts-pill--red"></span>
+					`;
+					newRow.querySelector('.tno-club-ledger-text').textContent = 'دریافت ' + data.coupon.title + ' (' + data.coupon.code + ')';
+					newRow.querySelector('.tno-club-pts-pill').textContent = '-' + toFaDigits(cost.toLocaleString('en-US')) + ' امتیاز';
+					ledgerList.prepend(newRow);
+
+					ledgerList.querySelectorAll('.tno-club-ledger-num').forEach((el, idx) => {
+						el.textContent = toFaDigits(idx + 1) + '.';
+					});
+				}
+			} catch (_) {
+				claimBtn.disabled = false;
+				claimBtn.textContent = origText;
+				showClubFeedback(cfg.i18n.errorGeneric, true);
+			}
+		});
+	}
 })();
