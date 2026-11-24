@@ -359,25 +359,168 @@
 	}
 
 	/* ----------------------------------------------------------------------
-	   Addresses CRUD Modal
+	   Addresses CRUD Modal & Cascading Province -> City Select
 	   ---------------------------------------------------------------------- */
 	const addrModal = document.getElementById('tno-address-modal');
 	const addrForm = document.getElementById('tno-address-form');
 
 	if (addrModal && addrForm) {
 		const modalTitle = document.getElementById('tno-addr-modal-title');
+		const idInput = document.getElementById('tno-addr-id');
+		const stateSelect = document.getElementById('tno-addr-state');
+		const citySelect = document.getElementById('tno-addr-city');
+		const lineInput = document.getElementById('tno-addr-line');
+		const plaqueInput = document.getElementById('tno-addr-plaque');
+		const unitInput = document.getElementById('tno-addr-unit');
+		const postcodeInput = document.getElementById('tno-addr-postcode');
+		const postcodeErrEl = document.getElementById('tno-addr-postcode-error');
 		const feedbackEl = document.getElementById('tno-addr-feedback');
 		const submitBtn = document.getElementById('tno-addr-submit');
+		const modalDeleteBtn = document.getElementById('tno-addr-modal-delete');
+		const citiesMap = cfg.iranCities || {};
+
+		function normalizeDigits(val) {
+			return String(val || '')
+				.replace(/[۰-۹]/g, (d) => String('۰۱۲۳۴۵۶۷۸۹'.indexOf(d)))
+				.replace(/[٠-٩]/g, (d) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)));
+		}
+
+		function isValidIranPostcode(rawVal) {
+			const clean = normalizeDigits(rawVal).replace(/\s+/g, '');
+			return /^\d{10}$/.test(clean) && !/^(\d)\1{9}$/.test(clean);
+		}
+
+		function populateCities(stateCode, selectedCity = '') {
+			citySelect.innerHTML = '';
+
+			const defaultOpt = document.createElement('option');
+			defaultOpt.value = '';
+			defaultOpt.textContent = (cfg.i18n && cfg.i18n.selectCity) ? 'انتخاب کنید' : 'انتخاب کنید';
+			citySelect.appendChild(defaultOpt);
+
+			const list = stateCode && Array.isArray(citiesMap[stateCode]) ? [...citiesMap[stateCode]] : [];
+
+			if (selectedCity && list.length > 0 && !list.includes(selectedCity)) {
+				list.unshift(selectedCity);
+			}
+
+			if (stateCode && list.length > 0) {
+				list.forEach((cityName) => {
+					const opt = document.createElement('option');
+					opt.value = cityName;
+					opt.textContent = cityName;
+					citySelect.appendChild(opt);
+				});
+				citySelect.disabled = false;
+				citySelect.value = selectedCity || '';
+			} else if (stateCode && selectedCity) {
+				const opt = document.createElement('option');
+				opt.value = selectedCity;
+				opt.textContent = selectedCity;
+				citySelect.appendChild(opt);
+				citySelect.disabled = false;
+				citySelect.value = selectedCity;
+			} else {
+				citySelect.disabled = true;
+				citySelect.value = '';
+			}
+		}
+
+		function showPostcodeError(show) {
+			if (postcodeErrEl) {
+				postcodeErrEl.hidden = !show;
+			}
+			postcodeInput.classList.toggle('is-invalid', Boolean(show));
+		}
+
+		function updateSubmitAvailability() {
+			const hasState = stateSelect.value.trim() !== '';
+			const hasCity = citySelect.value.trim() !== '';
+			const hasLine = lineInput.value.trim() !== '';
+			const hasPostcode = postcodeInput.value.trim() !== '';
+			submitBtn.disabled = !(hasState && hasCity && hasLine && hasPostcode);
+		}
+
+		stateSelect.addEventListener('change', () => {
+			populateCities(stateSelect.value.trim(), '');
+			updateSubmitAvailability();
+		});
+
+		[citySelect, lineInput, plaqueInput, unitInput].forEach((el) => {
+			if (!el) return;
+			el.addEventListener('input', updateSubmitAvailability);
+			el.addEventListener('change', updateSubmitAvailability);
+		});
+
+		postcodeInput.addEventListener('input', () => {
+			const clean = normalizeDigits(postcodeInput.value).replace(/\s+/g, '');
+			if (clean.length === 0) {
+				showPostcodeError(false);
+			} else if (/[^0-9]/.test(clean) || clean.length >= 10) {
+				showPostcodeError(!isValidIranPostcode(clean));
+			} else {
+				showPostcodeError(false);
+			}
+			updateSubmitAvailability();
+		});
+
+		postcodeInput.addEventListener('blur', () => {
+			const val = postcodeInput.value.trim();
+			if (val !== '') {
+				showPostcodeError(!isValidIranPostcode(val));
+			} else {
+				showPostcodeError(false);
+			}
+		});
+
+		async function deleteAddressById(addressId, triggerBtn) {
+			if (!addressId || !window.confirm(cfg.i18n.confirmDelete)) {
+				return;
+			}
+			if (triggerBtn) triggerBtn.disabled = true;
+			try {
+				const body = new URLSearchParams({
+					action: 'tno_manage_address',
+					nonce: cfg.nonce,
+					op: 'delete',
+					address_id: addressId,
+				});
+				const res = await fetch(cfg.ajaxUrl, {
+					method: 'POST',
+					credentials: 'same-origin',
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+					body: body.toString(),
+				});
+				const json = await res.json();
+				if (json.success) {
+					window.location.reload();
+				}
+			} finally {
+				if (triggerBtn) triggerBtn.disabled = false;
+			}
+		}
+
+		if (modalDeleteBtn) {
+			modalDeleteBtn.addEventListener('click', () => {
+				deleteAddressById(idInput.value, modalDeleteBtn);
+			});
+		}
 
 		document.addEventListener('click', async (e) => {
 			if (e.target.closest('[data-open-address-modal]')) {
-				modalTitle.textContent = 'ثبت آدرس جدید';
-				document.getElementById('tno-addr-id').value = '';
-				document.getElementById('tno-addr-state').value = '';
-				document.getElementById('tno-addr-city').value = '';
-				document.getElementById('tno-addr-postcode').value = '';
-				document.getElementById('tno-addr-line').value = '';
+				modalTitle.textContent = 'افزودن آدرس جدید';
+				idInput.value = '';
+				stateSelect.value = '';
+				populateCities('', '');
+				lineInput.value = '';
+				if (plaqueInput) plaqueInput.value = '';
+				if (unitInput) unitInput.value = '';
+				postcodeInput.value = '';
+				showPostcodeError(false);
 				feedbackEl.textContent = '';
+				feedbackEl.className = 'tno-modal-feedback';
+				if (modalDeleteBtn) modalDeleteBtn.hidden = true;
+				updateSubmitAvailability();
 				openModal(addrModal);
 				return;
 			}
@@ -387,14 +530,18 @@
 				try {
 					const data = JSON.parse(editBtn.dataset.editAddress);
 					modalTitle.textContent = 'ویرایش آدرس';
-					document.getElementById('tno-addr-id').value = data.id || '';
-					document.getElementById('tno-addr-state').value = data.state || '';
-					document.getElementById('tno-addr-city').value = data.city || '';
-					document.getElementById('tno-addr-postcode').value = data.postcode || '';
-					document.getElementById('tno-addr-receiver').value = data.receiver || '';
-					document.getElementById('tno-addr-phone').value = data.phone || '';
-					document.getElementById('tno-addr-line').value = data.address_1 || '';
+					idInput.value = data.id || '';
+					stateSelect.value = data.state || '';
+					populateCities(data.state || '', data.city || '');
+					lineInput.value = data.address_1 || '';
+					if (plaqueInput) plaqueInput.value = data.plaque || '';
+					if (unitInput) unitInput.value = data.unit || '';
+					postcodeInput.value = data.postcode || '';
+					showPostcodeError(false);
 					feedbackEl.textContent = '';
+					feedbackEl.className = 'tno-modal-feedback';
+					if (modalDeleteBtn) modalDeleteBtn.hidden = !data.id;
+					updateSubmitAvailability();
 					openModal(addrModal);
 				} catch (_) {
 					// Ignore malformed JSON
@@ -402,18 +549,17 @@
 				return;
 			}
 
-			const delBtn = e.target.closest('[data-delete-address]');
-			if (delBtn) {
-				if (!window.confirm(cfg.i18n.confirmDelete)) {
-					return;
-				}
-				delBtn.disabled = true;
+			const defaultBtn = e.target.closest('[data-set-default-address]');
+			if (defaultBtn && !defaultBtn.classList.contains('is-active')) {
+				const addrId = defaultBtn.dataset.setDefaultAddress || '';
+				if (!addrId) return;
+				defaultBtn.disabled = true;
 				try {
 					const body = new URLSearchParams({
 						action: 'tno_manage_address',
 						nonce: cfg.nonce,
-						op: 'delete',
-						address_id: delBtn.dataset.deleteAddress,
+						op: 'set_default',
+						address_id: addrId,
 					});
 					const res = await fetch(cfg.ajaxUrl, {
 						method: 'POST',
@@ -426,17 +572,26 @@
 						window.location.reload();
 					}
 				} finally {
-					delBtn.disabled = false;
+					defaultBtn.disabled = false;
 				}
+				return;
+			}
+
+			const delBtn = e.target.closest('[data-delete-address]');
+			if (delBtn) {
+				await deleteAddressById(delBtn.dataset.deleteAddress, delBtn);
 			}
 		});
 
 		addrForm.addEventListener('submit', async (e) => {
 			e.preventDefault();
 
-			const state = document.getElementById('tno-addr-state').value.trim();
-			const city = document.getElementById('tno-addr-city').value.trim();
-			const addr1 = document.getElementById('tno-addr-line').value.trim();
+			const state = stateSelect.value.trim();
+			const city = citySelect.value.trim();
+			const addr1 = lineInput.value.trim();
+			const plaque = plaqueInput ? plaqueInput.value.trim() : '';
+			const unit = unitInput ? unitInput.value.trim() : '';
+			const postcodeRaw = postcodeInput.value.trim();
 
 			if (!state || !city || !addr1) {
 				feedbackEl.className = 'tno-modal-feedback is-error';
@@ -444,18 +599,25 @@
 				return;
 			}
 
+			if (!isValidIranPostcode(postcodeRaw)) {
+				showPostcodeError(true);
+				postcodeInput.focus();
+				return;
+			}
+			showPostcodeError(false);
+
 			submitBtn.disabled = true;
 			try {
 				const body = new URLSearchParams({
 					action: 'tno_manage_address',
 					nonce: cfg.nonce,
 					op: 'save',
-					address_id: document.getElementById('tno-addr-id').value,
+					address_id: idInput.value,
 					state,
 					city,
-					postcode: document.getElementById('tno-addr-postcode').value.trim(),
-					receiver: document.getElementById('tno-addr-receiver').value.trim(),
-					phone: document.getElementById('tno-addr-phone').value.trim(),
+					postcode: normalizeDigits(postcodeRaw).replace(/\s+/g, ''),
+					plaque,
+					unit,
 					address_1: addr1,
 				});
 
@@ -468,8 +630,12 @@
 				const json = await res.json();
 
 				if (!json.success) {
-					feedbackEl.className = 'tno-modal-feedback is-error';
-					feedbackEl.textContent = json.data?.message || cfg.i18n.errorGeneric;
+					if (json.data?.field === 'postcode') {
+						showPostcodeError(true);
+					} else {
+						feedbackEl.className = 'tno-modal-feedback is-error';
+						feedbackEl.textContent = json.data?.message || cfg.i18n.errorGeneric;
+					}
 					return;
 				}
 
@@ -478,7 +644,7 @@
 				feedbackEl.className = 'tno-modal-feedback is-error';
 				feedbackEl.textContent = cfg.i18n.errorGeneric;
 			} finally {
-				submitBtn.disabled = false;
+				updateSubmitAvailability();
 			}
 		});
 	}

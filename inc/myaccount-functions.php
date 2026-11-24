@@ -28,25 +28,31 @@ add_action( 'wp_enqueue_scripts', function (): void {
 	wp_enqueue_script( 'tno-my-account', $theme_uri . '/assets/js/my-account.js', [], $js_ver, true );
 
 	wp_localize_script( 'tno-my-account', 'tnoAccountConfig', [
-		'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-		'nonce'   => wp_create_nonce( 'tno_account_nonce' ),
-		'i18n'    => [
-			'selectRating'   => 'لطفاً امتیاز خود را انتخاب کنید.',
-			'enterReview'    => 'لطفاً متن دیدگاه خود را وارد کنید.',
-			'reviewSaved'    => 'دیدگاه شما با موفقیت ثبت شد و پس از بررسی نمایش داده می‌شود.',
-			'fillAddress'    => 'لطفاً استان، شهر و نشانی پستی را کامل وارد کنید.',
-			'confirmDelete'  => 'آیا از حذف این آدرس مطمئن هستید؟',
-			'errorGeneric'   => 'خطایی رخ داد، لطفاً دوباره تلاش کنید.',
-			'clubClaiming'   => 'در حال صدور کد...',
-			'clubClaimBtn'   => 'دریافت کد تخفیف',
-			'clubNoPoints'   => 'امتیاز کافی ندارید',
-			'clubCopied'     => 'کد تخفیف کپی شد!',
-			'savingAccount'  => 'در حال ذخیره...',
-			'saveAccountBtn' => 'ذخیره اطلاعات',
-			'accountSaved'   => 'اطلاعات حساب کاربری با موفقیت ذخیره شد.',
-			'addingToCart'   => 'در حال افزودن...',
-			'addedToCart'    => 'به سبد اضافه شد ✓',
-			'addToCartBtn'   => 'افزودن به سبد خرید',
+		'ajaxUrl'    => admin_url( 'admin-ajax.php' ),
+		'nonce'      => wp_create_nonce( 'tno_account_nonce' ),
+		'iranCities' => tno_get_iran_cities_by_province(),
+		'i18n'       => [
+			'selectRating'    => 'لطفاً امتیاز خود را انتخاب کنید.',
+			'enterReview'     => 'لطفاً متن دیدگاه خود را وارد کنید.',
+			'reviewSaved'     => 'دیدگاه شما با موفقیت ثبت شد و پس از بررسی نمایش داده می‌شود.',
+			'fillAddress'     => 'لطفاً استان، شهر و نشانی پستی را کامل وارد کنید.',
+			'selectProvince'  => 'ابتدا استان را انتخاب کنید',
+			'selectCity'      => 'انتخاب شهر',
+			'postcodeError'   => 'کد پستی وارد شده صحیح نمی‌باشد.',
+			'confirmDelete'   => 'آیا از حذف این آدرس مطمئن هستید؟',
+			'errorGeneric'    => 'خطایی رخ داد، لطفاً دوباره تلاش کنید.',
+			'clubClaiming'    => 'در حال صدور کد...',
+			'clubClaimBtn'    => 'دریافت کد تخفیف',
+			'clubNoPoints'    => 'امتیاز کافی ندارید',
+			'clubCopied'      => 'کد تخفیف کپی شد!',
+			'savingAccount'   => 'در حال ذخیره...',
+			'saveAccountBtn'  => 'ذخیره اطلاعات',
+			'accountSaved'    => 'اطلاعات حساب کاربری با موفقیت ذخیره شد.',
+			'addingToCart'    => 'در حال افزودن...',
+			'addedToCart'     => 'به سبد اضافه شد ✓',
+			'addToCartBtn'    => 'افزودن به سبد خرید',
+			'addrSaving'      => 'در حال ذخیره...',
+			'addrConfirmBtn'  => '← تایید و ادامه',
 		],
 	] );
 } );
@@ -401,9 +407,253 @@ function tno_account_render_order_item_row( WC_Order_Item_Product $item, WC_Orde
 }
 
 /**
+ * Normalize Persian/Arabic string for reliable province name matching.
+ */
+function tno_normalize_fa_key( string $value ): string {
+	$value = strtr( $value, [
+		'ي' => 'ی',
+		'ك' => 'ک',
+		'ة' => 'ه',
+		'أ' => 'ا',
+		'إ' => 'ا',
+		'آ' => 'ا',
+		"\xE2\x80\x8C" => ' ', // ZWNJ
+	] );
+	$value = preg_replace( '/\s+/u', ' ', trim( $value ) ) ?? trim( $value );
+	return $value;
+}
+
+/**
+ * Return Iran cities grouped by WooCommerce province code.
+ * Matches both standard WooCommerce IR codes (THR, ESF, ...) and dynamic WC state labels.
+ *
+ * @return array<string, list<string>>
+ */
+function tno_get_iran_cities_by_province(): array {
+	$by_name = [
+		'آذربایجان شرقی' => [
+			'تبریز', 'مراغه', 'مرند', 'میانه', 'اهر', 'بناب', 'سراب', 'آذرشهر', 'اسکو', 'بستان‌آباد',
+			'شبستر', 'عجب‌شیر', 'ملکان', 'هریس', 'هشترود', 'جلفا', 'کلیبر', 'ورزقان', 'چاراویماق', 'خداآفرین', 'سردرود', 'سهند',
+		],
+		'آذربایجان غربی' => [
+			'ارومیه', 'خوی', 'میاندوآب', 'بوکان', 'مهاباد', 'سلماس', 'نقده', 'پیرانشهر', 'سردشت', 'تکاب',
+			'شاهین‌دژ', 'ماکو', 'شوط', 'پلدشت', 'چالدران', 'چایپاره', 'اشنویه',
+		],
+		'اردبیل' => [
+			'اردبیل', 'پارس‌آباد', 'مشگین‌شهر', 'خلخال', 'گرمی', 'بیله‌سوار', 'نمین', 'نیر', 'سرعین', 'کوثر', 'اصلاندوز',
+		],
+		'اصفهان' => [
+			'اصفهان', 'کاشان', 'خمینی‌شهر', 'نجف‌آباد', 'شاهین‌شهر', 'شهرضا', 'فلاورجان', 'لنجان', 'زرین‌شهر', 'فولادشهر',
+			'مبارکه', 'برخوار', 'دولت‌آباد', 'آران و بیدگل', 'گلپایگان', 'سمیرم', 'تیران', 'نایین', 'اردستان', 'خوانسار',
+			'فریدون‌شهر', 'فریدن', 'داران', 'دهاقان', 'نطنز', 'چادگان', 'خور و بیابانک', 'بویین و میاندشت', 'بهارستان',
+		],
+		'البرز' => [
+			'کرج', 'فردیس', 'کمال‌شهر', 'نظرآباد', 'محمدشهر', 'ماهدشت', 'مهرشهر', 'مشکین‌دشت', 'هشتگرد', 'شهر جدید مهستان',
+			'اشتهارد', 'طالقان', 'چهارباغ', 'گرمدره', 'تنکمان', 'آسارا',
+		],
+		'ایلام' => [
+			'ایلام', 'ایوان', 'دهلران', 'آبدانان', 'دره‌شهر', 'مهران', 'چرداول', 'ملکشاهی', 'بدره', 'سیروان', 'هلیلان',
+		],
+		'بوشهر' => [
+			'بوشهر', 'برازجان', 'بندر گناوه', 'بندر کنگان', 'خورموج', 'عسلویه', 'جم', 'دشتستان', 'تنگستان', 'اهرم',
+			'دشتی', 'دیر', 'بندر دیلم', 'چغادک', 'خارک', 'سعدآباد', 'شبانکاره',
+		],
+		'تهران' => [
+			'تهران', 'شهریار', 'اسلامشهر', 'بهارستان', 'ملارد', 'پاکدشت', 'ری', 'قدس', 'رباط‌کریم', 'ورامین',
+			'قرچک', 'پردیس', 'بومهن', 'دماوند', 'رودهن', 'لواسان', 'فشم', 'شمیرانات', 'پیشوا', 'فیروزکوه',
+			'نسیم‌شهر', 'گلستان', 'صباشهر', 'اندیشه', 'باغستان', 'وحیدیه', 'شاهدشهر', 'صفادشت', 'شریف‌آباد', 'کهریزک', 'حسن‌آباد',
+		],
+		'چهارمحال و بختیاری' => [
+			'شهرکرد', 'بروجن', 'لردگان', 'فارسان', 'فرخ‌شهر', 'هفشجان', 'جونقان', 'سامان', 'بن', 'کیار', 'اردل', 'کوهرنگ', 'خانمیرزا',
+		],
+		'خراسان جنوبی' => [
+			'بیرجند', 'قائن', 'طبس', 'فردوس', 'نهبندان', 'سربیشه', 'سرایان', 'بشرویه', 'درمیان', 'خوسف', 'زیرکوه', 'آیسک',
+		],
+		'خراسان رضوی' => [
+			'مشهد', 'نیشابور', 'سبزوار', 'تربت حیدریه', 'قوچان', 'تربت جام', 'کاشمر', 'تایباد', 'چناران', 'فریمان',
+			'سرخس', 'گناباد', 'درگز', 'خواف', 'بردسکن', 'طرقبه', 'شاندیز', 'گلبهار', 'بجستان', 'رشتخوار', 'مه‌ولات', 'کلات', 'فیرزه', 'خلیل‌آباد',
+		],
+		'خراسان شمالی' => [
+			'بجنورد', 'شیروان', 'اسفراین', 'آشخانه', 'جاجرم', 'فاروج', 'گرمه', 'راز و جرگلان',
+		],
+		'خوزستان' => [
+			'اهواز', 'دزفول', 'آبادان', 'بندر ماهشهر', 'اندیمشک', 'خرمشهر', 'بهبهان', 'ایذه', 'شوشتر', 'مسجدسلیمان',
+			'شوش', 'امیدیه', 'شادگان', 'رامهرمز', 'باغ‌ملک', 'سوسنگرد', 'هندیجان', 'بندر امام خمینی', 'گتوند', 'لالی', 'هویزه', 'حمیدیه', 'باوی', 'کارون',
+		],
+		'زنجان' => [
+			'زنجان', 'ابهر', 'خرمدره', 'قیدار', 'خدابنده', 'طارم', 'ماه‌نشان', 'ایجرود', 'سلطانیه', 'هیدج', 'صایین‌قلعه',
+		],
+		'سمنان' => [
+			'سمنان', 'شاهرود', 'دامغان', 'گرمسار', 'مهدی‌شهر', 'ایوانکی', 'شهمیرزاد', 'بسطام', 'میامی', 'آرادان', 'سرخه',
+		],
+		'سیستان و بلوچستان' => [
+			'زاهدان', 'زابل', 'ایرانشهر', 'چابهار', 'سراوان', 'خاش', 'کنارک', 'نیک‌شهر', 'سرباز', 'راشک', 'زهک', 'هیرمند', 'میرجاوه', 'بمپور', 'دلگان', 'فنوج',
+		],
+		'فارس' => [
+			'شیراز', 'مرودشت', 'جهرم', 'فسا', 'کازرون', 'داراب', 'لار', 'فیروزآباد', 'آباده', 'اقلید', 'نی‌ریز',
+			'نورآباد ممسنی', 'لامرد', 'کوار', 'استهبان', 'گراش', 'زرقان', 'صدرا', 'صفاشهر', 'سروستان', 'خرامه', 'ارسنجان', 'مهر', 'قیر و کارزین', 'فراشبند',
+		],
+		'قزوین' => [
+			'قزوین', 'تاکستان', 'الوند', 'محمدیه', 'بوئین‌زهرا', 'آبیک', 'اقبالیه', 'محمودآباد نمونه', 'شال', 'ضیاءآباد', 'خرمدشت', 'آوج',
+		],
+		'قم' => [
+			'قم', 'قنوات', 'جعفریه', 'کهک', 'دستجرد', 'سلفچگان',
+		],
+		'کردستان' => [
+			'سنندج', 'سقز', 'مریوان', 'بانه', 'قروه', 'کامیاران', 'بیجار', 'دیواندره', 'دهگلان', 'سروآباد',
+		],
+		'کرمان' => [
+			'کرمان', 'سیرجان', 'رفسنجان', 'جیرفت', 'بم', 'زرند', 'کهنوج', 'بافت', 'بردسیر', 'راور', 'شهربابک', 'عنبرآباد', 'منوجان', 'انار', 'رودبار جنوب', 'قلعه‌گنج',
+		],
+		'کرمانشاه' => [
+			'کرمانشاه', 'اسلام‌آباد غرب', 'جوانرود', 'کنگاور', 'سرپل ذهاب', 'سنقر', 'هرسین', 'پاوه', 'صحنه', 'گیلانغرب', 'روانسر', 'قصر شیرین', 'دالاهو', 'ثلاث باباجانی',
+		],
+		'کهگیلویه و بویراحمد' => [
+			'یاسوج', 'دوگنبدان (گچساران)', 'دهدشت', 'سی‌سخت', 'لیکک', 'چرام', 'لنده', 'باشت', 'مارگون',
+		],
+		'گلستان' => [
+			'گرگان', 'گنبد کاووس', 'علی‌آباد کتول', 'بندر ترکمن', 'آزادشهر', 'کردکوی', 'کلاله', 'آق‌قلا', 'مینودشت', 'بندر گز', 'گالیکش', 'رامیان', 'گمیشان', 'مراوه‌تپه', 'فاضل‌آباد',
+		],
+		'گیلان' => [
+			'رشت', 'بندر انزلی', 'لاهیجان', 'لنگرود', 'تالش', 'آستارا', 'صومعه‌سرا', 'آستانه اشرفیه', 'رودسر', 'فومن',
+			'خمام', 'رضوانشهر', 'ماسال', 'رودبار', 'منجیل', 'لوشان', 'سیاهکل', 'شفت', 'املش', 'کلاچای', 'خشکبیجار', 'سنگر',
+		],
+		'لرستان' => [
+			'خرم‌آباد', 'بروجرد', 'دورود', 'الیگودرز', 'کوهدشت', 'نورآباد', 'ازنا', 'الشتر', 'پلدختر', 'اشترینان', 'سپیددشت', 'چگنی',
+		],
+		'مازندران' => [
+			'ساری', 'بابل', 'آمل', 'قائم‌شهر', 'بهشهر', 'چالوس', 'نکا', 'بابلسر', 'تنکابن', 'نوشهر', 'محمودآباد',
+			'فریدونکنار', 'جویبار', 'نور', 'رامسر', 'رویان', 'سوادکوه', 'پل سفید', 'زیرآب', 'گلوگاه', 'عباس‌آباد', 'کلاردشت', 'امیرکلا', 'رستم‌کلا',
+		],
+		'مرکزی' => [
+			'اراک', 'ساوه', 'خمین', 'محلات', 'دلیجان', 'شازند', 'مأمونیه', 'زرندیه', 'تفرش', 'آشتیان', 'کمیجان', 'خنداب', 'فراهان', 'مهاجران',
+		],
+		'هرمزگان' => [
+			'بندرعباس', 'میناب', 'قشم', 'بندر لنگه', 'کیش', 'رودان', 'حاجی‌آباد', 'بندر خمیر', 'پارسیان', 'بستک', 'جاسک', 'سیریک', 'بشاگرد', 'ابوموسی',
+		],
+		'همدان' => [
+			'همدان', 'ملایر', 'نهاوند', 'اسدآباد', 'تویسرکان', 'بهار', 'کبودرآهنگ', 'رزن', 'فامنین', 'لالجین', 'مریانج', 'قهاوند',
+		],
+		'یزد' => [
+			'یزد', 'میبد', 'اردکان', 'بافق', 'مهریز', 'ابرکوه', 'تفت', 'اشکذر', 'هرات', 'مروست', 'بهاباد', 'زارچ', 'حمیدیا',
+		],
+	];
+
+	// Standard WooCommerce IR state code aliases
+	$code_to_name = [
+		'ABZ' => 'البرز',
+		'ADL' => 'اردبیل',
+		'AR'  => 'اردبیل',
+		'EAZ' => 'آذربایجان شرقی',
+		'EA'  => 'آذربایجان شرقی',
+		'WAZ' => 'آذربایجان غربی',
+		'WA'  => 'آذربایجان غربی',
+		'BHR' => 'بوشهر',
+		'BU'  => 'بوشهر',
+		'CHB' => 'چهارمحال و بختیاری',
+		'CM'  => 'چهارمحال و بختیاری',
+		'FRS' => 'فارس',
+		'FH'  => 'فارس',
+		'GIL' => 'گیلان',
+		'GI'  => 'گیلان',
+		'GLS' => 'گلستان',
+		'GO'  => 'گلستان',
+		'HDN' => 'همدان',
+		'HM'  => 'همدان',
+		'HRZ' => 'هرمزگان',
+		'HG'  => 'هرمزگان',
+		'ILM' => 'ایلام',
+		'IL'  => 'ایلام',
+		'ESF' => 'اصفهان',
+		'ES'  => 'اصفهان',
+		'KRN' => 'کرمان',
+		'KM'  => 'کرمان',
+		'KRH' => 'کرمانشاه',
+		'KS'  => 'کرمانشاه',
+		'NKH' => 'خراسان شمالی',
+		'KB'  => 'خراسان شمالی',
+		'RKH' => 'خراسان رضوی',
+		'RZ'  => 'خراسان رضوی',
+		'SKH' => 'خراسان جنوبی',
+		'KN'  => 'خراسان جنوبی',
+		'KHZ' => 'خوزستان',
+		'KZ'  => 'خوزستان',
+		'KBD' => 'کهگیلویه و بویراحمد',
+		'KH'  => 'کهگیلویه و بویراحمد',
+		'KRD' => 'کردستان',
+		'KD'  => 'کردستان',
+		'LRS' => 'لرستان',
+		'LO'  => 'لرستان',
+		'MKZ' => 'مرکزی',
+		'MK'  => 'مرکزی',
+		'MZN' => 'مازندران',
+		'MZ'  => 'مازندران',
+		'GZN' => 'قزوین',
+		'QZ'  => 'قزوین',
+		'QHM' => 'قم',
+		'QM'  => 'قم',
+		'SMN' => 'سمنان',
+		'SB'  => 'سمنان',
+		'SBN' => 'سیستان و بلوچستان',
+		'SH'  => 'سیستان و بلوچستان',
+		'THR' => 'تهران',
+		'TH'  => 'تهران',
+		'TE'  => 'تهران',
+		'YZD' => 'یزد',
+		'YZ'  => 'یزد',
+		'ZJN' => 'زنجان',
+		'ZJ'  => 'زنجان',
+	];
+
+	$normalized_map = [];
+	foreach ( $by_name as $prov_name => $cities ) {
+		$normalized_map[ tno_normalize_fa_key( $prov_name ) ] = $cities;
+	}
+
+	$result = [];
+
+	// First populate from WooCommerce's live IR states list so keys match <option value="..."> 100%
+	if ( function_exists( 'WC' ) && WC()->countries ) {
+		$wc_states = WC()->countries->get_states( 'IR' ) ?: [];
+		foreach ( $wc_states as $code => $label ) {
+			$code_str = (string) $code;
+			$norm     = tno_normalize_fa_key( (string) $label );
+
+			if ( isset( $normalized_map[ $norm ] ) ) {
+				$result[ $code_str ] = $normalized_map[ $norm ];
+				continue;
+			}
+
+			// Fuzzy substring fallback (e.g. "تهران (Tehran)" or "استان تهران")
+			$matched = false;
+			foreach ( $normalized_map as $norm_prov => $cities ) {
+				if ( $norm_prov !== '' && ( mb_strpos( $norm, $norm_prov ) !== false || mb_strpos( $norm_prov, $norm ) !== false ) ) {
+					$result[ $code_str ] = $cities;
+					$matched             = true;
+					break;
+				}
+			}
+
+			if ( ! $matched && isset( $code_to_name[ $code_str ], $by_name[ $code_to_name[ $code_str ] ] ) ) {
+				$result[ $code_str ] = $by_name[ $code_to_name[ $code_str ] ];
+			}
+		}
+	}
+
+	// Ensure standard codes are always present as fallback
+	foreach ( $code_to_name as $code_key => $prov_name ) {
+		if ( ! isset( $result[ $code_key ] ) && isset( $by_name[ $prov_name ] ) ) {
+			$result[ $code_key ] = $by_name[ $prov_name ];
+		}
+	}
+
+	return $result;
+}
+
+/**
  * Retrieve saved user addresses for My Account Addresses screen (synced with checkout).
  *
- * @return array<int, array{id: string, state: string, city: string, postcode: string, address_1: string, receiver: string, phone: string, display: string}>
+ * @return array<int, array<string, mixed>>
  */
 function tno_account_get_addresses( int $user_id ): array {
 	if ( $user_id <= 0 ) {
@@ -426,15 +676,33 @@ function tno_account_get_addresses( int $user_id ): array {
 			$state_name = $states[ $state ] ?? $state;
 
 			$list[] = [
-				'id'        => 'billing_default',
-				'state'     => $state,
-				'city'      => $city,
-				'postcode'  => $postcode,
-				'address_1' => $addr1,
-				'receiver'  => trim( $first . ' ' . $last ),
-				'phone'     => $phone,
-				'display'   => implode( '، ', array_filter( [ $state_name, $city, $addr1 ] ) ),
+				'id'         => 'billing_default',
+				'state'      => $state,
+				'state_name' => $state_name,
+				'city'       => $city,
+				'postcode'   => $postcode,
+				'address_1'  => $addr1,
+				'plaque'     => '',
+				'unit'       => '',
+				'receiver'   => trim( $first . ' ' . $last ),
+				'phone'      => $phone,
+				'is_default' => true,
+				'display'    => implode( '، ', array_filter( [ $state_name, $city, $addr1 ] ) ),
 			];
+		}
+	}
+
+	// Ensure exactly one address is marked default if list is non-empty
+	if ( ! empty( $list ) ) {
+		$has_default = false;
+		foreach ( $list as $item ) {
+			if ( ! empty( $item['is_default'] ) ) {
+				$has_default = true;
+				break;
+			}
+		}
+		if ( ! $has_default ) {
+			$list[0]['is_default'] = true;
 		}
 	}
 
@@ -545,43 +813,120 @@ function tno_ajax_manage_address(): void {
 	if ( $op === 'delete' ) {
 		$target_id = sanitize_text_field( wp_unslash( $_POST['address_id'] ?? '' ) );
 		$list      = array_values( array_filter( $list, fn( array $a ): bool => ( $a['id'] ?? '' ) !== $target_id ) );
-		update_user_meta( $user_id, '_tno_saved_addresses', $list );
 
 		if ( empty( $list ) ) {
+			delete_user_meta( $user_id, '_tno_saved_addresses' );
 			delete_user_meta( $user_id, 'billing_address_1' );
 			delete_user_meta( $user_id, 'billing_city' );
 			delete_user_meta( $user_id, 'billing_state' );
 			delete_user_meta( $user_id, 'billing_postcode' );
+		} else {
+			$has_def = false;
+			foreach ( $list as $item ) {
+				if ( ! empty( $item['is_default'] ) ) {
+					$has_def = true;
+					break;
+				}
+			}
+			if ( ! $has_def ) {
+				$list[0]['is_default'] = true;
+			}
+			update_user_meta( $user_id, '_tno_saved_addresses', $list );
 		}
 
 		wp_send_json_success( [ 'count' => count( $list ) ] );
 	}
 
+	if ( $op === 'set_default' ) {
+		$target_id = sanitize_text_field( wp_unslash( $_POST['address_id'] ?? '' ) );
+		$found     = null;
+		foreach ( $list as $i => $item ) {
+			$is_match                = ( ( $item['id'] ?? '' ) === $target_id );
+			$list[ $i ]['is_default'] = $is_match;
+			if ( $is_match ) {
+				$found = $list[ $i ];
+			}
+		}
+		if ( $found === null ) {
+			wp_send_json_error( [ 'message' => 'آدرس مورد نظر یافت نشد.' ], 404 );
+		}
+
+		update_user_meta( $user_id, '_tno_saved_addresses', $list );
+		update_user_meta( $user_id, 'billing_country', 'IR' );
+		update_user_meta( $user_id, 'billing_state', (string) ( $found['state'] ?? '' ) );
+		update_user_meta( $user_id, 'billing_city', (string) ( $found['city'] ?? '' ) );
+		update_user_meta( $user_id, 'billing_postcode', (string) ( $found['postcode'] ?? '' ) );
+		update_user_meta( $user_id, 'billing_address_1', (string) ( $found['address_1'] ?? '' ) );
+
+		wp_send_json_success( [ 'addressId' => $target_id ] );
+	}
+
 	$edit_id  = sanitize_text_field( wp_unslash( $_POST['address_id'] ?? '' ) );
 	$state    = sanitize_text_field( wp_unslash( $_POST['state'] ?? '' ) );
 	$city     = sanitize_text_field( wp_unslash( $_POST['city'] ?? '' ) );
-	$postcode = sanitize_text_field( wp_unslash( $_POST['postcode'] ?? '' ) );
+	$postcode = preg_replace( '/\s+/', '', tno_account_to_latin_digits( sanitize_text_field( wp_unslash( $_POST['postcode'] ?? '' ) ) ) ) ?? '';
 	$addr1    = sanitize_text_field( wp_unslash( $_POST['address_1'] ?? '' ) );
-	$receiver = sanitize_text_field( wp_unslash( $_POST['receiver'] ?? '' ) );
-	$phone    = sanitize_text_field( wp_unslash( $_POST['phone'] ?? '' ) );
+	$plaque   = sanitize_text_field( wp_unslash( $_POST['plaque'] ?? '' ) );
+	$unit     = sanitize_text_field( wp_unslash( $_POST['unit'] ?? '' ) );
 
 	if ( $state === '' || $city === '' || $addr1 === '' ) {
 		wp_send_json_error( [ 'message' => 'استان، شهر و نشانی پستی الزامی هستند.' ], 400 );
 	}
 
+	if ( ! preg_match( '/^\d{10}$/', $postcode ) || preg_match( '/^(\d)\1{9}$/', $postcode ) ) {
+		wp_send_json_error( [
+			'field'   => 'postcode',
+			'message' => 'کدپستی وارد شده صحیح نمی‌باشد.',
+		], 400 );
+	}
+
+	// Preserve receiver/phone on edit or derive from user profile
+	$existing_entry = null;
+	foreach ( $list as $existing ) {
+		if ( $edit_id !== '' && ( $existing['id'] ?? '' ) === $edit_id ) {
+			$existing_entry = $existing;
+			break;
+		}
+	}
+
+	$user         = wp_get_current_user();
+	$profile_name = trim( $user->first_name . ' ' . $user->last_name ) ?: $user->display_name;
+	$profile_tel  = (string) get_user_meta( $user_id, 'billing_phone', true );
+
+	$receiver_in = sanitize_text_field( wp_unslash( $_POST['receiver'] ?? '' ) );
+	$phone_in    = sanitize_text_field( wp_unslash( $_POST['phone'] ?? '' ) );
+	$receiver    = $receiver_in !== '' ? $receiver_in : (string) ( $existing_entry['receiver'] ?? $profile_name );
+	$phone       = $phone_in !== '' ? $phone_in : (string) ( $existing_entry['phone'] ?? $profile_tel );
+
 	$states     = WC()->countries->get_states( 'IR' ) ?: [];
 	$state_name = $states[ $state ] ?? $state;
 	$entry_id   = $edit_id !== '' ? $edit_id : 'addr_' . wp_generate_password( 8, false );
 
+	$display_parts = [ $state_name, $city, $addr1 ];
+	if ( $plaque !== '' ) {
+		$display_parts[] = 'پلاک ' . $plaque;
+	}
+	if ( $unit !== '' ) {
+		$display_parts[] = 'واحد ' . $unit;
+	}
+
+	$is_default = $existing_entry !== null
+		? ! empty( $existing_entry['is_default'] )
+		: empty( $list );
+
 	$entry = [
-		'id'        => $entry_id,
-		'state'     => $state,
-		'city'      => $city,
-		'postcode'  => $postcode,
-		'address_1' => $addr1,
-		'receiver'  => $receiver,
-		'phone'     => $phone,
-		'display'   => implode( '، ', array_filter( [ $state_name, $city, $addr1 ] ) ),
+		'id'         => $entry_id,
+		'state'      => $state,
+		'state_name' => $state_name,
+		'city'       => $city,
+		'postcode'   => $postcode,
+		'address_1'  => $addr1,
+		'plaque'     => $plaque,
+		'unit'       => $unit,
+		'receiver'   => $receiver,
+		'phone'      => $phone,
+		'is_default' => $is_default,
+		'display'    => implode( '، ', array_filter( $display_parts ) ),
 	];
 
 	$updated = false;
@@ -598,14 +943,16 @@ function tno_ajax_manage_address(): void {
 
 	update_user_meta( $user_id, '_tno_saved_addresses', $list );
 
-	// Sync latest address to standard WC billing meta for seamless checkout prefill
-	update_user_meta( $user_id, 'billing_country', 'IR' );
-	update_user_meta( $user_id, 'billing_state', $state );
-	update_user_meta( $user_id, 'billing_city', $city );
-	update_user_meta( $user_id, 'billing_postcode', $postcode );
-	update_user_meta( $user_id, 'billing_address_1', $addr1 );
-	if ( $phone !== '' ) {
-		update_user_meta( $user_id, 'billing_phone', $phone );
+	// Sync default or newly saved address to standard WC billing meta for seamless checkout prefill
+	if ( $is_default || empty( $existing_entry ) ) {
+		update_user_meta( $user_id, 'billing_country', 'IR' );
+		update_user_meta( $user_id, 'billing_state', $state );
+		update_user_meta( $user_id, 'billing_city', $city );
+		update_user_meta( $user_id, 'billing_postcode', $postcode );
+		update_user_meta( $user_id, 'billing_address_1', $addr1 );
+		if ( $phone !== '' ) {
+			update_user_meta( $user_id, 'billing_phone', $phone );
+		}
 	}
 
 	wp_send_json_success( [ 'address' => $entry ] );
