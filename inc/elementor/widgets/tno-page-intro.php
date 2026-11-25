@@ -5,7 +5,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Elementor\Widget_Base;
 use Elementor\Controls_Manager;
+use Elementor\Icons_Manager;
 use Elementor\Group_Control_Typography;
+use Elementor\Group_Control_Border;
 
 class TNO_Widget_Page_Intro extends Widget_Base {
 
@@ -27,7 +29,7 @@ class TNO_Widget_Page_Intro extends Widget_Base {
     }
 
     public function get_keywords() {
-        return array( 'title', 'header', 'intro', 'heading', 'عنوان', 'سرصفحه', 'ترندینو' );
+        return array( 'title', 'header', 'intro', 'heading', 'badge', 'icon', 'عنوان', 'سرصفحه', 'ترندینو' );
     }
 
     protected function register_controls() {
@@ -56,14 +58,48 @@ class TNO_Widget_Page_Intro extends Widget_Base {
         );
 
         $this->add_control(
+            'badge_type',
+            array(
+                'label'     => 'نوع برچسب بالایی',
+                'type'      => Controls_Manager::SELECT,
+                'default'   => 'text',
+                'options'   => array(
+                    'text' => 'فقط متن',
+                    'icon' => 'فقط آیکون',
+                    'both' => 'متن و آیکون',
+                ),
+                'condition' => array( 'show_badge' => 'yes' ),
+            )
+        );
+
+        $this->add_control(
+            'badge_icon',
+            array(
+                'label'     => 'آیکون برچسب',
+                'type'      => Controls_Manager::ICONS,
+                'default'   => array(
+                    'value'   => 'fas fa-star',
+                    'library' => 'fa-solid',
+                ),
+                'condition' => array(
+                    'show_badge' => 'yes',
+                    'badge_type' => array( 'icon', 'both' ),
+                ),
+            )
+        );
+
+        $this->add_control(
             'badge_text',
             array(
                 'label'       => 'متن برچسب',
                 'type'        => Controls_Manager::TEXT,
-                'default'     => 'سوالات متداول',
-                'placeholder' => 'مثلاً: سوالات متداول',
+                'default'     => 'معرفی بخش',
+                'placeholder' => 'مثلاً: درباره ترندینو',
                 'dynamic'     => array( 'active' => true ),
-                'condition'   => array( 'show_badge' => 'yes' ),
+                'condition'   => array(
+                    'show_badge' => 'yes',
+                    'badge_type' => array( 'text', 'both' ),
+                ),
             )
         );
 
@@ -72,7 +108,7 @@ class TNO_Widget_Page_Intro extends Widget_Base {
             array(
                 'label'       => 'عنوان اصلی',
                 'type'        => Controls_Manager::TEXT,
-                'default'     => 'پرسش‌های پرتکرار کاربران ترندینو',
+                'default'     => 'تجربه خریدی مطمئن و هوشمند با ترندینو',
                 'placeholder' => 'عنوان صفحه را وارد کنید',
                 'label_block' => true,
                 'dynamic'     => array( 'active' => true ),
@@ -126,22 +162,22 @@ class TNO_Widget_Page_Intro extends Widget_Base {
         $this->add_control(
             'description_text',
             array(
-                'label'       => 'متن توضیحات',
-                'type'        => Controls_Manager::TEXTAREA,
-                'rows'        => 3,
-                'default'     => 'پاسخ مهم‌ترین سوالات شما درباره اصالت کالا، نحوه سفارش، ارسال، تعویض و سایر خدمات ترندینو در این بخش گردآوری شده است تا بتوانید با اطمینان و آگاهی کامل خرید خود را انجام دهید.',
-                'dynamic'     => array( 'active' => true ),
-                'condition'   => array( 'show_description' => 'yes' ),
+                'label'     => 'متن توضیحات',
+                'type'      => Controls_Manager::TEXTAREA,
+                'rows'      => 3,
+                'default'   => 'در این بخش می‌توانید اطلاعات کامل، ویژگی‌ها و جزئیات مرتبط با این صفحه را مطالعه کنید تا با آگاهی و اطمینان بیشتری انتخاب خود را انجام دهید.',
+                'dynamic'   => array( 'active' => true ),
+                'condition' => array( 'show_description' => 'yes' ),
             )
         );
 
         $this->add_responsive_control(
             'alignment',
             array(
-                'label'   => 'ترازبندی کلی',
-                'type'    => Controls_Manager::CHOOSE,
-                'default' => 'center',
-                'options' => array(
+                'label'        => 'ترازبندی کلی',
+                'type'         => Controls_Manager::CHOOSE,
+                'default'      => 'center',
+                'options'      => array(
                     'right'  => array( 'title' => 'راست', 'icon' => 'eicon-text-align-right' ),
                     'center' => array( 'title' => 'وسط', 'icon' => 'eicon-text-align-center' ),
                     'left'   => array( 'title' => 'چپ', 'icon' => 'eicon-text-align-left' ),
@@ -153,7 +189,7 @@ class TNO_Widget_Page_Intro extends Widget_Base {
         $this->end_controls_section();
 
         /* =========================================================
-         * TAB: STYLE - BADGE
+         * TAB: STYLE - BADGE & ICON
          * ========================================================= */
         $this->start_controls_section(
             'section_style_badge',
@@ -170,14 +206,18 @@ class TNO_Widget_Page_Intro extends Widget_Base {
                 'label'     => 'رنگ متن',
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '#2BB673',
-                'selectors' => array( '{{WRAPPER}} .tno-page-intro__badge' => 'color: {{VALUE}};' ),
+                'condition' => array( 'badge_type!' => 'icon' ),
+                'selectors' => array(
+                    '{{WRAPPER}} .tno-page-intro__badge'      => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .tno-page-intro__badge-text' => 'color: {{VALUE}};',
+                ),
             )
         );
 
         $this->add_control(
             'badge_bg',
             array(
-                'label'     => 'رنگ پس‌زمینه',
+                'label'     => 'رنگ پس‌زمینه کادر برچسب',
                 'type'      => Controls_Manager::COLOR,
                 'default'   => '#EBF9F3',
                 'selectors' => array( '{{WRAPPER}} .tno-page-intro__badge' => 'background-color: {{VALUE}};' ),
@@ -187,7 +227,16 @@ class TNO_Widget_Page_Intro extends Widget_Base {
         $this->add_group_control(
             Group_Control_Typography::get_type(),
             array(
-                'name'     => 'badge_typography',
+                'name'      => 'badge_typography',
+                'condition' => array( 'badge_type!' => 'icon' ),
+                'selector'  => '{{WRAPPER}} .tno-page-intro__badge, {{WRAPPER}} .tno-page-intro__badge-text',
+            )
+        );
+
+        $this->add_group_control(
+            Group_Control_Border::get_type(),
+            array(
+                'name'     => 'badge_border',
                 'selector' => '{{WRAPPER}} .tno-page-intro__badge',
             )
         );
@@ -222,6 +271,160 @@ class TNO_Widget_Page_Intro extends Widget_Base {
                 'type'      => Controls_Manager::SLIDER,
                 'range'     => array( 'px' => array( 'min' => 0, 'max' => 60 ) ),
                 'selectors' => array( '{{WRAPPER}} .tno-page-intro__badge' => 'margin-bottom: {{SIZE}}{{UNIT}};' ),
+            )
+        );
+
+        /* ---- تنظیمات آیکون و چینش ---- */
+        $this->add_control(
+            'badge_icon_heading',
+            array(
+                'label'     => 'تنظیمات آیکون و نحوه چینش',
+                'type'      => Controls_Manager::HEADING,
+                'separator' => 'before',
+                'condition' => array( 'badge_type' => array( 'icon', 'both' ) ),
+            )
+        );
+
+        $this->add_responsive_control(
+            'badge_direction',
+            array(
+                'label'     => 'نحوه چینش آیکون و متن',
+                'type'      => Controls_Manager::CHOOSE,
+                'default'   => 'row',
+                'toggle'    => false,
+                'options'   => array(
+                    'row'            => array(
+                        'title' => 'افقی (آیکون قبل از متن)',
+                        'icon'  => 'eicon-h-align-right',
+                    ),
+                    'row-reverse'    => array(
+                        'title' => 'افقی (آیکون بعد از متن)',
+                        'icon'  => 'eicon-h-align-left',
+                    ),
+                    'column'         => array(
+                        'title' => 'عمودی (آیکون بالای متن)',
+                        'icon'  => 'eicon-v-align-top',
+                    ),
+                    'column-reverse' => array(
+                        'title' => 'عمودی (آیکون پایین متن)',
+                        'icon'  => 'eicon-v-align-bottom',
+                    ),
+                ),
+                'condition' => array( 'badge_type' => 'both' ),
+                'selectors' => array(
+                    '{{WRAPPER}} .tno-page-intro__badge' => 'flex-direction: {{VALUE}};',
+                ),
+            )
+        );
+
+        $this->add_responsive_control(
+            'badge_icon_gap',
+            array(
+                'label'      => 'فاصله بین آیکون و متن',
+                'type'       => Controls_Manager::SLIDER,
+                'size_units' => array( 'px', 'em' ),
+                'range'      => array(
+                    'px' => array( 'min' => 0, 'max' => 40 ),
+                    'em' => array( 'min' => 0, 'max' => 3, 'step' => 0.1 ),
+                ),
+                'condition'  => array( 'badge_type' => 'both' ),
+                'selectors'  => array(
+                    '{{WRAPPER}} .tno-page-intro__badge' => 'gap: {{SIZE}}{{UNIT}};',
+                ),
+            )
+        );
+
+        $this->add_control(
+            'badge_icon_color',
+            array(
+                'label'     => 'رنگ آیکون',
+                'type'      => Controls_Manager::COLOR,
+                'default'   => '#2BB673',
+                'condition' => array( 'badge_type' => array( 'icon', 'both' ) ),
+                'selectors' => array(
+                    '{{WRAPPER}} .tno-page-intro__badge-icon'     => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .tno-page-intro__badge-icon svg' => 'fill: {{VALUE}}; color: {{VALUE}};',
+                ),
+            )
+        );
+
+        $this->add_control(
+            'badge_icon_bg',
+            array(
+                'label'     => 'رنگ پس‌زمینه کادر آیکون',
+                'type'      => Controls_Manager::COLOR,
+                'condition' => array( 'badge_type' => array( 'icon', 'both' ) ),
+                'selectors' => array(
+                    '{{WRAPPER}} .tno-page-intro__badge-icon' => 'background-color: {{VALUE}};',
+                ),
+            )
+        );
+
+        $this->add_responsive_control(
+            'badge_icon_size',
+            array(
+                'label'      => 'سایز آیکون',
+                'type'       => Controls_Manager::SLIDER,
+                'size_units' => array( 'px', 'em', 'rem' ),
+                'range'      => array(
+                    'px'  => array( 'min' => 8, 'max' => 96 ),
+                    'em'  => array( 'min' => 0.5, 'max' => 6, 'step' => 0.1 ),
+                    'rem' => array( 'min' => 0.5, 'max' => 6, 'step' => 0.1 ),
+                ),
+                'condition'  => array( 'badge_type' => array( 'icon', 'both' ) ),
+                'selectors'  => array(
+                    '{{WRAPPER}} .tno-page-intro__badge-icon'     => 'font-size: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .tno-page-intro__badge-icon svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+                ),
+            )
+        );
+
+        $this->add_responsive_control(
+            'badge_icon_box_size',
+            array(
+                'label'      => 'اندازه کادر آیکون',
+                'type'       => Controls_Manager::SLIDER,
+                'size_units' => array( 'px' ),
+                'range'      => array(
+                    'px' => array( 'min' => 16, 'max' => 120 ),
+                ),
+                'condition'  => array( 'badge_type' => array( 'icon', 'both' ) ),
+                'selectors'  => array(
+                    '{{WRAPPER}} .tno-page-intro__badge-icon' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+                ),
+            )
+        );
+
+        $this->add_responsive_control(
+            'badge_icon_radius',
+            array(
+                'label'      => 'گردی کادر آیکون',
+                'type'       => Controls_Manager::SLIDER,
+                'size_units' => array( 'px', '%' ),
+                'range'      => array(
+                    'px' => array( 'min' => 0, 'max' => 100 ),
+                    '%'  => array( 'min' => 0, 'max' => 50 ),
+                ),
+                'condition'  => array( 'badge_type' => array( 'icon', 'both' ) ),
+                'selectors'  => array(
+                    '{{WRAPPER}} .tno-page-intro__badge-icon' => 'border-radius: {{SIZE}}{{UNIT}};',
+                ),
+            )
+        );
+
+        $this->add_responsive_control(
+            'badge_icon_rotate',
+            array(
+                'label'      => 'چرخش آیکون (درجه)',
+                'type'       => Controls_Manager::SLIDER,
+                'size_units' => array( 'deg' ),
+                'range'      => array(
+                    'deg' => array( 'min' => -180, 'max' => 180 ),
+                ),
+                'condition'  => array( 'badge_type' => array( 'icon', 'both' ) ),
+                'selectors'  => array(
+                    '{{WRAPPER}} .tno-page-intro__badge-icon' => 'transform: rotate({{SIZE}}deg);',
+                ),
             )
         );
 
@@ -342,16 +545,35 @@ class TNO_Widget_Page_Intro extends Widget_Base {
     }
 
     protected function render() {
-        $settings =$this->get_settings_for_display();
+        $settings = $this->get_settings_for_display();
 
         $allowed_tags = array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'span', 'p' );
-        $title_tag    = in_array($settings['title_tag'], $allowed_tags, true ) ?$settings['title_tag'] : 'h1';
-        $show_lines   = ( 'yes' ===$settings['show_dividers'] );
+        $title_tag    = in_array( $settings['title_tag'], $allowed_tags, true ) ? $settings['title_tag'] : 'h1';
+        $show_lines   = ( 'yes' === ( $settings['show_dividers'] ?? 'yes' ) );
+
+        $show_badge = ( 'yes' === ( $settings['show_badge'] ?? 'no' ) );
+        $badge_type = $settings['badge_type'] ?? 'text';
+        if ( ! in_array( $badge_type, array( 'text', 'icon', 'both' ), true ) ) {
+            $badge_type = 'text';
+        }
+
+        $has_icon = $show_badge && in_array( $badge_type, array( 'icon', 'both' ), true ) && ! empty( $settings['badge_icon']['value'] );
+        $has_text = $show_badge && in_array( $badge_type, array( 'text', 'both' ), true ) && ! empty( $settings['badge_text'] );
         ?>
         <header class="tno-page-intro" dir="rtl">
-            <?php if ( 'yes' === $settings['show_badge'] && ! empty( $settings['badge_text'] ) ) : ?>
+            <?php if ( $has_icon || $has_text ) : ?>
                 <div class="tno-page-intro__badge-wrap">
-                    <span class="tno-page-intro__badge"><?php echo esc_html( $settings['badge_text'] ); ?></span>
+                    <span class="tno-page-intro__badge <?php echo esc_attr( 'tno-page-intro__badge--' . $badge_type ); ?>">
+                        <?php if ( $has_icon ) : ?>
+                            <span class="tno-page-intro__badge-icon" aria-hidden="true">
+                                <?php Icons_Manager::render_icon( $settings['badge_icon'], array( 'aria-hidden' => 'true' ) ); ?>
+                            </span>
+                        <?php endif; ?>
+
+                        <?php if ( $has_text ) : ?>
+                            <span class="tno-page-intro__badge-text"><?php echo esc_html( $settings['badge_text'] ); ?></span>
+                        <?php endif; ?>
+                    </span>
                 </div>
             <?php endif; ?>
 
@@ -371,7 +593,7 @@ class TNO_Widget_Page_Intro extends Widget_Base {
                 </div>
             <?php endif; ?>
 
-            <?php if ( 'yes' === $settings['show_description'] && ! empty( $settings['description_text'] ) ) : ?>
+            <?php if ( 'yes' === ( $settings['show_description'] ?? 'no' ) && ! empty( $settings['description_text'] ) ) : ?>
                 <p class="tno-page-intro__desc">
                     <?php echo nl2br( esc_html( $settings['description_text'] ) ); ?>
                 </p>
