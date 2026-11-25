@@ -4445,3 +4445,426 @@ a.tno-taste-box-wrapper:hover,
         padding-bottom: 18px;
     }
 }
+
+/* ==========================================================================
+   TNO Widgets: About Us Page (آمار، خط زمان، تیم ما، نظرات مشتریان)
+   ========================================================================== */
+
+/* 1. Hanging Stats Cards */
+.tno-about-stats {
+    width: 100%;
+}
+
+.tno-about-stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.tno-about-stat-card {
+    background-color: #F8F9FA;
+    border-radius: 16px;
+    padding: 0 18px 26px;
+    text-align: center;
+    overflow: hidden;
+    transition: transform 0.22s ease;
+}
+
+.tno-about-stat-card.has-dots {
+    background-image: radial-gradient(#E5E7EB 1px, transparent 1px);
+    background-size: 12px 12px;
+}
+
+.tno-about-stat-tag-wrap {
+    position: relative;
+    padding-top: 16px;
+    margin-bottom: 22px;
+}
+
+.tno-about-stat-wire {
+    position: absolute;
+    top: 0;
+    width: 1px;
+    height: 24px;
+    background-color: #E5E7EB;
+    z-index: 1;
+}
+
+.tno-about-stat-wire--right { right: 16px; }
+.tno-about-stat-wire--left  { left: 16px; }
+
+.tno-about-stat-tag {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 10px 24px;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    color: #4B5563;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+    transition: background-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.tno-about-stat-pin {
+    position: absolute;
+    top: 8px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #E5E7EB;
+    transition: background-color 0.25s ease;
+}
+
+.tno-about-stat-pin--right { right: 14px; }
+.tno-about-stat-pin--left  { left: 14px; }
+
+.tno-about-stat-tag__text {
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.tno-about-stat-card:hover .tno-about-stat-tag {
+    background-color: #03255C;
+    color: #FFFFFF;
+    box-shadow: 0 10px 24px rgba(3, 37, 92, 0.2);
+}
+
+.tno-about-stat-card:hover .tno-about-stat-pin {
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+.tno-about-stat-card__num {
+    font-size: 26px;
+    font-weight: 800;
+    color: #1F2937;
+    line-height: 1.3;
+}
+
+/* 2. Horizontal History Timeline */
+.tno-about-timeline {
+    width: 100%;
+}
+
+.tno-about-timeline__track {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(var(--tno-tl-cols, 4), minmax(0, 1fr));
+    gap: 24px;
+    padding: 8px 0;
+}
+
+.tno-about-timeline__track::before {
+    content: "";
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #D1D5DB;
+    z-index: 0;
+}
+
+.tno-about-timeline__item {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.tno-about-timeline__date {
+    font-size: 12px;
+    font-weight: 500;
+    color: #9CA3AF;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    transition: color 0.22s ease, font-weight 0.22s ease;
+}
+
+.tno-about-timeline__node-wrap {
+    margin-bottom: 16px;
+}
+
+.tno-about-timeline__node {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    border: 1.5px solid #D1D5DB;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+}
+
+.tno-about-timeline__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #E81327;
+}
+
+.tno-about-timeline__title {
+    margin: 0 0 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4B5563;
+    transition: color 0.22s ease, font-weight 0.22s ease;
+}
+
+.tno-about-timeline__desc {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.9;
+    color: #6B7280;
+    max-width: 240px;
+}
+
+.tno-about-timeline__item:hover .tno-about-timeline__date {
+    color: #111827;
+    font-weight: 700;
+}
+
+.tno-about-timeline__item:hover .tno-about-timeline__node {
+    background-color: #FEE2E2;
+    border-color: #F87171;
+    transform: scale(1.06);
+}
+
+.tno-about-timeline__item:hover .tno-about-timeline__title {
+    color: #111827;
+    font-weight: 700;
+}
+
+/* 3. Team Members Grid */
+.tno-about-team {
+    width: 100%;
+}
+
+.tno-about-team__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+.tno-about-team-card {
+    background-color: #FFFFFF;
+    border: 1.5px solid #F2F4F7;
+    border-radius: 16px;
+    padding: 12px 12px 18px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.tno-about-team-card:hover {
+    border-color: #E7E7E7;
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.05);
+}
+
+.tno-about-team-card__media {
+    width: 100%;
+    height: 240px;
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #D4E2FF;
+    margin-bottom: 14px;
+}
+
+.tno-about-team-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    transition: transform 0.35s ease;
+}
+
+.tno-about-team-card:hover .tno-about-team-card__img {
+    transform: scale(1.07);
+}
+
+.tno-about-team-card__body {
+    text-align: right;
+    padding: 0 4px;
+}
+
+.tno-about-team-card__name {
+    margin: 0 0 6px;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #1F2937;
+}
+
+.tno-about-team-card__role {
+    margin: 0;
+    font-size: 12.5px;
+    color: #6B7280;
+}
+
+/* 4. Testimonials Carousel */
+.tno-about-testi {
+    position: relative;
+    width: 100%;
+}
+
+.tno-about-testi__viewport {
+    overflow: hidden;
+    padding: 28px 0;
+}
+
+.tno-about-testi__track {
+    display: flex;
+    align-items: stretch;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.tno-about-testi__slide {
+    flex: 0 0 33.3333%;
+    max-width: 33.3333%;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.tno-about-testi-card {
+    position: relative;
+    height: 100%;
+    background-color: #F8F9FA;
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.28s ease, transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.tno-about-testi-card__avatar {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin-bottom: 0;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    color: #4B5563;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: width 0.25s ease, height 0.25s ease, opacity 0.25s ease, margin-bottom 0.25s ease;
+}
+
+.tno-about-testi-card__avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tno-about-testi-card__name {
+    margin: 0 0 14px;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #1F2937;
+    transition: color 0.25s ease;
+}
+
+.tno-about-testi-card__quote {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.95;
+    color: #6B7280;
+    transition: color 0.25s ease;
+}
+
+.tno-about-testi-card:hover {
+    background-color: #222222;
+    transform: scale(1.04);
+    box-shadow: 0 20px 42px rgba(15, 23, 42, 0.22);
+    z-index: 2;
+}
+
+.tno-about-testi-card:hover .tno-about-testi-card__avatar {
+    width: 54px;
+    height: 54px;
+    opacity: 1;
+    margin-bottom: 14px;
+}
+
+.tno-about-testi-card:hover .tno-about-testi-card__name {
+    color: #FFFFFF;
+}
+
+.tno-about-testi-card:hover .tno-about-testi-card__quote {
+    color: #D1D5DB;
+}
+
+.tno-about-testi__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid #E5E7EB;
+    background-color: #FFFFFF;
+    color: #374151;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.tno-about-testi__nav:hover {
+    border-color: #111827;
+    color: #111827;
+}
+
+.tno-about-testi__nav--prev { right: -12px; }
+.tno-about-testi__nav--next { left: -12px; }
+
+@media (max-width: 1024px) {
+    .tno-about-stats__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .tno-about-team__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .tno-about-testi__slide {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 767px) {
+    .tno-about-stats__grid,
+    .tno-about-team__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .tno-about-timeline__track {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .tno-about-timeline__track::before {
+        display: none;
+    }
+
+    .tno-about-testi__slide {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .tno-about-testi__nav--prev { right: 4px; }
+    .tno-about-testi__nav--next { left: 4px; }
+}

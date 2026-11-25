@@ -37,6 +37,10 @@ function tno_register_elementor_widgets( $widgets_manager ) {
 	require_once( get_template_directory() . '/inc/elementor/widgets/tno-archive-plp.php' );
 	require_once( get_template_directory() . '/inc/elementor/widgets/tno-page-intro.php' );
 	require_once( get_template_directory() . '/inc/elementor/widgets/tno-faq.php' );
+	require_once( get_template_directory() . '/inc/elementor/widgets/tno-about-stats.php' );
+	require_once( get_template_directory() . '/inc/elementor/widgets/tno-about-timeline.php' );
+	require_once( get_template_directory() . '/inc/elementor/widgets/tno-about-team.php' );
+	require_once( get_template_directory() . '/inc/elementor/widgets/tno-about-testimonials.php' );
 
 
 	// 2. ثبت (Register) کردن ویجتها در المنتور
@@ -56,6 +60,10 @@ function tno_register_elementor_widgets( $widgets_manager ) {
 	$widgets_manager->register( new \Elementor_TNO_Category_SEO_Widget() );
 	$widgets_manager->register( new \TNO_Widget_Page_Intro() );
 	$widgets_manager->register( new \TNO_Widget_FAQ() );
+	$widgets_manager->register( new \TNO_Widget_About_Stats() );
+	$widgets_manager->register( new \TNO_Widget_About_Timeline() );
+	$widgets_manager->register( new \TNO_Widget_About_Team() );
+	$widgets_manager->register( new \TNO_Widget_About_Testimonials() );
 	
 
 }

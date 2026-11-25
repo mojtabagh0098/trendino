@@ -240,6 +240,13 @@ jQuery(window).on('elementor/frontend/init', function () {
         }
     });
 
+    // ==========================================
+    // ۶. نظرات مشتریان درباره ما (کاروسل)
+    // ==========================================
+    elementorFrontend.hooks.addAction('frontend/element_ready/tno_about_testimonials.default', function ($scope) {
+        initAboutTestimonialsCarousel($scope[0]);
+    });
+
 });
 
 // ==========================================
@@ -248,7 +255,67 @@ jQuery(window).on('elementor/frontend/init', function () {
 document.addEventListener("DOMContentLoaded", function () {
     initTrendinoTabs();
     initTrendinoBestSellersTabs();
+    initAboutTestimonialsCarousel(document);
 });
+
+function initAboutTestimonialsCarousel(root) {
+    const containers = (root || document).querySelectorAll('[data-tno-testi-carousel]');
+    containers.forEach((carousel) => {
+        if (carousel.dataset.tnoTestiBound === '1') return;
+        carousel.dataset.tnoTestiBound = '1';
+
+        const track = carousel.querySelector('[data-testi-track]');
+        const slides = track ? Array.from(track.querySelectorAll('.tno-about-testi__slide')) : [];
+        const prevBtn = carousel.querySelector('[data-testi-prev]');
+        const nextBtn = carousel.querySelector('[data-testi-next]');
+
+        if (!track || slides.length === 0) return;
+
+        let index = 0;
+
+        function getVisibleCount() {
+            if (window.innerWidth <= 767) return 1;
+            if (window.innerWidth <= 1024) return 2;
+            return 3;
+        }
+
+        function update() {
+            const visible = getVisibleCount();
+            const maxIndex = Math.max(0, slides.length - visible);
+            if (index > maxIndex) index = maxIndex;
+            if (index < 0) index = 0;
+
+            const isRtl = getComputedStyle(carousel).direction === 'rtl';
+            const stepPct = 100 / visible;
+            const offset = index * stepPct;
+            track.style.transform = `translateX(${isRtl ? offset : -offset}%)`;
+
+            if (prevBtn) prevBtn.disabled = (index <= 0);
+            if (nextBtn) nextBtn.disabled = (index >= maxIndex);
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                const visible = getVisibleCount();
+                const maxIndex = Math.max(0, slides.length - visible);
+                index = index > 0 ? index - 1 : maxIndex;
+                update();
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                const visible = getVisibleCount();
+                const maxIndex = Math.max(0, slides.length - visible);
+                index = index < maxIndex ? index + 1 : 0;
+                update();
+            });
+        }
+
+        window.addEventListener('resize', update);
+        update();
+    });
+}
 
 function initTrendinoTabs() {
     const tabButtons = document.querySelectorAll('.tr-tab-btn');
