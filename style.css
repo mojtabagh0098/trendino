@@ -5304,5 +5304,126 @@ a.tno-taste-box-wrapper:hover,
     }
 }
 
+/* ==========================================================================
+   TNO Widget: Policy / Rules Card (کارت قوانین و شرایط)
+   ========================================================================== */
+.tno-policy-card {
+    width: 100%;
+    background-color: #FFFFFF;
+    border: 1px solid #F1F3F5;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(15, 23, 42, 0.03);
+    overflow: hidden;
+}
+
+.tno-policy-card__head {
+    padding: 22px 28px;
+    border-bottom: 1px solid #F2F4F7;
+}
+
+.tno-policy-card__title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+    color: #1F2937;
+    line-height: 1.5;
+}
+
+.tno-policy-card__body {
+    padding: 26px 28px 28px;
+}
+
+.tno-policy-card__intro {
+    margin: 0 0 22px;
+    font-size: 13px;
+    line-height: 2.1;
+    color: #4B5563;
+}
+
+.tno-policy-card__rules {
+    list-style: none;
+    margin: 0 0 28px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.tno-policy-card__rules:last-child {
+    margin-bottom: 0;
+}
+
+.tno-policy-card__rule {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 2;
+}
+
+.tno-policy-card__rule-num {
+    font-weight: 800;
+    color: #1F2937;
+    flex-shrink: 0;
+}
+
+.tno-policy-card__rule-text {
+    color: #4B5563;
+}
+
+.tno-policy-card__boxes {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tno-policy-box {
+    background-color: #F7F7F8;
+    border-radius: 14px;
+    padding: 14px 16px;
+}
+
+.tno-policy-box__title {
+    margin: 0 0 10px;
+    padding: 0 4px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #1F2937;
+    line-height: 1.6;
+}
+
+.tno-policy-box__inner {
+    background-color: #FFFFFF;
+    border: 1px solid #EEEEEE;
+    border-radius: 10px;
+    padding: 14px 18px;
+}
+
+.tno-policy-box__text {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.95;
+    color: #4B5563;
+}
+
+@media (max-width: 767px) {
+    .tno-policy-card__head {
+        padding: 18px 20px;
+    }
+
+    .tno-policy-card__body {
+        padding: 20px;
+    }
+
+    .tno-policy-box {
+        padding: 12px;
+    }
+
+    .tno-policy-box__inner {
+        padding: 12px 14px;
+    }
+}
+
+
 
 
