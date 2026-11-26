@@ -241,12 +241,12 @@ class TNO_Widget_Page_Intro extends Widget_Base {
         $this->add_control(
             'badge_color_hover',
             array(
-                'label'     => 'رنگ متن (هاور)',
+                'label'     => 'رنگ متن (هاور کارت)',
                 'type'      => Controls_Manager::COLOR,
                 'condition' => array( 'badge_type!' => 'icon' ),
                 'selectors' => array(
-                    '{{WRAPPER}} .tno-page-intro__badge:hover'                        => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .tno-page-intro__badge:hover .tno-page-intro__badge-text' => 'color: {{VALUE}};',
+                    '{{WRAPPER}}:hover .tno-page-intro__badge'                        => 'color: {{VALUE}};',
+                    '{{WRAPPER}}:hover .tno-page-intro__badge-text'                   => 'color: {{VALUE}};',
                 ),
             )
         );
@@ -254,9 +254,9 @@ class TNO_Widget_Page_Intro extends Widget_Base {
         $this->add_control(
             'badge_bg_hover',
             array(
-                'label'     => 'رنگ پس‌زمینه کادر برچسب (هاور)',
+                'label'     => 'رنگ پس‌زمینه کادر برچسب (هاور کارت)',
                 'type'      => Controls_Manager::COLOR,
-                'selectors' => array( '{{WRAPPER}} .tno-page-intro__badge:hover' => 'background-color: {{VALUE}};' ),
+                'selectors' => array( '{{WRAPPER}}:hover .tno-page-intro__badge' => 'background-color: {{VALUE}};' ),
             )
         );
 
@@ -420,11 +420,11 @@ class TNO_Widget_Page_Intro extends Widget_Base {
         $this->add_control(
             'badge_icon_color_hover',
             array(
-                'label'     => 'رنگ آیکون (هاور)',
+                'label'     => 'رنگ آیکون (هاور کارت)',
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => array(
-                    '{{WRAPPER}} .tno-page-intro__badge:hover .tno-page-intro__badge-icon'     => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .tno-page-intro__badge:hover .tno-page-intro__badge-icon svg' => 'fill: {{VALUE}}; color: {{VALUE}};',
+                    '{{WRAPPER}}:hover .tno-page-intro__badge-icon'     => 'color: {{VALUE}};',
+                    '{{WRAPPER}}:hover .tno-page-intro__badge-icon svg' => 'fill: {{VALUE}}; color: {{VALUE}};',
                 ),
             )
         );
@@ -432,10 +432,10 @@ class TNO_Widget_Page_Intro extends Widget_Base {
         $this->add_control(
             'badge_icon_bg_hover',
             array(
-                'label'     => 'رنگ پس‌زمینه کادر آیکون (هاور)',
+                'label'     => 'رنگ پس‌زمینه کادر آیکون (هاور کارت)',
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => array(
-                    '{{WRAPPER}} .tno-page-intro__badge:hover .tno-page-intro__badge-icon' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}}:hover .tno-page-intro__badge-icon' => 'background-color: {{VALUE}};',
                 ),
             )
         );
