@@ -15,6 +15,10 @@
 /* ---- Intro & Hero Split ---- */
 .tno-blog-intro {
 	margin-bottom: 24px;
+	display: flex;
+	flex-flow: row;
+	align-items: flex-end;
+	justify-content: space-between;
 }
 
 .tno-blog-intro__title {
@@ -33,15 +37,23 @@
 	color: #6b7280;
 }
 
+.tno-blog-intro__header {
+  	flex-basis: 60%;
+}
+
+.tno-blog-intro__search {
+  	flex-basis: 35%;
+}
+
 .tno-blog-hero {
 	display: grid;
-	grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+	grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
 	gap: 24px;
 	align-items: stretch;
 	margin-bottom: 48px;
 }
 
-.tno-blog-hero__right {
+.tno-blog-left {
 	display: flex;
 	flex-direction: column;
 	gap: 14px;
@@ -106,17 +118,19 @@
 	align-items: center;
 	gap: 14px;
 	padding: 10px 12px;
-	border: 1px solid #f2f4f7;
-	border-radius: 14px;
-	background-color: #ffffff;
+	border-bottom: 1px solid #ececec;
 	text-decoration: none;
 	color: inherit;
 	transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.tno-blog-mini-card:hover {
-	border-color: #e5e7eb;
-	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+.tno-blog-mini-card:hover .tno-blog-cat-pill {
+	background-color: #012561;
+	color: #fff;
+}
+
+.tno-blog-mini-card:hover .tno-blog-mini-card__thumb img {
+	transform: scale(1.2);
 }
 
 .tno-blog-mini-card__thumb {
@@ -133,6 +147,7 @@
 	height: 100%;
 	object-fit: cover;
 	display: block;
+	transition: transform .5s;
 }
 
 .tno-blog-mini-card__body {
@@ -169,12 +184,6 @@
 	transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.tno-blog-mini-card:hover .tno-blog-mini-card__arrow,
-.tno-blog-card:hover .tno-blog-card__arrow {
-	transform: translateX(-3px);
-	color: #111827;
-}
-
 /* Category Chip with Dot */
 .tno-blog-cat-pill {
 	display: inline-flex;
@@ -182,11 +191,13 @@
 	gap: 6px;
 	padding: 3px 10px;
 	border-radius: 999px;
-	background-color: #f5f6f8;
-	color: #4b5563;
-	font-size: 11px;
-	font-weight: 600;
+	background-color: #fff;
+	color: rgba(33, 33, 33, 1);
+	font-size: 12px;
+	font-weight: 400;
 	text-decoration: none;
+	line-height: 24px;
+	border: 1px solid #ececec;
 }
 
 .tno-blog-cat-pill::before {

@@ -135,7 +135,26 @@ $sidebar_q = new WP_Query( array(
 
 			<!-- ===== Section 1: Search + 3 Mini Cards | Large Featured Card ===== -->
 			<section class="tno-blog-hero">
-				<div class="tno-blog-hero__right">
+				<?php if ( $featured_q->have_posts() ) : $featured_q->the_post();
+					$fid  = get_the_ID();
+					$fcat = tno_blog_primary_category( $fid );
+					?>
+					<a href="<?php the_permalink(); ?>" class="tno-blog-featured">
+						<img src="<?php echo esc_url( tno_blog_thumb_url( $fid, 'large' ) ); ?>" alt="<?php the_title_attribute(); ?>" class="tno-blog-featured__img">
+						<div class="tno-blog-featured__top">
+							<span class="tno-blog-cat-pill tno-blog-cat-pill--white"><?php echo esc_html( $fcat['name'] ); ?></span>
+						</div>
+						<div class="tno-blog-featured__bottom">
+							<h2 class="tno-blog-featured__title"><?php the_title(); ?></h2>
+							<p class="tno-blog-featured__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 24 ) ); ?></p>
+							<span class="tno-blog-featured__btn">
+								<span>مشاهده مقاله</span>
+								<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+							</span>
+						</div>
+					</a>
+				<?php wp_reset_postdata(); endif; ?>
+				<div class="tno-blog-left">
 					<?php if ( $hero_side_q->have_posts() ) : ?>
 						<div class="tno-blog-hero__list">
 							<?php while ( $hero_side_q->have_posts() ) : $hero_side_q->the_post();
@@ -162,25 +181,6 @@ $sidebar_q = new WP_Query( array(
 					<?php endif; ?>
 				</div>
 
-				<?php if ( $featured_q->have_posts() ) : $featured_q->the_post();
-					$fid  = get_the_ID();
-					$fcat = tno_blog_primary_category( $fid );
-					?>
-					<a href="<?php the_permalink(); ?>" class="tno-blog-featured">
-						<img src="<?php echo esc_url( tno_blog_thumb_url( $fid, 'large' ) ); ?>" alt="<?php the_title_attribute(); ?>" class="tno-blog-featured__img">
-						<div class="tno-blog-featured__top">
-							<span class="tno-blog-cat-pill tno-blog-cat-pill--white"><?php echo esc_html( $fcat['name'] ); ?></span>
-						</div>
-						<div class="tno-blog-featured__bottom">
-							<h2 class="tno-blog-featured__title"><?php the_title(); ?></h2>
-							<p class="tno-blog-featured__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 24 ) ); ?></p>
-							<span class="tno-blog-featured__btn">
-								<span>مشاهده مقاله</span>
-								<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-							</span>
-						</div>
-					</a>
-					<?php wp_reset_postdata(); endif; ?>
 			</section>
 
 			<!-- ===== Section 2: Latest Articles (4-Column Grid) ===== -->
