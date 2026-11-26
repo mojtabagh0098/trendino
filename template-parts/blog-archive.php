@@ -145,12 +145,16 @@ $sidebar_q = new WP_Query( array(
 							<span class="tno-blog-cat-pill tno-blog-cat-pill--white"><?php echo esc_html( $fcat['name'] ); ?></span>
 						</div>
 						<div class="tno-blog-featured__bottom">
-							<h2 class="tno-blog-featured__title"><?php the_title(); ?></h2>
-							<p class="tno-blog-featured__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 24 ) ); ?></p>
-							<span class="tno-blog-featured__btn">
-								<span>مشاهده مقاله</span>
-								<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-							</span>
+							<div class="tno-blog-featured__body">
+								<h2 class="tno-blog-featured__title"><?php the_title(); ?></h2>
+								<p class="tno-blog-featured__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 24 ) ); ?></p>
+							</div>
+							<div class="tno-blog-featured__foot">
+								<span class="tno-blog-featured__btn">
+									<span>مشاهده مقاله</span>
+									<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+								</span>
+							</div>
 						</div>
 					</a>
 				<?php wp_reset_postdata(); endif; ?>

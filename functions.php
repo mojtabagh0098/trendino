@@ -203,6 +203,7 @@ require_once get_template_directory() . '/inc/club-settings.php';
 require_once get_template_directory() . '/inc/club-functions.php';
 require_once get_template_directory() . '/inc/myaccount-functions.php';
 require_once get_template_directory() . '/inc/blog-functions.php';
+require_once get_template_directory() . '/inc/blog-blocks.php';
 
 /**
  * 1. Declare WooCommerce Support (Prevents fallback to page.php / default WC wrapper)
