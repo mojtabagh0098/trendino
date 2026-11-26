@@ -42,6 +42,7 @@ function tno_register_elementor_widgets( $widgets_manager ) {
 	require_once( get_template_directory() . '/inc/elementor/widgets/tno-about-team.php' );
 	require_once( get_template_directory() . '/inc/elementor/widgets/tno-about-testimonials.php' );
 	require_once( get_template_directory() . '/inc/elementor/widgets/tno-contact-cards.php' );
+	require_once( get_template_directory() . '/inc/elementor/widgets/tno-support-banner.php' );
 
 
 	// 2. ثبت (Register) کردن ویجتها در المنتور
@@ -66,6 +67,7 @@ function tno_register_elementor_widgets( $widgets_manager ) {
 	$widgets_manager->register( new \TNO_Widget_About_Team() );
 	$widgets_manager->register( new \TNO_Widget_About_Testimonials() );
 	$widgets_manager->register( new \TNO_Widget_Contact_Cards() );
+	$widgets_manager->register( new \TNO_Widget_Support_Banner() );
 	
 
 }

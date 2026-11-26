@@ -5036,3 +5036,156 @@ a.tno-taste-box-wrapper:hover,
     }
 }
 
+/* ==========================================================================
+   TNO Widget: Support CTA Banner (بنر پشتیبانی بدون معطلی)
+   ========================================================================== */
+.tno-support-banner {
+    width: 100%;
+    background-color: #002460;
+    border-radius: 16px;
+    padding: 26px 34px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    overflow: hidden;
+    position: relative;
+}
+
+.tno-support-banner__content {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    min-width: 0;
+}
+
+.tno-support-banner__icon-wrap {
+    position: relative;
+    width: 58px;
+    height: 58px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tno-support-banner__ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    pointer-events: none;
+}
+
+.tno-support-banner__ring--1 {
+    width: 76px;
+    height: 76px;
+    border-color: rgba(255, 255, 255, 0.16);
+}
+
+.tno-support-banner__ring--2 {
+    width: 96px;
+    height: 96px;
+    border-color: rgba(255, 255, 255, 0.09);
+}
+
+.tno-support-banner__ring--3 {
+    width: 118px;
+    height: 118px;
+    border-color: rgba(255, 255, 255, 0.045);
+}
+
+.tno-support-banner__icon-circle {
+    position: relative;
+    z-index: 2;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    color: #002460;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+}
+
+.tno-support-banner__icon-circle i {
+    line-height: 1;
+}
+
+.tno-support-banner__icon-circle svg {
+    width: 24px;
+    height: 24px;
+}
+
+.tno-support-banner__texts {
+    min-width: 0;
+}
+
+.tno-support-banner__title {
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.5;
+}
+
+.tno-support-banner__desc {
+    margin: 0;
+    max-width: 520px;
+    font-size: 12.5px;
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.tno-support-banner__btn {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 26px;
+    border-radius: 999px;
+    background-color: #FFFFFF;
+    color: #1F2937;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.tno-support-banner__btn:hover {
+    background-color: #F3F4F6;
+    color: #111827;
+}
+
+.tno-support-banner__arrow {
+    transition: transform 0.2s ease;
+}
+
+.tno-support-banner__btn:hover .tno-support-banner__arrow {
+    transform: translateX(-3px);
+}
+
+@media (max-width: 767px) {
+    .tno-support-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 22px 20px;
+    }
+
+    .tno-support-banner__content {
+        gap: 16px;
+        align-items: flex-start;
+    }
+
+    .tno-support-banner__btn {
+        width: 100%;
+    }
+}
+
+
