@@ -4142,6 +4142,7 @@ a.tno-taste-box-wrapper:hover,
     font-size: 12px;
     font-weight: 600;
     line-height: 1.6;
+    transition: background-color 0.22s ease, color 0.22s ease, border-color 0.22s ease;
 }
 
 .tno-page-intro__badge--icon {
@@ -4155,16 +4156,19 @@ a.tno-taste-box-wrapper:hover,
     flex-shrink: 0;
     font-size: 14px;
     line-height: 1;
+    transition: background-color 0.22s ease, color 0.22s ease;
 }
 
 .tno-page-intro__badge-icon svg {
     width: 1em;
     height: 1em;
     fill: currentColor;
+    transition: fill 0.22s ease, color 0.22s ease;
 }
 
 .tno-page-intro__badge-text {
     display: inline-block;
+    transition: color 0.22s ease;
 }
 
 .tno-page-intro__heading-row {
