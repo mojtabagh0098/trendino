@@ -92,26 +92,43 @@ $sidebar_q = new WP_Query( array(
 
 		<!-- ===== Intro Header ===== -->
 		<header class="tno-blog-intro">
-			<h1 class="tno-blog-intro__title">
-				<?php
-				if ( is_category() ) {
-					echo esc_html( single_cat_title( 'دسته بندی: ', false ) );
-				} elseif ( $search_query !== '' ) {
-					echo esc_html( 'نتایج جستجو برای: ' . $search_query );
-				} else {
-					echo 'به بلاگ ترندینو خوش آمدید!';
-				}
-				?>
-			</h1>
-			<p class="tno-blog-intro__desc">
-				<?php
-				if ( is_category() && category_description() ) {
-					echo wp_kses_post( wp_strip_all_tags( category_description() ) );
-				} else {
-					echo 'جدیدترین اخبار دنیای فناوری، بررسی تخصصی محصولات دیجیتال و راهنمای خرید هوشمندانه در بلاگ ترندینو منتشر می‌شود تا همیشه یک قدم جلوتر باشید.';
-				}
-				?>
-			</p>
+			<div class="tno-blog-intro__header">
+				<h1 class="tno-blog-intro__title">
+					<?php
+					if ( is_category() ) {
+						echo esc_html( single_cat_title( 'دسته بندی: ', false ) );
+					} elseif ( $search_query !== '' ) {
+						echo esc_html( 'نتایج جستجو برای: ' . $search_query );
+					} else {
+						echo 'به بلاگ ترندینو خوش آمدید!';
+					}
+					?>
+				</h1>
+				<p class="tno-blog-intro__desc">
+					<?php
+					if ( is_category() && category_description() ) {
+						echo wp_kses_post( wp_strip_all_tags( category_description() ) );
+					} else {
+						echo 'جدیدترین اخبار دنیای فناوری، بررسی تخصصی محصولات دیجیتال و راهنمای خرید هوشمندانه در بلاگ ترندینو منتشر می‌شود تا همیشه یک قدم جلوتر باشید.';
+					}
+					?>
+				</p>
+			</div>
+			<div class="tno-blog-intro__search">
+				<form class="tno-blog-search" role="search" method="get" action="<?php echo esc_url( $blog_base_url ); ?>">
+					<input type="hidden" name="post_type" value="post">
+					<input
+						type="search"
+						name="s"
+						class="tno-blog-search__input"
+						value="<?php echo esc_attr( $search_query ); ?>"
+						placeholder="جستجو بین مقالات ..."
+					>
+					<button type="submit" class="tno-blog-search__btn" aria-label="جستجو">
+						<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+					</button>
+				</form>
+			</div>
 		</header>
 
 		<?php if ( ! $is_filtered && $paged === 1 ) : ?>
@@ -119,20 +136,6 @@ $sidebar_q = new WP_Query( array(
 			<!-- ===== Section 1: Search + 3 Mini Cards | Large Featured Card ===== -->
 			<section class="tno-blog-hero">
 				<div class="tno-blog-hero__right">
-					<form class="tno-blog-search" role="search" method="get" action="<?php echo esc_url( $blog_base_url ); ?>">
-						<input type="hidden" name="post_type" value="post">
-						<input
-							type="search"
-							name="s"
-							class="tno-blog-search__input"
-							value="<?php echo esc_attr( $search_query ); ?>"
-							placeholder="جستجو بین مقالات ..."
-						>
-						<button type="submit" class="tno-blog-search__btn" aria-label="جستجو">
-							<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
-						</button>
-					</form>
-
 					<?php if ( $hero_side_q->have_posts() ) : ?>
 						<div class="tno-blog-hero__list">
 							<?php while ( $hero_side_q->have_posts() ) : $hero_side_q->the_post();
